@@ -1,0 +1,371 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-body">
+
+        <div class="row">
+            <ul dir="rtl" class="breadcrumb">
+                <li>
+                    <a href="" ng-click="openStateMenu()">
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <span>سجل العروض</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 pull-right">
+                <button id="offer-menu-lower-right" style="width: 100%;"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                    <span>العمليات</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                    for="offer-menu-lower-right">
+                    <li class="mdl-menu__item mdl-list__item mdl-menu__item--full-bleed-divider"
+                        ng-click="openOffersFilter()">
+                    <span class="mdl-list__item-primary-content">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/search.{{iconSetType}}" width="24" height="24">
+                        <span>البحث المتقدم</span>
+                    </span>
+                    </li>
+                    <li class="mdl-menu__item mdl-list__item" ng-click="newOffer()"
+                        ng-if="contains(me.team.authorities, ['ROLE_OFFER_CREATE'])">
+                        <span class="mdl-list__item-primary-content">
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                            <span>عرض جديد...</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pull-left" ng-init="toggleList=1">
+                <div class="btn-toolbar">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button class="btn btn-default mdl-button mdl-js-button mdl-js-ripple-effect"
+                                type="button" ng-click="toggleList=1"
+                                ng-class="{'mdl-color--primary-dark':toggleList===1}">
+                            <input type="radio" name="options"/>
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/reorder.{{iconSetType}}" width="24"
+                                 height="24">
+                        </button>
+                        <button class="btn btn-default mdl-button mdl-js-button mdl-js-ripple-effect"
+                                type="button" ng-click="toggleList=2"
+                                ng-class="{'mdl-color--primary-dark':toggleList===2}">
+                            <input type="radio" name="options"/>
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/module.{{iconSetType}}" width="24"
+                                 height="24">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="contains(me.team.authorities, ['ROLE_OFFER_CREATE'])">
+    <div class="panel panel-body box-info">
+        <p>
+            <span>مرحباً بك عزيزي المستخدم ، يمكنك إنشاء عرض جديد من خلال هذا الرابط </span>
+            <a href="" ng-click="newOffer()">اضغط هنا</a>
+        </p>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <ul class="panel-controls pull-left"
+                style="margin-top: 2px;">
+                <li>
+                    <a href=""
+                       ng-click="toggleOfferHelp()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="دليل المستخدم">
+                        <img class="material-icons mdl-list__item-icon"
+                             ng-src="/ui/img/{{iconSet}}/help.{{iconSetType}}"
+                             width="24"
+                             height="24">
+                    </a>
+                    <a href=""
+                       ng-click="searchOffers({})"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="تحديث">
+                        <img class="material-icons mdl-list__item-icon"
+                             ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}"
+                             width="24"
+                             height="24">
+                    </a>
+                    <a href=""
+                       ng-click="openOffersFilter()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="بحث">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/search.{{iconSetType}}" width="24" height="24">
+                    </a>
+                    <a href=""
+                       ng-if="contains(me.team.authorities, ['ROLE_OFFER_CREATE'])"
+                       ng-click="newOffer()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="عرض جديد">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                    </a>
+                </li>
+            </ul>
+            <div class="panel-title-box pull-right">
+                <h3>العروض</h3>
+                <span>قائمة بكل العروض ملحقة بالاصناف</span>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group row" ng-if="pageOffer.totalElements > 0 && (toggleList===1 || toggleList===2)">
+
+                <div class="pull-right btn-toolbar">
+
+                    <div class="btn-group" data-toggle="buttons">
+
+                        <button uib-tooltip="السابق"
+                                tooltip-append-to-body="true"
+                                ng-disabled="pageOffer.first"
+                                type="button"
+                                ng-click="selectPrevOffersPage()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1 pull-right">
+                            <i class="material-icons md-36">keyboard_arrow_right</i>
+                        </button>
+
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-left">
+                            <input dir="rtl"
+                                   type="text"
+                                   readonly
+                                   class="form-control"
+                                   style="text-align: center!important;"
+                                   ng-model="pageOffer.currentPageString">
+                        </div>
+
+                        <button uib-tooltip="التالي"
+                                tooltip-append-to-body="true"
+                                ng-disabled="pageOffer.last"
+                                type="button"
+                                ng-click="selectNextOffersPage()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1 pull-right">
+                            <i class="material-icons md-36">keyboard_arrow_left</i>
+                        </button>
+
+                        <button uib-tooltip="طباعة"
+                                tooltip-append-to-body="true"
+                                type="button"
+                                ng-click="printToCart('printOfferTable', 'سجل العقود')"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect pull-right">
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/print.{{iconSetType}}" width="24" height="24">
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="pull-left">
+
+                    <input type="text"
+                           class="form-control"
+                           placeholder="بحث سريع"
+                           ng-change="refreshGUI()"
+                           ng-model="offers.searchText">
+
+                </div>
+
+            </div>
+
+            <div class="row" ng-show="toggleList===1" id="printOfferTable">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="fit no-print">
+                                <label id="checkAllOffers" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+                                       for="checkbox-0">
+                                    <input type="checkbox" id="checkbox-0" class="mdl-checkbox__input"
+                                           ng-model="offers.checkAll" ng-change="checkAllOffers()">
+                                </label>
+                            </th>
+
+                            <th>
+                                <span>#</span>
+                            </th>
+
+                            <th>
+                                <span>رقم العرض</span>
+                                <span class="label label-success">وضع العرض</span>
+                            </th>
+
+                            <th>
+                                <span>تاريخ العرض</span>
+                            </th>
+
+                            <th>
+                                <span>العميل</span>
+                            </th>
+
+                            <th>
+                                <span>بواسطة</span>
+                            </th>
+
+                            <th>
+                                <span>القيمة المضافة</span>
+                            </th>
+
+                            <th>
+                                <span>الخصم</span>
+                            </th>
+
+                            <th>
+                                <span>الإجمالي</span>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="offer in offers | filter:offers.searchText"
+                            ng-class="{'mdl-color--grey-400' : offer.isSelected}"
+                            ng-dblclick="ModalProvider.openOfferDetailsModel(offer)"
+                            context-menu="rowMenuOffer">
+                            <td class="fit no-print">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect check"
+                                       for="checkbox-offer-{{offer.id}}">
+                                    <input type="checkbox"
+                                           id="checkbox-offer-{{offer.id}}"
+                                           class="mdl-checkbox__input"
+                                           ng-model="offer.isSelected" ng-click="checkOffer()">
+                                </label>
+                            </td>
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <span>{{offer.code}}</span>
+                                <span class="label label-success">{{offer.conditionInArabic}}</span>
+                            </td>
+                            <td>
+                                <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{offer.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{offer.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                <span class="label label-info no-print">{{offer.writtenDate | date: 'hh:mm a'}}</span>
+                            </td>
+                            <td>
+                                <a href="" ng-click="ModalProvider.openCustomerDetailsModel(offer.customer)">
+                                    <span>{{offer.customer.contact.shortName}}</span>
+                                </a>
+                                <a href=""
+                                   ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_UPDATE'])"
+                                   ng-click="ModalProvider.openCustomerUpdateModel(offer.customer)">
+                                    <span class="fa fa-edit"></span>
+                                </a>
+                            </td>
+                            <td>{{offer.person.contact.shortName}}</td>
+                            <td>{{offer.totalVat | currency:'':2}}</td>
+                            <td>{{offer.discount | currency:'':2}}</td>
+                            <td>{{offer.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                        </tr>
+                        <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                            ng-if="!offers || offers.length ==0">
+                            <td colspan="9">
+                                <p ng-if="contains(me.team.authorities, ['ROLE_OFFER_CREATE'])">
+                                    <span>لا توجد عقود حتى الآن، يمكنك التسجيل من خلال هذا الرابط </span>
+                                    <a href="" ng-click="newOffer()">اضغط هنا</a>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr ng-if="offers.length > 0">
+                            <td class="info" colspan="6">
+                                <span class="pull-left">المجموع الكلي</span>
+                            </td>
+                            <td class="success" colspan="1">{{offers | sumByKey:'totalVat' | currency:' SAR ':2}}</td>
+                            <td class="success" colspan="1">{{offers | sumByKey:'discount' | currency:' SAR ':2}}</td>
+                            <td class="success" colspan="1">{{offers | sumByKey:'totalPriceAfterDiscountAndVat' | currency:' SAR ':2}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="row" ng-show="toggleList===2">
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="offer in offers">
+                    <!-- CONTACT ITEM -->
+                    <div class="panel panel-default">
+                        <div class="panel-body profile mdl-color--primary-dark">
+                            <div class="profile-image">
+                                <img width="100" height="100"
+                                     ng-src="/ui/img/{{iconSet}}/offer.{{iconSetType}}"
+                                     alt="{{offer.code}}"/>
+                            </div>
+                            <div class="profile-data">
+                                <div class="profile-data-name">{{offer.customer.contact.shortName}}</div>
+                            </div>
+                            <div class="profile-controls">
+                                <!--<a href="" class="profile-control-left"><span class="fa fa-info-circle"></span></a>-->
+                                <!--<a href="" class="profile-control-right"><span class="fa fa-phone"></span></a>-->
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="contact-info">
+                                <p>
+                                    <strong>العميل</strong>
+                                    {{offer.customer.contact.shortName}}
+                                </p>
+                                <hr>
+                                <p>
+                                    <strong>جوال العميل</strong>
+                                    {{offer.customer.contact.mobile}}
+                                </p>
+                                <hr>
+                                <p>
+                                    <strong>اجمالي العرض</strong>
+                                    {{offer.totalPriceAfterDiscountAndVat | currency:'':2}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <button uib-tooltip="عرض جديد"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_OFFER_CREATE'])"
+                                        ng-click="newOffer();"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                                <button uib-tooltip="تعديل"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_OFFER_UPDATE'])"
+                                        ng-click="ModalProvider.openOfferUpdateModel(offer)"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                                <button uib-tooltip="حذف"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_OFFER_DELETE'])"
+                                        ng-click="deleteOffer(offer)"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END CONTACT ITEM -->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

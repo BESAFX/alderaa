@@ -1,0 +1,126 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-body">
+
+        <div class="row">
+            <ul dir="rtl" class="breadcrumb">
+                <li>
+                    <a href="" ng-click="openStateMenu()">
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" ng-click="openStateReport()">
+                        <span>التقارير</span>
+                    </a>
+                </li>
+                <li>
+                    <span>أرصدة الموردين</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+
+            <button type="button"
+                    ng-click="openSuppliersFilter()"
+                    class="pull-right mdl-button mdl-js-button mdl-js-ripple-effect pull-right">
+                        <span class="mdl-list__item-primary-content">
+                            <img class="material-icons mdl-list__item-icon"
+                                 ng-src="/ui/img/{{iconSet}}/search.{{iconSetType}}"
+                                 width="24"
+                                 height="24">
+                            <span>عرض</span>
+                        </span>
+            </button>
+
+            <button type="button"
+                    ng-click="printToCart('printSupplierBalanceTable', 'أرصدة الموردين')"
+                    class="pull-right mdl-button mdl-js-button mdl-js-ripple-effect pull-right">
+                        <span class="mdl-list__item-primary-content">
+                            <img class="material-icons mdl-list__item-icon"
+                                 ng-src="/ui/img/{{iconSet}}/print.{{iconSetType}}"
+                                 width="24"
+                                 height="24">
+                            <span>طباعة</span>
+                        </span>
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="panel panel-body">
+
+        <div class="form-group row" id="printSupplierBalanceTable">
+
+            <div class="form-group row">
+
+                <h4 class="text-center">أرصدة الموردين لجميع الحسابات</h4>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+
+                        <th>
+                            <span>#</span>
+                        </th>
+
+                        <th>
+                            <span>المورد</span>
+                        </th>
+
+                        <th>
+                            <span>السجل المدني</span>
+                        </th>
+
+                        <th>
+                            <span>رقم الجوال</span>
+                        </th>
+
+                        <th>
+                            <span>تاريخ آخر فاتورة</span>
+                        </th>
+
+                        <th>
+                            <span>إجمالي المشتريات</span>
+                        </th>
+
+                        <th>
+                            <span>المدفوع</span>
+                        </th>
+
+                        <th>
+                            <span>المتبقي</span>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="supplier in suppliers">
+                        <td>{{$index+1}}</td>
+                        <td>{{supplier.contact.shortName}}</td>
+                        <td>{{supplier.contact.identityNumber}}</td>
+                        <td>{{supplier.contact.mobile}}</td>
+                        <td>
+                            <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{supplier.lastBillDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                            <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{supplier.lastBillDate | date: 'yyyy-MM-dd'}}</span>
+                        </td>
+                        <td>{{supplier.totalPrice | currency:' SAR ':2}}</td>
+                        <td>{{supplier.paid | currency:' SAR ':2}}</td>
+                        <td>{{supplier.remain | currency:' SAR ':2}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,354 @@
+<div class="modal-header mdl-color--primary mdl-navigation__link-active">
+    <a class="pull-left" href="" ng-click="cancel()">
+        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+    </a>
+    <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/customer.{{iconSetType}}" width="24" height="24">
+                <span>تفاصيل حساب العميل / </span>&nbsp;
+                <span class="label label-info">{{customer.contact.shortName}}</span>
+            </span>
+    </h3>
+</div>
+
+<div class="modal-body modal-body-free" id="modal-body">
+
+    <div class="form-group row">
+
+        <button uib-tooltip="تحديث البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="refreshCustomer()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+    </div>
+
+    <div class="form-group row">
+
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+            <div class="mdl-tabs__tab-bar">
+                <a href="#panel-1-customer-details"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3 is-active">
+                    <span>البيانات الاساسية</span>
+                </a>
+                <a href="#panel-2-customer-details"
+                   ng-click="refreshCustomerContacts()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>جهات الاتصال</span>
+                </a>
+                <a href="#panel-3-customer-details"
+                   ng-click="refreshBillSells()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>فواتير البيع</span>
+                </a>
+                <a href="#panel-4-customer-details"
+                   ng-click="refreshCustomerPayments()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>السداد</span>
+                </a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="panel-1-customer-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td>رقم العميل</td>
+                                <td>{{customer.code}}</td>
+                            </tr>
+                            <tr>
+                                <td>تاريخ التسجيل</td>
+                                <td>
+                                    <span ng-show="dateType==='H'">{{customer.registerDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-show="dateType==='G'">{{customer.registerDate | date: 'yyyy-MM-dd'}}</span>
+                                    <span class="label label-info">{{customer.registerDate | date: 'hh:mm a'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الاسم</td>
+                                <td>{{customer.contact.shortName}}</td>
+                            </tr>
+                            <tr>
+                                <td>الجنسية</td>
+                                <td>{{customer.contact.nationality}}</td>
+                            </tr>
+                            <tr>
+                                <td>السجل المدني</td>
+                                <td>{{customer.contact.shortName}}</td>
+                            </tr>
+                            <tr>
+                                <td>الجوال</td>
+                                <td>{{customer.contact.mobile}}</td>
+                            </tr>
+                            <tr>
+                                <td>الهاتف</td>
+                                <td>{{customer.contact.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>البريد الإلكتروني</td>
+                                <td>{{customer.email}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-2-customer-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>#</span>
+                                </th>
+
+                                <th>
+                                    <span>الاسم</span>
+                                </th>
+
+                                <th>
+                                    <span>الجنسية</span>
+                                </th>
+
+                                <th>
+                                    <span>السجل المدني</span>
+                                </th>
+
+                                <th>
+                                    <span>الجوال</span>
+                                </th>
+
+                                <th>
+                                    <span>الهاتف</span>
+                                </th>
+
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="customerContact in customer.customerContacts">
+                                <td>{{$index+1}}</td>
+                                <td>{{customerContact.contact.name}}</td>
+                                <td>{{customerContact.contact.nationality}}</td>
+                                <td>{{customerContact.contact.identityNumber}}</td>
+                                <td>{{customerContact.contact.mobile}}</td>
+                                <td>{{customerContact.contact.phone}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CONTACT_CREATE'])"
+                                                ng-click="newCustomerContact()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="تعديل"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CONTACT_UPDATE'])"
+                                                ng-click="ModalProvider.openCustomerContactUpdateModel(customerContact)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CONTACT_DELETE'])"
+                                                ng-click="deleteCustomerContact(customerContact)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-if="!customer.customerContacts || customer.customerContacts.length ==0">
+                                <td colspan="7">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CREATE'])">
+                                        <span>لا يوجد جهات اتصال حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newCustomerContact()">اضغط هنا</a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-3-customer-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>رقم الفاتورة</span>
+                                </th>
+
+                                <th>
+                                    <span>تاريخ الفاتورة</span>
+                                </th>
+
+                                <th>
+                                    <span>القيمة المضافة</span>
+                                </th>
+
+                                <th>
+                                    <span>الخصم</span>
+                                </th>
+
+                                <th>
+                                    <span>الإجمالي</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="billSell in customer.billSells"
+                                ng-dblclick="ModalProvider.openBillSellDetailsModel(billSell)">
+                                <td>
+                                    <a href="" ng-click="ModalProvider.openBillSellDetailsModel(billSell)">
+                                        <span>{{billSell.code}}</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{billSell.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{billSell.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                    <span class="label label-info no-print">{{billSell.writtenDate | date: 'hh:mm a'}}</span>
+                                </td>
+                                <td>{{billSell.totalVat | currency:'':2}}</td>
+                                <td>{{billSell.discount | currency:'':2}}</td>
+                                <td>{{billSell.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                            </tr>
+                            <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-show="!customer.billSells || customer.billSells.length ==0">
+                                <td colspan="5">
+                                    <span>لا توجد فواتير شراء لهذا العميل</span>
+                                </td>
+                            </tr>
+                            <tr ng-if="customer.id && customer.billSells.length > 0">
+                                <td colspan="2" class="text-left warning">
+                                    <span class="pull-left">المجموع</span>
+                                </td>
+                                <td class="success" colspan="1">{{customer.billSells | sumByKey:'totalVat' | currency:' SAR ':2}}</td>
+                                <td class="success" colspan="1">{{customer.billSells | sumByKey:'discount' | currency:' SAR ':2}}</td>
+                                <td class="success" colspan="1">{{customer.billSells | sumByKey:'totalPriceAfterDiscountAndVat' | currency:' SAR ':2}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-4-customer-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>#</span>
+                                </th>
+
+                                <th>
+                                    <span>رقم السند</span>
+                                </th>
+
+                                <th>
+                                    <span>تاريخ السداد</span>
+                                </th>
+
+                                <th>
+                                    <span>البيان</span>
+                                </th>
+
+                                <th>
+                                    <span>المبلغ</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="customerPayment in customer.customerPayments">
+                                <td>{{$index+1}}</td>
+                                <td>{{customerPayment.code}}</td>
+                                <td>
+                                    <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{customerPayment.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{customerPayment.date | date: 'yyyy-MM-dd'}}</span>
+                                    <br/>
+                                    <span class="label label-success">{{customerPayment.date | date: 'hh:mm a'}}</span>
+                                </td>
+                                <td>{{customerPayment.note}}</td>
+                                <td>{{customerPayment.amount | currency:'':2}}</td>
+                            </tr>
+                            <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-if="!customer.customerPayments || customer.customerPayments.length ==0">
+                                <td colspan="7">
+                                    <p>
+                                        <span>لا توجد دفعات حتى الآن </span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr ng-if="customer.customerPayments.length > 0">
+                                <td class="info" colspan="4">
+                                    <span class="pull-left">المجموع</span>
+                                </td>
+                                <td colspan="1">{{customer.customerPayments | sumByKey:'amount' | currency:' SAR ':2}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal-footer">
+
+    <div class="row">
+        <button uib-tooltip="خروج"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="cancel()"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+        </button>
+    </div>
+
+</div>

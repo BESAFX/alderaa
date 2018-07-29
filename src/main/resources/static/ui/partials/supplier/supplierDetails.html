@@ -1,0 +1,358 @@
+<div class="modal-header mdl-color--primary mdl-navigation__link-active">
+    <a class="pull-left" href="" ng-click="cancel()">
+        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+    </a>
+    <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/supplier.{{iconSetType}}" width="24" height="24">
+                <span>تفاصيل حساب المورد / </span>&nbsp;
+                <span class="label label-info">{{supplier.contact.shortName}}</span>
+            </span>
+    </h3>
+</div>
+
+<div class="modal-body modal-body-free" id="modal-body">
+
+    <div class="form-group row">
+
+        <button uib-tooltip="تحديث البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="refreshSupplier()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+    </div>
+
+    <div class="form-group row">
+
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+            <div class="mdl-tabs__tab-bar">
+                <a href="#panel-1-supplier-details"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3 is-active">
+                    <span>البيانات الاساسية</span>
+                </a>
+                <a href="#panel-2-supplier-details"
+                   ng-click="refreshSupplierContacts()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>جهات الاتصال</span>
+                </a>
+                <a href="#panel-3-supplier-details"
+                   ng-click="refreshBillPurchases()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>فواتير الشراء</span>
+                </a>
+                <a href="#panel-4-supplier-details"
+                   ng-click="refreshSupplierPayments()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>السداد</span>
+                </a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="panel-1-supplier-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td>رقم المورد</td>
+                                <td>{{supplier.code}}</td>
+                            </tr>
+                            <tr>
+                                <td>تاريخ التسجيل</td>
+                                <td>
+                                    <span ng-show="dateType==='H'">{{supplier.registerDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-show="dateType==='G'">{{supplier.registerDate | date: 'yyyy-MM-dd'}}</span>
+                                    <span class="label label-info">{{supplier.registerDate | date: 'hh:mm a'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الاسم</td>
+                                <td>{{supplier.contact.shortName}}</td>
+                            </tr>
+                            <tr>
+                                <td>الجنسية</td>
+                                <td>{{supplier.contact.nationality}}</td>
+                            </tr>
+                            <tr>
+                                <td>السجل المدني</td>
+                                <td>{{supplier.contact.shortName}}</td>
+                            </tr>
+                            <tr>
+                                <td>الجوال</td>
+                                <td>{{supplier.contact.mobile}}</td>
+                            </tr>
+                            <tr>
+                                <td>الهاتف</td>
+                                <td>{{supplier.contact.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>الرقم الضريبي</td>
+                                <td>{{supplier.taxCode}}</td>
+                            </tr>
+                            <tr>
+                                <td>العنوان</td>
+                                <td>{{supplier.contact.address}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-2-supplier-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>#</span>
+                                </th>
+
+                                <th>
+                                    <span>الاسم</span>
+                                </th>
+
+                                <th>
+                                    <span>الجنسية</span>
+                                </th>
+
+                                <th>
+                                    <span>السجل المدني</span>
+                                </th>
+
+                                <th>
+                                    <span>الجوال</span>
+                                </th>
+
+                                <th>
+                                    <span>الهاتف</span>
+                                </th>
+
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="supplierContact in supplier.supplierContacts">
+                                <td>{{$index+1}}</td>
+                                <td>{{supplierContact.contact.name}}</td>
+                                <td>{{supplierContact.contact.nationality}}</td>
+                                <td>{{supplierContact.contact.identityNumber}}</td>
+                                <td>{{supplierContact.contact.mobile}}</td>
+                                <td>{{supplierContact.contact.phone}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CONTACT_CREATE'])"
+                                                ng-click="newSupplierContact()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="تعديل"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CONTACT_UPDATE'])"
+                                                ng-click="ModalProvider.openSupplierContactUpdateModel(supplierContact)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CONTACT_DELETE'])"
+                                                ng-click="deleteSupplierContact(supplierContact)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-if="!supplier.supplierContacts || supplier.supplierContacts.length ==0">
+                                <td colspan="7">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CREATE'])">
+                                        <span>لا يوجد جهات اتصال حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newSupplierContact()">اضغط هنا</a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-3-supplier-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>رقم الفاتورة</span>
+                                </th>
+
+                                <th>
+                                    <span>تاريخ الفاتورة</span>
+                                </th>
+
+                                <th>
+                                    <span>القيمة المضافة</span>
+                                </th>
+
+                                <th>
+                                    <span>الخصم</span>
+                                </th>
+
+                                <th>
+                                    <span>الإجمالي</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="billPurchase in supplier.billPurchases"
+                                ng-dblclick="ModalProvider.openBillPurchaseDetailsModel(billPurchase)">
+                                <td>
+                                    <a href="" ng-click="ModalProvider.openBillPurchaseDetailsModel(billPurchase)">
+                                        <span>{{billPurchase.code}}</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{billPurchase.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{billPurchase.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                    <span class="label label-info no-print">{{billPurchase.writtenDate | date: 'hh:mm a'}}</span>
+                                </td>
+                                <td>{{billPurchase.totalVat | currency:'':2}}</td>
+                                <td>{{billPurchase.discount | currency:'':2}}</td>
+                                <td>{{billPurchase.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                            </tr>
+                            <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-show="!supplier.billPurchases || supplier.billPurchases.length ==0">
+                                <td colspan="5">
+                                    <span>لا توجد فواتير شراء لهذا العميل</span>
+                                </td>
+                            </tr>
+                            <tr ng-if="supplier.id && supplier.billPurchases.length > 0">
+                                <td colspan="2" class="text-left warning">
+                                    <span class="pull-left">المجموع</span>
+                                </td>
+                                <td class="success" colspan="1">{{supplier.billPurchases | sumByKey:'totalVat' | currency:' SAR ':2}}</td>
+                                <td class="success" colspan="1">{{supplier.billPurchases | sumByKey:'discount' | currency:' SAR ':2}}</td>
+                                <td class="success" colspan="1">{{supplier.billPurchases | sumByKey:'totalPriceAfterDiscountAndVat' | currency:' SAR ':2}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-4-supplier-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>#</span>
+                                </th>
+
+                                <th>
+                                    <span>رقم السند</span>
+                                </th>
+
+                                <th>
+                                    <span>تاريخ السداد</span>
+                                </th>
+
+                                <th>
+                                    <span>البيان</span>
+                                </th>
+
+                                <th>
+                                    <span>المبلغ</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="supplierPayment in supplier.supplierPayments">
+                                <td>{{$index+1}}</td>
+                                <td>{{supplierPayment.code}}</td>
+                                <td>
+                                    <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{supplierPayment.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{supplierPayment.date | date: 'yyyy-MM-dd'}}</span>
+                                    <br/>
+                                    <span class="label label-success">{{supplierPayment.date | date: 'hh:mm a'}}</span>
+                                </td>
+                                <td>{{supplierPayment.note}}</td>
+                                <td>{{supplierPayment.amount | currency:'':2}}</td>
+                            </tr>
+                            <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-if="!supplier.supplierPayments || supplier.supplierPayments.length ==0">
+                                <td colspan="7">
+                                    <p>
+                                        <span>لا توجد دفعات حتى الآن </span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr ng-if="supplier.supplierPayments.length > 0">
+                                <td class="info" colspan="4">
+                                    <span class="pull-left">المجموع</span>
+                                </td>
+                                <td colspan="1">{{supplier.supplierPayments | sumByKey:'amount' | currency:' SAR ':2}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal-footer">
+
+    <div class="row">
+        <button uib-tooltip="خروج"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="cancel()"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+        </button>
+    </div>
+
+</div>

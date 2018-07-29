@@ -1,0 +1,380 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-body">
+
+        <div class="row">
+            <ul dir="rtl" class="breadcrumb">
+                <li>
+                    <a href="" ng-click="openStateMenu()">
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <span>سجل أوامر الشراء</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 pull-right">
+                <button id="orderPurchase-menu-lower-right" style="width: 100%;"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+                    <span>العمليات</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                    for="orderPurchase-menu-lower-right">
+                    <li class="mdl-menu__item mdl-list__item mdl-menu__item--full-bleed-divider"
+                        ng-click="openOrderPurchasesFilter()">
+                    <span class="mdl-list__item-primary-content">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/search.{{iconSetType}}" width="24" height="24">
+                        <span>البحث المتقدم</span>
+                    </span>
+                    </li>
+                    <li class="mdl-menu__item mdl-list__item" ng-click="newOrderPurchase()"
+                        ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_CREATE'])">
+                        <span class="mdl-list__item-primary-content">
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                            <span>أمر شراء جديد...</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pull-left" ng-init="toggleList=1">
+                <div class="btn-toolbar">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button class="btn btn-default mdl-button mdl-js-button mdl-js-ripple-effect"
+                                type="button" ng-click="toggleList=1"
+                                ng-class="{'mdl-color--primary-dark':toggleList===1}">
+                            <input type="radio" name="options"/>
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/reorder.{{iconSetType}}" width="24"
+                                 height="24">
+                        </button>
+                        <button class="btn btn-default mdl-button mdl-js-button mdl-js-ripple-effect"
+                                type="button" ng-click="toggleList=2"
+                                ng-class="{'mdl-color--primary-dark':toggleList===2}">
+                            <input type="radio" name="options"/>
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/module.{{iconSetType}}" width="24"
+                                 height="24">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_CREATE'])">
+    <div class="panel panel-body box-info">
+        <p>
+            <span>مرحباً بك عزيزي المستخدم ، يمكنك إنشاء أمر شراء جديد من خلال هذا الرابط </span>
+            <a href="" ng-click="newOrderPurchase()">اضغط هنا</a>
+        </p>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <ul class="panel-controls pull-left"
+                style="margin-top: 2px;">
+                <li>
+                    <a href=""
+                       ng-click="toggleOrderPurchaseHelp()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="دليل المستخدم">
+                        <img class="material-icons mdl-list__item-icon"
+                             ng-src="/ui/img/{{iconSet}}/help.{{iconSetType}}"
+                             width="24"
+                             height="24">
+                    </a>
+                    <a href=""
+                       ng-click="searchOrderPurchases({})"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="تحديث">
+                        <img class="material-icons mdl-list__item-icon"
+                             ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}"
+                             width="24"
+                             height="24">
+                    </a>
+                    <a href=""
+                       ng-click="openOrderPurchasesFilter()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="بحث">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/search.{{iconSetType}}" width="24" height="24">
+                    </a>
+                    <a href=""
+                       ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_CREATE'])"
+                       ng-click="newOrderPurchase()"
+                       tooltip-append-to-body="true"
+                       uib-tooltip="أمر شراء جديد">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                    </a>
+                </li>
+            </ul>
+            <div class="panel-title-box pull-right">
+                <h3>أوامر الشراء</h3>
+                <span>قائمة بكل أوامر الشراء ملحقة بالاصناف</span>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group row" ng-if="pageOrderPurchase.totalElements > 0 && (toggleList===1 || toggleList===2)">
+
+                <div class="pull-right btn-toolbar">
+
+                    <div class="btn-group" data-toggle="buttons">
+
+                        <button uib-tooltip="السابق"
+                                tooltip-append-to-body="true"
+                                ng-disabled="pageOrderPurchase.first"
+                                type="button"
+                                ng-click="selectPrevOrderPurchasesPage()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1 pull-right">
+                            <i class="material-icons md-36">keyboard_arrow_right</i>
+                        </button>
+
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-left">
+                            <input dir="rtl"
+                                   type="text"
+                                   readonly
+                                   class="form-control"
+                                   style="text-align: center!important;"
+                                   ng-model="pageOrderPurchase.currentPageString">
+                        </div>
+
+                        <button uib-tooltip="التالي"
+                                tooltip-append-to-body="true"
+                                ng-disabled="pageOrderPurchase.last"
+                                type="button"
+                                ng-click="selectNextOrderPurchasesPage()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1 pull-right">
+                            <i class="material-icons md-36">keyboard_arrow_left</i>
+                        </button>
+
+                        <button uib-tooltip="طباعة"
+                                tooltip-append-to-body="true"
+                                type="button"
+                                ng-click="printToCart('printOrderPurchaseTable', 'سجل الأوامر')"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect pull-right">
+                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/print.{{iconSetType}}" width="24" height="24">
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="pull-left">
+
+                    <input type="text"
+                           class="form-control"
+                           placeholder="بحث سريع"
+                           ng-change="refreshGUI()"
+                           ng-model="orderPurchases.searchText">
+
+                </div>
+
+            </div>
+
+            <div class="row" ng-show="toggleList===1" id="printOrderPurchaseTable">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="fit no-print">
+                                <label id="checkAllOrderPurchases" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+                                       for="checkbox-0">
+                                    <input type="checkbox" id="checkbox-0" class="mdl-checkbox__input"
+                                           ng-model="orderPurchases.checkAll" ng-change="checkAllOrderPurchases()">
+                                </label>
+                            </th>
+
+                            <th>
+                                <span>#</span>
+                            </th>
+
+                            <th>
+                                <span>رقم أمر الشراء</span>
+                                <span class="label label-success">وضع أمر الشراء</span>
+                            </th>
+
+                            <th>
+                                <span>تاريخ الانشاء</span>
+                            </th>
+
+                            <th>
+                                <span>تاريخ التسليم</span>
+                            </th>
+
+                            <th>
+                                <span>المورد</span>
+                            </th>
+
+                            <th>
+                                <span>بواسطة</span>
+                            </th>
+
+                            <th>
+                                <span>القيمة المضافة</span>
+                            </th>
+
+                            <th>
+                                <span>الخصم</span>
+                            </th>
+
+                            <th>
+                                <span>الإجمالي</span>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="orderPurchase in orderPurchases | filter:orderPurchases.searchText"
+                            ng-class="{'mdl-color--grey-400' : orderPurchase.isSelected}"
+                            ng-dblclick="ModalProvider.openOrderPurchaseDetailsModel(orderPurchase)"
+                            context-menu="rowMenuOrderPurchase">
+                            <td class="fit no-print">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect check"
+                                       for="checkbox-orderPurchase-{{orderPurchase.id}}">
+                                    <input type="checkbox"
+                                           id="checkbox-orderPurchase-{{orderPurchase.id}}"
+                                           class="mdl-checkbox__input"
+                                           ng-model="orderPurchase.isSelected" ng-click="checkOrderPurchase()">
+                                </label>
+                            </td>
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <span>{{orderPurchase.code}}</span>
+                                <span class="label label-success">{{orderPurchase.conditionInArabic}}</span>
+                            </td>
+                            <td>
+                                <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{orderPurchase.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{orderPurchase.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                <span class="label label-info no-print">{{orderPurchase.writtenDate | date: 'hh:mm a'}}</span>
+                            </td>
+                            <td>
+                                <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{orderPurchase.deliveryDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{orderPurchase.deliveryDate | date: 'yyyy-MM-dd'}}</span>
+                                <span class="label label-info no-print">{{orderPurchase.deliveryDate | date: 'hh:mm a'}}</span>
+                            </td>
+                            <td>
+                                <a href="" ng-click="ModalProvider.openSupplierDetailsModel(orderPurchase.supplier)">
+                                    <span>{{orderPurchase.supplier.contact.shortName}}</span>
+                                </a>
+                                <a href=""
+                                   ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_UPDATE'])"
+                                   ng-click="ModalProvider.openSupplierUpdateModel(orderPurchase.supplier)">
+                                    <span class="fa fa-edit"></span>
+                                </a>
+                            </td>
+                            <td>{{orderPurchase.person.contact.shortName}}</td>
+                            <td>{{orderPurchase.totalVat | currency:'':2}}</td>
+                            <td>{{orderPurchase.discount | currency:'':2}}</td>
+                            <td>{{orderPurchase.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                        </tr>
+                        <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
+                            ng-if="!orderPurchases || orderPurchases.length ==0">
+                            <td colspan="10">
+                                <p ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_CREATE'])">
+                                    <span>لا توجد أوامر حتى الآن، يمكنك التسجيل من خلال هذا الرابط </span>
+                                    <a href="" ng-click="newOrderPurchase()">اضغط هنا</a>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr ng-if="orderPurchases.length > 0">
+                            <td class="info" colspan="7">
+                                <span class="pull-left">المجموع الكلي</span>
+                            </td>
+                            <td class="success" colspan="1">{{orderPurchases | sumByKey:'totalVat' | currency:' SAR ':2}}</td>
+                            <td class="success" colspan="1">{{orderPurchases | sumByKey:'discount' | currency:' SAR ':2}}</td>
+                            <td class="success" colspan="1">{{orderPurchases | sumByKey:'totalPriceAfterDiscountAndVat' | currency:' SAR ':2}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="row" ng-show="toggleList===2">
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="orderPurchase in orderPurchases">
+                    <!-- CONTACT ITEM -->
+                    <div class="panel panel-default">
+                        <div class="panel-body profile mdl-color--primary-dark">
+                            <div class="profile-image">
+                                <img width="100" height="100"
+                                     ng-src="/ui/img/{{iconSet}}/orderPurchase.{{iconSetType}}"
+                                     alt="{{orderPurchase.code}}"/>
+                            </div>
+                            <div class="profile-data">
+                                <div class="profile-data-name">{{orderPurchase.supplier.contact.shortName}}</div>
+                            </div>
+                            <div class="profile-controls">
+                                <!--<a href="" class="profile-control-left"><span class="fa fa-info-circle"></span></a>-->
+                                <!--<a href="" class="profile-control-right"><span class="fa fa-phone"></span></a>-->
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="contact-info">
+                                <p>
+                                    <strong>المورد</strong>
+                                    {{orderPurchase.supplier.contact.shortName}}
+                                </p>
+                                <hr>
+                                <p>
+                                    <strong>جوال المورد</strong>
+                                    {{orderPurchase.supplier.contact.mobile}}
+                                </p>
+                                <hr>
+                                <p>
+                                    <strong>اجمالي أمر الشراء</strong>
+                                    {{orderPurchase.totalPriceAfterDiscountAndVat | currency:'':2}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <button uib-tooltip="أمر شراء جديد"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_CREATE'])"
+                                        ng-click="newOrderPurchase();"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                                <button uib-tooltip="تعديل"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_UPDATE'])"
+                                        ng-click="ModalProvider.openOrderPurchaseUpdateModel(orderPurchase)"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                                <button uib-tooltip="حذف"
+                                        tooltip-append-to-body="true"
+                                        type="button"
+                                        ng-if="contains(me.team.authorities, ['ROLE_ORDER_PURCHASE_DELETE'])"
+                                        ng-click="deleteOrderPurchase(orderPurchase)"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                         height="24">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END CONTACT ITEM -->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

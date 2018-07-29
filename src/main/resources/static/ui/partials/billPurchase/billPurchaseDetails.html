@@ -1,0 +1,312 @@
+<div class="modal-header mdl-color--primary mdl-navigation__link-active">
+    <a class="pull-left" href="" ng-click="cancel()">
+        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+    </a>
+    <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/billPurchase.{{iconSetType}}" width="24" height="24">
+                <span>تفاصيل فاتورة الشراء رقم / </span>&nbsp;
+                <span class="label label-info">{{billPurchase.code}}</span>
+            </span>
+    </h3>
+</div>
+
+<div class="modal-body modal-body-free" id="modal-body">
+
+    <div class="form-group row">
+
+        <button uib-tooltip="تحديث البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="refreshBillPurchase()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+    </div>
+
+    <div class="form-group row">
+
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+            <div class="mdl-tabs__tab-bar">
+                <a href="#panel-1-billPurchase-details"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3 is-active">
+                    <span>البيانات الاساسية</span>
+                </a>
+                <a href="#panel-2-billPurchase-details"
+                   ng-click="refreshBillPurchaseProducts()"
+                   class="mdl-tabs__tab col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <span>السلع</span>
+                </a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="panel-1-billPurchase-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td>رقم الفاتورة</td>
+                                <td>{{billPurchase.code}}</td>
+                            </tr>
+                            <tr>
+                                <td>تاريخ كتابة الفاتورة</td>
+                                <td>
+                                    <span ng-show="dateType==='H'">{{billPurchase.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-show="dateType==='G'">{{billPurchase.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                    <span class="label label-info">{{billPurchase.writtenDate | date: 'hh:mm a'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>المورد</td>
+                                <td>{{billPurchase.supplier.contact.shortName}}</td>
+                            </tr>
+                            <tr>
+                                <td>الخصم</td>
+                                <td>{{billPurchase.discount | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>المستندات</td>
+                                <td>
+                                    <div class="form-group row">
+
+                                        <input id="uploader"
+                                               style="display: none"
+                                               type="file"
+                                               onchange="angular.element(this).scope().files=this.files;angular.element(this).scope().uploadAll()"
+                                               multiple/>
+
+                                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered striped highlight">
+                                                    <thead>
+                                                    <tr>
+
+                                                        <th>#</th>
+
+                                                        <th>
+                                                            <span>اسم الملف</span>
+                                                        </th>
+
+                                                        <th>
+                                                            <span>حجم الملف</span>
+                                                        </th>
+
+                                                        <th>
+                                                            <span>العمليات</span>
+                                                        </th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="billPurchaseAttach in billPurchase.billPurchaseAttaches">
+                                                        <td>{{$index+1}}</td>
+                                                        <td class="long-td">
+                                                            <a href="" ng-href="{{billPurchaseAttach.attach.link ? billPurchaseAttach.attach.link : ''}}" target="_blank">
+                                                                <i class="fa fa-files-o"></i>
+                                                                {{billPurchaseAttach.attach.name}}
+                                                            </a>
+                                                        </td>
+                                                        <td>{{billPurchaseAttach.attach.size/1024/1024|number:2}} MB</td>
+                                                        <td>
+                                                            <div class="row">
+                                                                <button uib-tooltip="إضافة ملفات"
+                                                                        tooltip-append-to-body="true"
+                                                                        type="button"
+                                                                        ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE'])"
+                                                                        ng-click="uploadFiles()"
+                                                                        class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/upload.{{iconSetType}}"
+                                                                         width="24" height="24">
+                                                                </button>
+                                                                <button uib-tooltip="حذف"
+                                                                        tooltip-append-to-body="true"
+                                                                        type="button"
+                                                                        ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_DELETE'])"
+                                                                        ng-click="deleteBillPurchaseAttach(billPurchaseAttach)"
+                                                                        class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                                    <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}"
+                                                                         width="24" height="24">
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="blank_row"
+                                                        style="height: 10px !important; background-color: #FFFFFF;"
+                                                        ng-show="!billPurchase.billPurchaseAttaches || billPurchase.billPurchaseAttaches.length ==0">
+                                                        <td colspan="4" ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE'])">
+                                                            <span>يمكنك اضافة الملفات بالضغط</span>
+                                                            <a href="" ng-click="uploadFiles()">هنا</a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>مدخل الفاتورة</td>
+                                <td>
+                                        <span class="label label-info">
+                                            {{billPurchase.person.contact.shortName}}
+                                        </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mdl-tabs__panel" id="panel-2-billPurchase-details">
+
+                <div class="form-group row">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+
+                                <th>
+                                    <span>السلعة</span>
+                                </th>
+
+                                <th>
+                                    <span>الكمية</span>
+                                </th>
+
+                                <th>
+                                    <span>سعر الشراء/الوحدة</span>
+                                    <br/>
+                                    <span class="label label-success">(القيمة المضافة/الوحدة)</span>
+                                </th>
+
+                                <th>
+                                    <span>سعر البيع/الوحدة</span>
+                                    <br/>
+                                    <span class="label label-success">(القيمة المضافة/الوحدة)</span>
+                                </th>
+
+                                <th>
+                                    <span>إجمالي الشراء</span>
+                                </th>
+
+                                <th>
+                                    <span>إجمالي البيع</span>
+                                </th>
+
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="billPurchaseProduct in billPurchase.billPurchaseProducts">
+                                <td>{{billPurchaseProduct.product.name}}</td>
+                                <td>{{billPurchaseProduct.quantity}}</td>
+                                <td>
+                                    <span>{{billPurchaseProduct.unitPurchasePrice | currency:'':2}}</span>
+                                    <br/>
+                                    <span class="label label-success">{{billPurchaseProduct.unitVat | currency:'':2}}</span>
+                                </td>
+                                <td>
+                                    <span>{{billPurchaseProduct.unitSellPrice | currency:'':2}}</span>
+                                    <br/>
+                                    <span class="label label-success">{{billPurchaseProduct.unitSellVat=(billPurchaseProduct.unitSellPrice*selectedCompany.options.vatFactor) | currency:'':2}}</span>
+                                </td>
+                                <td>{{billPurchaseProduct.totalPurchase=((billPurchaseProduct.quantity*billPurchaseProduct.unitPurchasePrice) + (billPurchaseProduct.quantity*billPurchaseProduct.unitVat)) | currency:'':2}}</td>
+                                <td>{{billPurchaseProduct.totalSell=((billPurchaseProduct.quantity*billPurchaseProduct.unitSellPrice) + (billPurchaseProduct.quantity*billPurchaseProduct.unitSellVat)) | currency:'':2}}</td>
+                                <td>
+                                    <div class="row">
+                                        <button uib-tooltip="إضافة سلعة"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_PRODUCT_CREATE'])"
+                                                ng-click="newBillPurchaseProduct()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}"
+                                                 width="24" height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_PRODUCT_DELETE'])"
+                                                ng-click="deleteBillPurchaseProduct(billPurchaseProduct)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}"
+                                                 width="24" height="24">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
+                                ng-show="!billPurchase.billPurchaseProducts || billPurchase.billPurchaseProducts.length ==0">
+                                <td colspan="7">
+                                    <span>لا توجد سلع حتى الآن لهذا الفاتورة </span>
+                                </td>
+                            </tr>
+                            <tr ng-if="billPurchase.supplier.id && billPurchase.billPurchaseProducts.length > 0">
+                                <td colspan="4" class="text-left warning">
+                                    <span class="pull-left">المجموع</span>
+                                </td>
+                                <td colspan="1">{{billPurchase.capitalPurchase = (billPurchase.billPurchaseProducts | sumByKey:'totalPurchase') | currency:'':2}}</td>
+                                <td colspan="1">{{billPurchase.capitalSell =(billPurchase.billPurchaseProducts | sumByKey:'totalSell') | currency:'':2}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                        <tr>
+                           <td class="fit success">رأس المال</td>
+                           <td>{{billPurchase.capitalPurchase | currency:' SAR ':2}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fit success">الربح</td>
+                            <td>{{billPurchase.profit = (billPurchase.capitalSell - billPurchase.capitalPurchase) | currency:' SAR ':2}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fit success">نسبة الربح</td>
+                            <td>{{billPurchase.profitPercentage = ((billPurchase.profit / billPurchase.capitalPurchase) * 100) | currency:' % ':2}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal-footer">
+
+    <div class="row">
+        <button uib-tooltip="خروج"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="cancel()"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/close.{{iconSetType}}" width="24" height="24">
+        </button>
+    </div>
+
+</div>
