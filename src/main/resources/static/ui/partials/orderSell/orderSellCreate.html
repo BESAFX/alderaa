@@ -235,6 +235,30 @@
 
                         <div class="form-group row">
 
+                            <button uib-tooltip="تصنيف رئيسي"
+                                    tooltip-append-to-body="true"
+                                    type="button"
+                                    ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
+                                    ng-click="newParent()"
+                                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24" height="24">
+                            </button>
+
+                            <button uib-tooltip="تصنيف فرعي"
+                                    tooltip-append-to-body="true"
+                                    type="button"
+                                    ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
+                                    ng-click="newProduct()"
+                                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24" height="24">
+                            </button>
+
+                        </div>
+
+                        <hr/>
+
+                        <div class="form-group row">
+
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>

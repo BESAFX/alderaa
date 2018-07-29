@@ -2,10 +2,8 @@ package com.besafx.app.rest;
 
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
-import com.besafx.app.config.CustomException;
 import com.besafx.app.entity.*;
 import com.besafx.app.entity.enums.OfferCondition;
-import com.besafx.app.entity.enums.OrderPurchaseCondition;
 import com.besafx.app.entity.enums.OrderSellCondition;
 import com.besafx.app.search.BillSellSearch;
 import com.besafx.app.service.*;
@@ -78,10 +76,13 @@ public class BillSellRest {
     @PreAuthorize("hasRole('ROLE_BILL_SELL_CREATE')")
     @Transactional
     public String create(@RequestBody BillSell billSell) {
-        BillSell tempBillSell = billSellService.findByCode(billSell.getCode());
-        if (tempBillSell != null) {
-            throw new CustomException("عفواً، رقم الفاتورة المدخل غير متاح، حاول برقم آخر");
+        BillSell topBillSell = billSellService.findTopByOrderByCodeDesc();
+        if (topBillSell == null) {
+            billSell.setCode(Long.valueOf(1));
+        } else {
+            billSell.setCode(topBillSell.getCode() + 1);
         }
+
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         billSell.setWrittenDate(new DateTime().toDate());
         billSell.setPerson(caller);

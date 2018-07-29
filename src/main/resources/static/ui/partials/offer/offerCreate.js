@@ -5,6 +5,12 @@ app.controller('offerCreateCtrl', ['ProductService', 'OfferService', 'CustomerSe
 
         $scope.offer = {};
 
+        $scope.offer.writtenDate = new Date();
+
+        $scope.offer.endDate = new Date();
+
+        $scope.offer.endDate.setDate($scope.offer.writtenDate.getDate() + 30);
+
         $scope.offer.discount = 0;
 
         $scope.offer.transferFees = 0;
@@ -16,6 +22,24 @@ app.controller('offerCreateCtrl', ['ProductService', 'OfferService', 'CustomerSe
         $scope.newCustomer = function () {
             ModalProvider.openCustomerCreateModel().result.then(function (data) {
                 $scope.customers.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newProduct = function () {
+            ModalProvider.openProductCreateModel().result.then(function (data) {
+                $scope.products.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newParent = function () {
+            ModalProvider.openParentCreateModel().result.then(function (data) {
+                $scope.parents.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
                 }, 300);

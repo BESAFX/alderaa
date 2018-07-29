@@ -40,21 +40,6 @@
                         <div class="form-group row">
 
                             <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <label for="code" class="control-label">رقم العرض</label>
-                                <div dir="ltr" class="input-group" id="code">
-                                    <span class="input-group-addon">غير مكرر</span>
-                                    <input dir="rtl"
-                                           type="number"
-                                           min="1"
-                                           class="form-control"
-                                           placeholder="اجباري"
-                                           required="required"
-                                           disable-validation-message=""
-                                           ng-model="offer.code">
-                                </div>
-                            </div>
-
-                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <label for="customer" class="control-label">
                                     <span>العميل</span>
                                     <strong>
@@ -144,40 +129,6 @@
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="form-group row">
-
-                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <label for="discount" class="control-label">الخصم</label>
-                                <div dir="ltr" class="input-group" id="discount">
-                                    <span class="input-group-addon">ريال سعودي</span>
-                                    <input dir="rtl"
-                                           type="number"
-                                           min="0"
-                                           class="form-control"
-                                           required="required"
-                                           disable-validation-message=""
-                                           placeholder="اجباري"
-                                           ng-model="offer.discount">
-                                </div>
-                            </div>
-
-                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                <label for="transferFees" class="control-label">رسوم الشحن</label>
-                                <div dir="ltr" class="input-group" id="transferFees">
-                                    <span class="input-group-addon">ريال سعودي</span>
-                                    <input dir="rtl"
-                                           type="number"
-                                           min="0"
-                                           class="form-control"
-                                           required="required"
-                                           disable-validation-message=""
-                                           placeholder="اجباري"
-                                           ng-model="offer.transferFees">
-                                </div>
-                            </div>
-
                             <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <label for="endDate" class="control-label">تاريخ نهاية العرض</label>
                                 <div dir="ltr" class="input-group" id="endDate" ng-init="calendar1='G'">
@@ -217,6 +168,36 @@
                         <div class="form-group row">
 
                             <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <label for="discount" class="control-label">الخصم</label>
+                                <div dir="ltr" class="input-group" id="discount">
+                                    <span class="input-group-addon">ريال سعودي</span>
+                                    <input dir="rtl"
+                                           type="number"
+                                           min="0"
+                                           class="form-control"
+                                           required="required"
+                                           disable-validation-message=""
+                                           placeholder="اجباري"
+                                           ng-model="offer.discount">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <label for="transferFees" class="control-label">رسوم الشحن</label>
+                                <div dir="ltr" class="input-group" id="transferFees">
+                                    <span class="input-group-addon">ريال سعودي</span>
+                                    <input dir="rtl"
+                                           type="number"
+                                           min="0"
+                                           class="form-control"
+                                           required="required"
+                                           disable-validation-message=""
+                                           placeholder="اجباري"
+                                           ng-model="offer.transferFees">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-init="offer.condition='Draft'">
                                 <label for="condition" class="control-label">
                                     <span>وضع العرض</span>
                                 </label>
@@ -260,6 +241,30 @@
                                           ng-model="offer.note">
                                 </textarea>
                             </div>
+
+                        </div>
+
+                        <hr/>
+
+                        <div class="form-group row">
+
+                            <button uib-tooltip="تصنيف رئيسي"
+                                    tooltip-append-to-body="true"
+                                    type="button"
+                                    ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
+                                    ng-click="newParent()"
+                                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24" height="24">
+                            </button>
+
+                            <button uib-tooltip="تصنيف فرعي"
+                                    tooltip-append-to-body="true"
+                                    type="button"
+                                    ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
+                                    ng-click="newProduct()"
+                                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24" height="24">
+                            </button>
 
                         </div>
 

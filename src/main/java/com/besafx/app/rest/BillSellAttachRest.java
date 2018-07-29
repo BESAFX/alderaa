@@ -83,7 +83,7 @@ public class BillSellAttachRest {
             attach.setDate(new DateTime().toDate());
             attach.setPerson(personService.findByEmail(principal.getName()));
 
-            String path = "/Shield/BillSell_Attaches/" + billSellId + "/" + attach.getName() + "." + attach.getMimeType();
+            String path = "/Alderaa/BillSell_Attaches/" + billSellId + "/" + attach.getName() + "." + attach.getMimeType();
 
             Future<Boolean> uploadBillSell = dropboxManager.uploadFile(file, path);
             if (uploadBillSell.get()) {
@@ -112,7 +112,7 @@ public class BillSellAttachRest {
         BillSellAttach billSellAttach = billSellAttachService.findOne(id);
         if (billSellAttach != null) {
 
-            String path = "/Shield/BillSell_Attaches/" +
+            String path = "/Alderaa/BillSell_Attaches/" +
                     billSellAttach.getBillSell().getId() +
                     "/" + billSellAttach.getAttach().getName() +
                     "." +

@@ -5,6 +5,8 @@ app.controller('orderSellCreateCtrl', ['ProductService', 'OrderSellService', 'Cu
 
         $scope.orderSell = {};
 
+        $scope.orderSell.writtenDate = new Date();
+
         $scope.orderSell.discount = 0;
 
         $scope.orderSell.transferFees = 0;
@@ -16,6 +18,24 @@ app.controller('orderSellCreateCtrl', ['ProductService', 'OrderSellService', 'Cu
         $scope.newCustomer = function () {
             ModalProvider.openCustomerCreateModel().result.then(function (data) {
                 $scope.customers.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newProduct = function () {
+            ModalProvider.openProductCreateModel().result.then(function (data) {
+                $scope.products.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newParent = function () {
+            ModalProvider.openParentCreateModel().result.then(function (data) {
+                $scope.parents.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
                 }, 300);

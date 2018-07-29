@@ -83,7 +83,7 @@ public class OfferAttachRest {
             attach.setDate(new DateTime().toDate());
             attach.setPerson(personService.findByEmail(principal.getName()));
 
-            String path = "/Shield/Offer_Attaches/" + offerId + "/" + attach.getName() + "." + attach.getMimeType();
+            String path = "/Alderaa/Offer_Attaches/" + offerId + "/" + attach.getName() + "." + attach.getMimeType();
 
             Future<Boolean> uploadOffer = dropboxManager.uploadFile(file, path);
             if (uploadOffer.get()) {
@@ -112,7 +112,7 @@ public class OfferAttachRest {
         OfferAttach offerAttach = offerAttachService.findOne(id);
         if (offerAttach != null) {
 
-            String path = "/Shield/Offer_Attaches/" +
+            String path = "/Alderaa/Offer_Attaches/" +
                     offerAttach.getOffer().getId() +
                     "/" + offerAttach.getAttach().getName() +
                     "." +

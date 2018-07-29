@@ -5,6 +5,8 @@ app.controller('billSellCreateCtrl', ['ProductService', 'BillSellService', 'Cust
 
         $scope.billSell = {};
 
+        $scope.billSell.writtenDate = new Date();
+
         $scope.billSell.discount = 0;
 
         $scope.billSellProducts = [];
@@ -14,6 +16,24 @@ app.controller('billSellCreateCtrl', ['ProductService', 'BillSellService', 'Cust
         $scope.newCustomer = function () {
             ModalProvider.openCustomerCreateModel().result.then(function (data) {
                 $scope.customers.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newProduct = function () {
+            ModalProvider.openProductCreateModel().result.then(function (data) {
+                $scope.products.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newParent = function () {
+            ModalProvider.openParentCreateModel().result.then(function (data) {
+                $scope.parents.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
                 }, 300);

@@ -25,16 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
 import com.google.common.collect.Lists;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
@@ -46,9 +40,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/offer/")
@@ -105,10 +99,13 @@ public class OfferRest {
     @PreAuthorize("hasRole('ROLE_OFFER_CREATE')")
     @Transactional
     public String create(@RequestBody Offer offer) {
-        Offer tempOffer = offerService.findByCode(offer.getCode());
-        if (tempOffer != null) {
-            throw new CustomException("عفواً، رقم العرض المدخل غير متاح، حاول برقم آخر");
+        Offer topOffer = offerService.findTopByOrderByCodeDesc();
+        if (topOffer == null) {
+            offer.setCode(Long.valueOf(1));
+        } else {
+            offer.setCode(topOffer.getCode() + 1);
         }
+
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         offer.setWrittenDate(new DateTime().toDate());
         offer.setPerson(caller);

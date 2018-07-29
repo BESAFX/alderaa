@@ -5,6 +5,8 @@ app.controller('orderPurchaseCreateCtrl', ['ProductService', 'OrderPurchaseServi
 
         $scope.orderPurchase = {};
 
+        $scope.orderPurchase.writtenDate = new Date();
+
         $scope.orderPurchase.discount = 0;
 
         $scope.orderPurchase.transferFees = 0;
@@ -16,6 +18,24 @@ app.controller('orderPurchaseCreateCtrl', ['ProductService', 'OrderPurchaseServi
         $scope.newSupplier = function () {
             ModalProvider.openSupplierCreateModel().result.then(function (data) {
                 $scope.suppliers.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newProduct = function () {
+            ModalProvider.openProductCreateModel().result.then(function (data) {
+                $scope.products.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.newParent = function () {
+            ModalProvider.openParentCreateModel().result.then(function (data) {
+                $scope.parents.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
                 }, 300);

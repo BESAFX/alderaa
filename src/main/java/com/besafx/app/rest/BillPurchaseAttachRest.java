@@ -83,7 +83,7 @@ public class BillPurchaseAttachRest {
             attach.setDate(new DateTime().toDate());
             attach.setPerson(personService.findByEmail(principal.getName()));
 
-            String path = "/Shield/BillPurchase_Attaches/" + billPurchaseId + "/" + attach.getName() + "." + attach.getMimeType();
+            String path = "/Alderaa/BillPurchase_Attaches/" + billPurchaseId + "/" + attach.getName() + "." + attach.getMimeType();
 
             Future<Boolean> uploadBillPurchase = dropboxManager.uploadFile(file, path);
             if (uploadBillPurchase.get()) {
@@ -112,7 +112,7 @@ public class BillPurchaseAttachRest {
         BillPurchaseAttach billPurchaseAttach = billPurchaseAttachService.findOne(id);
         if (billPurchaseAttach != null) {
 
-            String path = "/Shield/BillPurchase_Attaches/" +
+            String path = "/Alderaa/BillPurchase_Attaches/" +
                     billPurchaseAttach.getBillPurchase().getId() +
                     "/" + billPurchaseAttach.getAttach().getName() +
                     "." +
