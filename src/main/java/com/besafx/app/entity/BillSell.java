@@ -36,8 +36,10 @@ public class BillSell implements Serializable {
 
     private Long code;
 
+    @Column(columnDefinition = "Decimal(10,1) default '0.0'")
     private Double discount;
 
+    @Column(columnDefinition = "Decimal(10,1) default '0.0'")
     private Double transferFees;
 
     @ManyToOne

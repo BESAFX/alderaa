@@ -250,7 +250,14 @@
                                 <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{billSell.writtenDate | date: 'yyyy-MM-dd'}}</span>
                                 <span class="label label-info no-print">{{billSell.writtenDate | date: 'hh:mm a'}}</span>
                             </td>
-                            <td>{{billSell.customer.contact.shortName}}</td>
+                            <td ng-class="{'danger': !billSell.customer}">
+                                <span ng-if="!billSell.customer">فاتورة نقدية</span>
+                                <span ng-if="billSell.customer">
+                                    <span>{{billSell.customer.contact.shortName}}</span>
+                                    <br/>
+                                    <span class="label label-success">{{billSell.customer.contact.mobile}}</span>
+                                </span>
+                            </td>
                             <td>{{billSell.person.contact.shortName}}</td>
                             <td>{{billSell.totalVat | currency:'':2}}</td>
                             <td>{{billSell.discount | currency:'':2}}</td>
