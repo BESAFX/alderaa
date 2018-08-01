@@ -11,8 +11,13 @@ app.factory("BillSellService",
                     return response.data;
                 });
             },
-            create: function (contract) {
-                return $http.post("/api/billSell/create", contract).then(function (response) {
+            create: function (billSell) {
+                return $http.post("/api/billSell/create", billSell).then(function (response) {
+                    return response.data;
+                });
+            },
+            createWithCash: function (billSell, customerName, customerMobile, bankId) {
+                return $http.post("/api/billSell/createWithCash/" + customerName + "/" + customerMobile + "/" + bankId, billSell).then(function (response) {
                     return response.data;
                 });
             },

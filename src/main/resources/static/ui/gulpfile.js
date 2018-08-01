@@ -145,6 +145,7 @@ gulp.task('scripts', function () {
 
         './init/factory/bankFactory.js',
         './init/factory/bankTransactionFactory.js',
+
         './init/factory/attachTypeFactory.js',
         './init/factory/personFactory.js',
         './init/factory/teamFactory.js',
@@ -210,6 +211,7 @@ gulp.task('scripts', function () {
 
         './partials/billSell/billSellFilter.js',
         './partials/billSell/billSellCreate.js',
+        './partials/billSell/billSellCreateWithCash.js',
         './partials/billSell/billSellDetails.js',
         './partials/billSellProduct/billSellProductCreate.js',
         './partials/customerPayment/customerPaymentFilter.js',

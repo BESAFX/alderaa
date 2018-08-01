@@ -5,6 +5,7 @@ import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.entity.*;
 import com.besafx.app.entity.enums.OfferCondition;
 import com.besafx.app.entity.enums.OrderSellCondition;
+import com.besafx.app.init.Initializer;
 import com.besafx.app.search.BillSellSearch;
 import com.besafx.app.service.*;
 import com.besafx.app.util.DateConverter;
@@ -66,6 +67,12 @@ public class BillSellRest {
     private OrderSellService orderSellService;
 
     @Autowired
+    private BankService bankService;
+
+    @Autowired
+    private BankTransactionService bankTransactionService;
+
+    @Autowired
     private NotificationService notificationService;
 
     @Autowired
@@ -111,6 +118,100 @@ public class BillSellRest {
         builder.append(billSell.getCustomer().getContact().getShortName());
         builder.append("، ");
         builder.append(billSell.getNote());
+        notificationService.notifyAll(Notification
+                                              .builder()
+                                              .title("العمليات على فواتير البيع")
+                                              .message(builder.toString())
+                                              .type(NotificationDegree.success)
+                                              .icon("add")
+                                              .build());
+        entityHistoryListener.perform(builder.toString());
+
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), billSell);
+    }
+
+    @PostMapping(value = "createWithCash/{customerName}/{customerMobile}/{toBankId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_BILL_SELL_CREATE')")
+    @Transactional
+    public String createWithCash(@RequestBody BillSell billSell,
+                                 @PathVariable(value = "customerName") String customerName,
+                                 @PathVariable(value = "customerMobile") String customerMobile,
+                                 @PathVariable(value = "toBankId") Long toBankId) {
+        BillSell topBillSell = billSellService.findTopByOrderByCodeDesc();
+        if (topBillSell == null) {
+            billSell.setCode(Long.valueOf(1));
+        } else {
+            billSell.setCode(topBillSell.getCode() + 1);
+        }
+
+        Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        billSell.setWrittenDate(new DateTime().toDate());
+        billSell.setPerson(caller);
+        billSell = billSellService.save(billSell);
+
+        LOG.info("ربط الأصناف المطلوبة مع الفاتورة");
+        ListIterator<BillSellProduct> billSellProductListIterator = billSell.getBillSellProducts().listIterator();
+        while (billSellProductListIterator.hasNext()) {
+            BillSellProduct billSellProduct = billSellProductListIterator.next();
+            billSellProduct.setDate(new DateTime().toDate());
+            billSellProduct.setBillSell(billSell);
+            billSellProductListIterator.set(billSellProductService.save(billSellProduct));
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("انشاء فاتورة بيع نقدية رقم / ");
+        builder.append(billSell.getCode());
+        builder.append("، بمجموع أسعار = ");
+        builder.append(billSell.getTotalPrice());
+        builder.append("، وخصم بمقدار ");
+        builder.append(billSell.getDiscount());
+        builder.append("، وقيمة مضافة بمقدار ");
+        builder.append(billSell.getTotalVat());
+        builder.append("، وأصناف عدد " + billSell.getBillSellProducts().size() + " صنف");
+        builder.append("، للعميل / ");
+        builder.append(customerName);
+        builder.append("، رقم الجوال / ");
+        builder.append(customerMobile);
+        builder.append("، ");
+        builder.append(billSell.getNote());
+
+        notificationService.notifyAll(Notification
+                                              .builder()
+                                              .title("العمليات على فواتير البيع")
+                                              .message(builder.toString())
+                                              .type(NotificationDegree.success)
+                                              .icon("add")
+                                              .build());
+        entityHistoryListener.perform(builder.toString());
+
+        LOG.info("WITHDRAW REQUIRED AMOUNT FROM BANK ACCOUNT...");
+        Bank toBank = bankService.findOne(toBankId);
+        BankTransaction bankTransaction = new BankTransaction();
+        bankTransaction.setBank(toBank);
+        bankTransaction.setAmount(billSell.getTotalPriceAfterDiscountAndVat());
+        bankTransaction.setTransactionType(Initializer.transactionTypeDeposit);
+        bankTransaction.setDate(billSell.getWrittenDate());
+        bankTransaction.setPerson(caller);
+
+        builder = new StringBuilder();
+        builder.append("إيداع مبلغ نقدي بقيمة ");
+        builder.append(bankTransaction.getAmount());
+        builder.append("ريال سعودي، ");
+        builder.append(" إلى الحساب / ");
+        builder.append(bankTransaction.getBank().getName());
+        builder.append("، دفعة مالية بتاريخ ");
+        builder.append(DateConverter.getDateInFormat(bankTransaction.getDate()));
+        builder.append("، من العميل / ");
+        builder.append(customerName);
+        builder.append("، رقم الجوال / ");
+        builder.append(customerMobile);
+        builder.append("، نظير سداد الفاتورة النقدية رقم / ");
+        builder.append(billSell.getCode());
+
+        bankTransaction.setNote(builder.toString());
+        bankTransactionService.save(bankTransaction);
+
         notificationService.notifyAll(Notification
                                               .builder()
                                               .title("العمليات على فواتير البيع")

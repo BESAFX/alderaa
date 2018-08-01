@@ -978,6 +978,19 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
         });
     };
 
+    this.openBillSellCreateWithCashModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/billSell/billSellCreateWithCash.html',
+            controller: 'billSellCreateWithCashCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'xlg'
+        });
+    };
+
     this.openBillSellDetailsModel = function (billSell) {
         return $uibModal.open({
             animation: true,

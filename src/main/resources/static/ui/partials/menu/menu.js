@@ -2612,6 +2612,14 @@ app.controller("menuCtrl", [
                 }, 300);
             });
         };
+        $scope.newBillSellWithCash = function () {
+            ModalProvider.openBillSellCreateWithCashModel().result.then(function (data) {
+                $scope.billSells.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
         $scope.deleteBillSell = function (billSell) {
             ModalProvider.openConfirmModel("فواتير البيع", "delete", "هل تود حذف الفاتورة فعلاً؟").result.then(function (value) {
                 if (value) {
