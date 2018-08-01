@@ -2,7 +2,6 @@ package com.besafx.app.report;
 
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.entity.BillSell;
-import com.besafx.app.entity.BillSellProduct;
 import com.besafx.app.enums.ExportType;
 import com.besafx.app.init.Initializer;
 import com.besafx.app.service.BillSellProductService;
@@ -25,8 +24,6 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 @RestController
@@ -49,7 +46,7 @@ public class ReportBillSellController {
             @RequestParam(value = "billSellId") Long billSellId,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        map.put("BILL_SELLS", billSellService.findOne(billSellId));
+        map.put("BILL_SELL", billSellService.findOne(billSellId));
 
         CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
         map.put("REPORT_TITLE", options.getReportTitle());

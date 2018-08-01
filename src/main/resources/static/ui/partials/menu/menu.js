@@ -2700,6 +2700,18 @@ app.controller("menuCtrl", [
                 click: function ($itemScope, $event, value) {
                     ModalProvider.openBillSellDetailsModel($itemScope.billSell);
                 }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/print.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>طباعة...</span>' +
+                '</div>',
+                enabled: function () {
+                    return true;
+                },
+                click: function ($itemScope, $event, value) {
+                    window.open('/report/billSell?billSellId=' + $itemScope.billSell.id);
+                }
             }
         ];
 
