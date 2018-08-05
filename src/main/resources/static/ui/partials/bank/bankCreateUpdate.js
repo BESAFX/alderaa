@@ -28,6 +28,6 @@ app.controller('bankCreateUpdateCtrl', ['BankService', '$scope', '$rootScope', '
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

@@ -84,6 +84,6 @@ app.controller('supplierContactCreateUpdateCtrl', ['SupplierContactService', 'Su
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

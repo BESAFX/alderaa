@@ -160,7 +160,7 @@
                                            required="required"
                                            disable-validation-message=""
                                            placeholder="اجباري"
-                                           ng-model="billPurchase.transferFees">
+                                           ng-model="billSell.transferFees">
                                 </div>
                             </div>
 
@@ -168,7 +168,26 @@
 
                         <div class="form-group row">
 
-                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4"
+                                 ng-init="billSell.condition='Draft'">
+                                <label for="condition" class="control-label">
+                                    <span>وضع الفاتورة</span>
+                                </label>
+                                <select id="condition"
+                                        placeholder="اجباري"
+                                        class="form-control"
+                                        required="required"
+                                        disable-validation-message=""
+                                        ng-model="billSell.condition">
+                                    <option value="Draft">مسودة</option>
+                                    <option value="Sent">أرسلت</option>
+                                    <option value="Viewed">شوهدت</option>
+                                    <option value="Done">مدفوعة</option>
+                                    <option value="Canceled">ملغاة</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <label for="note" class="control-label">ملاحظات</label>
                                 <textarea id="note"
                                           type="text"

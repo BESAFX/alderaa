@@ -39,6 +39,6 @@ app.controller('orderPurchaseDetailsCtrl', ['OrderPurchaseService', 'OrderPurcha
         $timeout(function () {
             $scope.refreshOrderPurchase();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

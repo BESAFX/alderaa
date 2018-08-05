@@ -15,6 +15,6 @@ app.controller('withdrawCreateCtrl', ['BankTransactionService', '$scope', '$root
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

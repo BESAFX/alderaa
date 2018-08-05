@@ -73,6 +73,6 @@ app.controller('offerUpdateCtrl', ['OfferService', 'CustomerService', 'ModalProv
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

@@ -31,6 +31,11 @@ app.factory("BillSellService",
                     return response.data;
                 });
             },
+            update: function (billSell) {
+                return $http.put("/api/billSell/update", billSell).then(function (response) {
+                    return response.data;
+                });
+            },
             remove: function (id) {
                 return $http.delete("/api/billSell/delete/" + id);
             },

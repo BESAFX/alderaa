@@ -83,6 +83,6 @@ app.controller('offerDetailsCtrl', ['OfferService', 'OfferAttachService', 'Offer
         $timeout(function () {
             $scope.refreshOffer();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

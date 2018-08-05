@@ -2,7 +2,9 @@ package com.besafx.app.rest;
 
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
+import com.besafx.app.config.CustomException;
 import com.besafx.app.entity.*;
+import com.besafx.app.entity.enums.BillSellCondition;
 import com.besafx.app.entity.enums.OfferCondition;
 import com.besafx.app.entity.enums.OrderSellCondition;
 import com.besafx.app.init.Initializer;
@@ -146,6 +148,7 @@ public class BillSellRest {
         }
 
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        billSell.setCondition(BillSellCondition.Done);
         billSell.setWrittenDate(new DateTime().toDate());
         billSell.setPerson(caller);
         billSell = billSellService.save(billSell);
@@ -378,6 +381,39 @@ public class BillSellRest {
         entityHistoryListener.perform(builder.toString());
 
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), billSell);
+    }
+
+    @PutMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_BILL_SELL_UPDATE')")
+    @Transactional
+    public String update(@RequestBody BillSell billSell) {
+        if (billSellService.findByCodeAndIdIsNot(billSell.getCode(), billSell.getId()) != null) {
+            throw new CustomException("هذا الكود مستخدم سابقاً، فضلاً قم بتغير الكود.");
+        }
+        BillSell object = billSellService.findOne(billSell.getId());
+        if (object != null) {
+            billSell = billSellService.save(billSell);
+
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+            StringBuilder builder = new StringBuilder();
+            builder.append("تعديل بيانات الفاتورة رقم ");
+            builder.append("( " + billSell.getCode() + " )");
+            builder.append("، بواسطة ");
+            builder.append(caller.getContact().getShortName());
+            notificationService.notifyAll(Notification
+                                                  .builder()
+                                                  .title("العمليات على فواتير البيع")
+                                                  .message(builder.toString())
+                                                  .type(NotificationDegree.warning)
+                                                  .icon("edit")
+                                                  .build());
+            entityHistoryListener.perform(builder.toString());
+
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), billSell);
+        } else {
+            return null;
+        }
     }
 
     @DeleteMapping(value = "delete/{id}")

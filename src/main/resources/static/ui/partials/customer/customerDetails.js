@@ -55,6 +55,6 @@ app.controller('customerDetailsCtrl', ['CustomerService', 'CustomerContactServic
         $timeout(function () {
             $scope.refreshCustomer();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

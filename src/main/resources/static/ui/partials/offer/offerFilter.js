@@ -17,6 +17,6 @@ app.controller('offerFilterCtrl', ['$scope', '$rootScope', '$timeout', '$log', '
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

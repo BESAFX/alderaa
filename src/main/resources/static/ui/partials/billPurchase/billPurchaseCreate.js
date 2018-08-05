@@ -123,6 +123,6 @@ app.controller('billPurchaseCreateCtrl', ['ProductService', 'BillPurchaseService
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

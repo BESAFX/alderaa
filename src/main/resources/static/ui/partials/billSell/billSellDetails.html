@@ -62,11 +62,37 @@
                             </tr>
                             <tr>
                                 <td>العميل</td>
-                                <td>{{billSell.customer.contact.shortName}}</td>
+                                <td>
+                                    <span ng-if="!billSell.customer">فاتورة نقدية</span>
+                                    <span ng-if="billSell.customer">
+                                        <a href="" ng-click="ModalProvider.openCustomerDetailsModel(billSell.customer)">
+                                            <span>{{billSell.customer.contact.shortName}}</span>
+                                            <a href=""
+                                               ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_UPDATE'])"
+                                               ng-click="ModalProvider.openCustomerUpdateModel(billSell.customer)">
+                                                 <span class="fa fa-edit"></span>
+                                            </a>
+                                            <br/>
+                                            <span class="label label-success">{{billSell.customer.contact.mobile}}</span>
+                                        </a>
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>الخصم</td>
                                 <td>{{billSell.discount | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>رسوم الشحن</td>
+                                <td>{{billSell.transferFees | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>القيمة المضافة</td>
+                                <td>{{billSell.totalVat | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>إجمالي السعر</td>
+                                <td>{{billSell.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
                             </tr>
                             <tr>
                                 <td>المستندات</td>

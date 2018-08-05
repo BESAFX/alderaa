@@ -39,6 +39,6 @@ app.controller('orderSellDetailsCtrl', ['OrderSellService', 'OrderSellProductSer
         $timeout(function () {
             $scope.refreshOrderSell();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

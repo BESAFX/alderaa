@@ -129,6 +129,6 @@ app.controller('offerCreateCtrl', ['ProductService', 'OfferService', 'CustomerSe
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

@@ -73,6 +73,6 @@ app.controller('orderSellUpdateCtrl', ['OrderSellService', 'CustomerService', 'M
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

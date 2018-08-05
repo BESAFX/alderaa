@@ -45,6 +45,6 @@ app.controller('orderPurchaseProductCreateCtrl', ['ProductService', 'OrderPurcha
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

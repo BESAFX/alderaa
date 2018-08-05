@@ -2653,6 +2653,18 @@ app.controller("menuCtrl", [
             },
             {
                 html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/edit.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>تعديل...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_BILL_SELL_UPDATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    ModalProvider.openBillSellUpdateModel($itemScope.billSell);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
                 '<img src="/ui/img/' + $rootScope.iconSet + '/delete.' + $rootScope.iconSetType + '" width="24" height="24">' +
                 '<span>حذف...</span>' +
                 '</div>',

@@ -199,6 +199,7 @@
 
                             <th>
                                 <span>رقم العرض</span>
+                                <br/>
                                 <span class="label label-success">وضع العرض</span>
                             </th>
 
@@ -245,11 +246,13 @@
                             <td>{{$index+1}}</td>
                             <td>
                                 <span>{{offer.code}}</span>
+                                <br/>
                                 <span class="label label-success">{{offer.conditionInArabic}}</span>
                             </td>
                             <td>
                                 <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{offer.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
                                 <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{offer.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                <br/>
                                 <span class="label label-info no-print">{{offer.writtenDate | date: 'hh:mm a'}}</span>
                             </td>
                             <td>
@@ -261,6 +264,8 @@
                                    ng-click="ModalProvider.openCustomerUpdateModel(offer.customer)">
                                     <span class="fa fa-edit"></span>
                                 </a>
+                                <br/>
+                                <span class="label label-success">{{offer.customer.contact.mobile}}</span>
                             </td>
                             <td>{{offer.person.contact.shortName}}</td>
                             <td>{{offer.totalVat | currency:'':2}}</td>

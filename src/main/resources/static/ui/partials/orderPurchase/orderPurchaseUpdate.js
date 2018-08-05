@@ -73,6 +73,6 @@ app.controller('orderPurchaseUpdateCtrl', ['OrderPurchaseService', 'SupplierServ
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

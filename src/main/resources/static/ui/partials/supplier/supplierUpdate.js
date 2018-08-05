@@ -17,6 +17,6 @@ app.controller('supplierUpdateCtrl', ['SupplierService', '$scope', '$rootScope',
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

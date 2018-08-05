@@ -31,6 +31,6 @@ app.controller('customerCreateCtrl', ['CustomerService', '$scope', '$rootScope',
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

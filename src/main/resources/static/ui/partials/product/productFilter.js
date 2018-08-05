@@ -20,6 +20,6 @@ app.controller('productFilterCtrl', ['$scope', '$rootScope', '$timeout', '$log',
                 $scope.parents = value;
             });
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

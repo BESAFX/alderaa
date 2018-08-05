@@ -84,6 +84,6 @@ app.controller('customerContactCreateUpdateCtrl', ['CustomerContactService', 'Cu
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

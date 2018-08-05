@@ -21,6 +21,6 @@ app.controller('transferCreateCtrl', ['SupplierService', 'BankTransactionService
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

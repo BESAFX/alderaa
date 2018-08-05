@@ -33,6 +33,6 @@ app.controller('productCreateUpdateCtrl', ['ProductService', '$scope', '$rootSco
                 $scope.parents = value;
             });
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

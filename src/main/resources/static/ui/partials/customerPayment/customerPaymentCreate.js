@@ -77,6 +77,6 @@ app.controller('customerPaymentCreateCtrl', ['CustomerPaymentService', 'Customer
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

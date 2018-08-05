@@ -49,6 +49,6 @@ app.controller('customerCreateBatchCtrl', ['CustomerService', '$scope', '$rootSc
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

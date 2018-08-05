@@ -69,6 +69,6 @@ app.controller('billSellCreateWithCashCtrl', ['ProductService', 'BillSellService
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

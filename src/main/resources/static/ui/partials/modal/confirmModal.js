@@ -26,6 +26,6 @@ app.controller('confirmModalCtrl', [
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

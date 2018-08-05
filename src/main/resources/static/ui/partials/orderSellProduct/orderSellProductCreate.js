@@ -45,6 +45,6 @@ app.controller('orderSellProductCreateCtrl', ['ProductService', 'OrderSellServic
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

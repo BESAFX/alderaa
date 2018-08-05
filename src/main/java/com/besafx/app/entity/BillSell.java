@@ -1,5 +1,6 @@
 package com.besafx.app.entity;
 
+import com.besafx.app.entity.enums.BillSellCondition;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,6 +50,9 @@ public class BillSell implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date writtenDate;
 
+    @Enumerated(EnumType.STRING)
+    private BillSellCondition condition;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String note;
@@ -97,6 +101,14 @@ public class BillSell implements Serializable {
             return (this.getTotalPrice() + this.getTotalVat()) - this.discount;
         } catch (Exception ex) {
             return 0.0;
+        }
+    }
+
+    public String getConditionInArabic() {
+        try {
+            return this.condition.getName();
+        } catch (Exception ex) {
+            return "";
         }
     }
 

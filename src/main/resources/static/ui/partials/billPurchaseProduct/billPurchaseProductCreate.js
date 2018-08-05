@@ -45,6 +45,6 @@ app.controller('billPurchaseProductCreateCtrl', ['ProductService', 'BillPurchase
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

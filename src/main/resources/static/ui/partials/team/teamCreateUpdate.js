@@ -321,6 +321,12 @@ app.controller('teamCreateUpdateCtrl', ['TeamService', '$scope', '$rootScope', '
             category: 'الإدارة'
         });
         $scope.roles.push({
+            name: 'تعديل فواتير البيع',
+            value: 'ROLE_BILL_SELL_UPDATE',
+            selected: false,
+            category: 'الإدارة'
+        });
+        $scope.roles.push({
             name: 'حذف فواتير البيع',
             value: 'ROLE_BILL_SELL_DELETE',
             selected: false,
@@ -436,6 +442,6 @@ app.controller('teamCreateUpdateCtrl', ['TeamService', '$scope', '$rootScope', '
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

@@ -83,6 +83,6 @@ app.controller('billSellDetailsCtrl', ['BillSellService', 'BillSellAttachService
         $timeout(function () {
             $scope.refreshBillSell();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

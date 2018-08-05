@@ -17,6 +17,6 @@ app.controller('bankTransactionFilterCtrl', ['$scope', '$rootScope', '$timeout',
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

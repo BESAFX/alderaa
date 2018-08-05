@@ -190,6 +190,8 @@
 
                             <th>
                                 <span>رقم الفاتورة</span>
+                                <br/>
+                                <span class="label label-success">وضع الفاتورة</span>
                             </th>
 
                             <th>
@@ -233,13 +235,29 @@
                                 </label>
                             </td>
                             <td>{{$index+1}}</td>
-                            <td>{{billPurchase.code}}</td>
+                            <td>
+                                {{billPurchase.code}}
+                                <br/>
+                                <span class="label label-success">{{billPurchase.conditionInArabic}}</span>
+                            </td>
                             <td>
                                 <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{billPurchase.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
                                 <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{billPurchase.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                <br/>
                                 <span class="label label-info no-print">{{billPurchase.writtenDate | date: 'hh:mm a'}}</span>
                             </td>
-                            <td>{{billPurchase.supplier.contact.shortName}}</td>
+                            <td>
+                                <a href="" ng-click="ModalProvider.openSupplierDetailsModel(billPurchase.supplier)">
+                                    <span>{{billPurchase.supplier.contact.shortName}}</span>
+                                    <a href=""
+                                       ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_UPDATE'])"
+                                       ng-click="ModalProvider.openSupplierUpdateModel(billPurchase.supplier)">
+                                        <span class="fa fa-edit"></span>
+                                    </a>
+                                    <br/>
+                                    <span class="label label-success">{{billPurchase.supplier.contact.mobile}}</span>
+                                </a>
+                            </td>
                             <td>{{billPurchase.person.contact.shortName}}</td>
                             <td>{{billPurchase.totalVat | currency:'':2}}</td>
                             <td>{{billPurchase.discount | currency:'':2}}</td>

@@ -991,6 +991,25 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
         });
     };
 
+    this.openBillSellUpdateModel = function (billSell) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/billSell/billSellUpdate.html',
+            controller: 'billSellUpdateCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            resolve: {
+                billSell: ['BillSellService', function (BillSellService) {
+                    return BillSellService.findOne(billSell.id).then(function (data) {
+                        return billSell = data;
+                    });
+                }]
+            }
+        });
+    };
+
     this.openBillSellDetailsModel = function (billSell) {
         return $uibModal.open({
             animation: true,

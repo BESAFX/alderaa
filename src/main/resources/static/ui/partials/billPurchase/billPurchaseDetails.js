@@ -83,6 +83,6 @@ app.controller('billPurchaseDetailsCtrl', ['BillPurchaseService', 'BillPurchaseA
         $timeout(function () {
             $scope.refreshBillPurchase();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

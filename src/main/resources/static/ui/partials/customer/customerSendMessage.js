@@ -27,6 +27,6 @@ app.controller('customerSendMessageCtrl', ['CustomerService', '$scope', '$rootSc
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

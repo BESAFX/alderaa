@@ -30,6 +30,6 @@ app.controller('parentCreateUpdateCtrl', ['ProductService', '$scope', '$rootScop
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

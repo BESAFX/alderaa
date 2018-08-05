@@ -45,6 +45,6 @@ app.controller('offerProductCreateCtrl', ['ProductService', 'OfferService', 'Off
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

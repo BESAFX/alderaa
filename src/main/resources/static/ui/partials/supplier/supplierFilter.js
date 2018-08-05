@@ -17,6 +17,6 @@ app.controller('supplierFilterCtrl', ['$scope', '$rootScope', '$timeout', '$log'
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

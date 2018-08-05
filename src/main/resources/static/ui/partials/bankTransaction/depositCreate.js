@@ -15,6 +15,6 @@ app.controller('depositCreateCtrl', ['BankTransactionService', '$scope', '$rootS
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

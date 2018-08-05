@@ -125,6 +125,6 @@ app.controller('orderSellCreateCtrl', ['ProductService', 'OrderSellService', 'Cu
 
         $timeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

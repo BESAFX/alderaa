@@ -28,6 +28,6 @@ app.controller('productDetailsCtrl', ['ProductService', 'BillPurchaseProductServ
         $timeout(function () {
             $scope.refreshProduct();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

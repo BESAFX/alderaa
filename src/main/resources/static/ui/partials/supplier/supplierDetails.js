@@ -54,6 +54,6 @@ app.controller('supplierDetailsCtrl', ['SupplierService', 'SupplierContactServic
         $timeout(function () {
             $scope.refreshSupplier();
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

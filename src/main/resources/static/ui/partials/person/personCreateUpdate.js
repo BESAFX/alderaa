@@ -33,6 +33,6 @@ app.controller('personCreateUpdateCtrl', ['TeamService', 'PersonService', '$scop
                 $scope.teams = data;
             });
             window.componentHandler.upgradeAllRegistered();
-        }, 700);
+        }, 800);
 
     }]);

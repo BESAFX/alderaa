@@ -201,6 +201,8 @@
 
                             <th>
                                 <span>رقم الفاتورة</span>
+                                <br/>
+                                <span class="label label-success">وضع الفاتورة</span>
                             </th>
 
                             <th>
@@ -244,19 +246,31 @@
                                 </label>
                             </td>
                             <td>{{$index+1}}</td>
-                            <td>{{billSell.code}}</td>
+                            <td>
+                                <span>{{billSell.code}}</span>
+                                <br/>
+                                <span class="label label-success">{{billSell.conditionInArabic}}</span>
+                            </td>
                             <td>
                                 <span ng-show="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{billSell.writtenDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
                                 <span ng-show="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{billSell.writtenDate | date: 'yyyy-MM-dd'}}</span>
+                                <br/>
                                 <span class="label label-info no-print">{{billSell.writtenDate | date: 'hh:mm a'}}</span>
                             </td>
                             <td ng-class="{'danger': !billSell.customer}">
-                                <span ng-if="!billSell.customer">فاتورة نقدية</span>
-                                <span ng-if="billSell.customer">
-                                    <span>{{billSell.customer.contact.shortName}}</span>
-                                    <br/>
-                                    <span class="label label-success">{{billSell.customer.contact.mobile}}</span>
-                                </span>
+                                    <span ng-if="!billSell.customer">فاتورة نقدية</span>
+                                    <span ng-if="billSell.customer">
+                                        <a href="" ng-click="ModalProvider.openCustomerDetailsModel(billSell.customer)">
+                                            <span>{{billSell.customer.contact.shortName}}</span>
+                                            <a href=""
+                                               ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_UPDATE'])"
+                                               ng-click="ModalProvider.openCustomerUpdateModel(billSell.customer)">
+                                                 <span class="fa fa-edit"></span>
+                                            </a>
+                                            <br/>
+                                            <span class="label label-success">{{billSell.customer.contact.mobile}}</span>
+                                        </a>
+                                    </span>
                             </td>
                             <td>{{billSell.person.contact.shortName}}</td>
                             <td>{{billSell.totalVat | currency:'':2}}</td>
