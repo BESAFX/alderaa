@@ -191,8 +191,9 @@ gulp.task('scripts', function () {
         './partials/orderPurchase/orderPurchaseCreate.js',
         './partials/orderPurchase/orderPurchaseUpdate.js',
         './partials/orderPurchase/orderPurchaseDetails.js',
-        './partials/report/orderPurchase/orderPurchasePrint.js',
         './partials/orderPurchaseProduct/orderPurchaseProductCreate.js',
+        './partials/report/orderPurchase/orderPurchasePrint.js',
+        './partials/report/orderPurchase/orderPurchasesDetails.js',
 
         './partials/billPurchase/billPurchaseFilter.js',
         './partials/billPurchase/billPurchaseCreate.js',
@@ -200,6 +201,9 @@ gulp.task('scripts', function () {
         './partials/billPurchaseProduct/billPurchaseProductCreate.js',
         './partials/supplierPayment/supplierPaymentFilter.js',
         './partials/supplierPayment/supplierPaymentCreate.js',
+        './partials/report/billPurchase/purchasesBySupplier.js',
+        './partials/report/billPurchase/purchasesByProduct.js',
+        './partials/report/billPurchase/purchasesByPerson.js',
 
         './partials/orderSell/orderSellFilter.js',
         './partials/orderSell/orderSellCreate.js',

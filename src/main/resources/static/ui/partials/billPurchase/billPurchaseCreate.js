@@ -1,9 +1,11 @@
-app.controller('billPurchaseCreateCtrl', ['ProductService', 'BillPurchaseService', 'SupplierService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance',
-    function (ProductService, BillPurchaseService, SupplierService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance) {
+app.controller('billPurchaseCreateCtrl', ['ProductService', 'BillPurchaseService', 'SupplierService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'supplier',
+    function (ProductService, BillPurchaseService, SupplierService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance, supplier) {
 
         $scope.buffer = {};
 
         $scope.billPurchase = {};
+
+        $scope.billPurchase.supplier = supplier;
 
         $scope.billPurchase.writtenDate = new Date();
 

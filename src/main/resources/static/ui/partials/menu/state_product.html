@@ -60,19 +60,9 @@
                         ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
                         ng-click="newProductBatch()">
                             <span class="mdl-list__item-primary-content">
-                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24"
+                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24"
                                      height="24">
-                               <span>أصناف جديدة...</span>
-                            </span>
-                    </li>
-
-                    <li class="mdl-menu__item mdl-list__item"
-                        ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_PURCHASE_CREATE'])"
-                        ng-click="newProduct()">
-                            <span class="mdl-list__item-primary-content">
-                                <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
-                                     height="24">
-                               <span>شراء سلعة جديدة...</span>
+                               <span>استيراد اصناف من ملف أكسل...</span>
                             </span>
                     </li>
 
@@ -191,8 +181,8 @@
                        ng-if="contains(me.team.authorities, ['ROLE_PRODUCT_CREATE'])"
                        ng-click="newProductBatch()"
                        tooltip-append-to-body="true"
-                       uib-tooltip="أصناف جديدة">
-                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                       uib-tooltip="استيراد اصناف من ملف أكسل">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24" height="24">
                     </a>
                 </li>
             </ul>

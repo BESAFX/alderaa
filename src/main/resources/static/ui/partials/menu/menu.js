@@ -228,25 +228,21 @@ app.controller("menuCtrl", [
             $rootScope.drawer = document.querySelector('.mdl-layout');
             $rootScope.drawer.MaterialLayout.toggleDrawer();
         };
-
         $rootScope.toggleOfferHelp = function () {
             $rootScope.activeDrawer = 'offerHelp';
             $rootScope.drawer = document.querySelector('.mdl-layout');
             $rootScope.drawer.MaterialLayout.toggleDrawer();
         };
-
         $rootScope.toggleOrderPurchaseHelp = function () {
             $rootScope.activeDrawer = 'orderPurchaseHelp';
             $rootScope.drawer = document.querySelector('.mdl-layout');
             $rootScope.drawer.MaterialLayout.toggleDrawer();
         };
-
         $rootScope.toggleOrderSellHelp = function () {
             $rootScope.activeDrawer = 'orderSellHelp';
             $rootScope.drawer = document.querySelector('.mdl-layout');
             $rootScope.drawer.MaterialLayout.toggleDrawer();
         };
-
         $rootScope.toggleBillSellHelp = function () {
             $rootScope.activeDrawer = 'billSellHelp';
             $rootScope.drawer = document.querySelector('.mdl-layout');
@@ -491,6 +487,22 @@ app.controller("menuCtrl", [
                 }, 300);
             });
         };
+        $scope.newCustomerContact = function (customer) {
+            ModalProvider.openCustomerContactCreateModel(customer).result.then(function (data) {
+                customer.customerContacts.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+        $scope.newCustomerOffer = function (customer) {
+            ModalProvider.openOfferCreateModel(customer).result.then(function (data) {
+                customer.offers.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
         $scope.newCustomerBatch = function () {
             ModalProvider.openCustomerCreateBatchModel().result.then(function (data) {
                 Array.prototype.push.apply($scope.customers, data);
@@ -547,6 +559,54 @@ app.controller("menuCtrl", [
                 },
                 click: function ($itemScope, $event, value) {
                     $scope.deleteCustomer($itemScope.customer);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/contact.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>جهة اتصال...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_CUSTOMER_CONTACT_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newCustomerContact($itemScope.customer);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/billSell.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>فاتورة بيع...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_BILL_SELL_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newBillSell($itemScope.customer);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/customerPayment.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>دفعة مالية...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_CUSTOMER_PAYMENT_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newCustomerPayment($itemScope.customer);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/offer.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>عرض سعر...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_OFFER_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newCustomerOffer($itemScope.customer);
                 }
             },
             {
@@ -757,6 +817,14 @@ app.controller("menuCtrl", [
                 }, 300);
             });
         };
+        $scope.newSupplierContact = function (supplier) {
+            ModalProvider.openSupplierContactCreateModel(supplier).result.then(function (data) {
+                supplier.supplierContacts.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
         $scope.newSupplierBatch = function () {
             ModalProvider.openSupplierCreateBatchModel().result.then(function (data) {
                 Array.prototype.push.apply($scope.suppliers, data);
@@ -813,6 +881,30 @@ app.controller("menuCtrl", [
                 },
                 click: function ($itemScope, $event, value) {
                     $scope.deleteSupplier($itemScope.supplier);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/contact.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>جهة اتصال...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_SUPPLIER_CONTACT_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newSupplierContact($itemScope.supplier);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/billPurchase.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>فاتورة شراء...</span>' +
+                '</div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newBillPurchase($itemScope.supplier);
                 }
             },
             {
@@ -1959,8 +2051,8 @@ app.controller("menuCtrl", [
                 }
             }
         };
-        $scope.newBillPurchase = function () {
-            ModalProvider.openBillPurchaseCreateModel().result.then(function (data) {
+        $scope.newBillPurchase = function (supplier) {
+            ModalProvider.openBillPurchaseCreateModel(supplier).result.then(function (data) {
                 $scope.billPurchases.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
@@ -1976,6 +2068,9 @@ app.controller("menuCtrl", [
                     });
                 }
             });
+        };
+        $scope.printBillPurchase = function(billPurchase){
+            window.open('/report/billPurchase?billPurchaseId=' + billPurchase.id);
         };
         $scope.newBillPurchaseProduct = function (billPurchase) {
             ModalProvider.openBillPurchaseProductCreateModel(billPurchase).result.then(function (data) {
@@ -2046,6 +2141,18 @@ app.controller("menuCtrl", [
                 },
                 click: function ($itemScope, $event, value) {
                     ModalProvider.openBillPurchaseDetailsModel($itemScope.billPurchase);
+                }
+            },
+            {
+                html: '<div class="drop-menu">' +
+                '<img src="/ui/img/' + $rootScope.iconSet + '/print.' + $rootScope.iconSetType + '" width="24" height="24">' +
+                '<span>طباعة...</span>' +
+                '</div>',
+                enabled: function () {
+                    return true;
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.printBillPurchase($itemScope.billPurchase);
                 }
             }
         ];
@@ -2604,8 +2711,8 @@ app.controller("menuCtrl", [
                 }
             }
         };
-        $scope.newBillSell = function () {
-            ModalProvider.openBillSellCreateModel().result.then(function (data) {
+        $scope.newBillSell = function (customer) {
+            ModalProvider.openBillSellCreateModel(customer).result.then(function (data) {
                 $scope.billSells.splice(0, 0, data);
                 $timeout(function () {
                     window.componentHandler.upgradeAllRegistered();
@@ -2629,6 +2736,9 @@ app.controller("menuCtrl", [
                     });
                 }
             });
+        };
+        $scope.printBillSell = function(billSell){
+            window.open('/report/billSell?billSellId=' + billSell.id);
         };
         $scope.newBillSellProduct = function (billSell) {
             ModalProvider.openBillSellProductCreateModel(billSell).result.then(function (data) {
@@ -2722,7 +2832,7 @@ app.controller("menuCtrl", [
                     return true;
                 },
                 click: function ($itemScope, $event, value) {
-                    window.open('/report/billSell?billSellId=' + $itemScope.billSell.id);
+                    $scope.printBillSell($itemScope.billSell);
                 }
             }
         ];
@@ -3177,120 +3287,6 @@ app.controller("menuCtrl", [
                 mywindow.close();
             }, 1500);
             return true;
-        };
-
-        /**************************************************************************************************************
-         *                                                                                                            *
-         * Report                                                                                                     *
-         *                                                                                                            *
-         **************************************************************************************************************/
-        $scope.toggleReport = 'mainReportFrame';
-        //السيولة النقدية
-        $scope.openReportCashBalance = function () {
-            $scope.toggleReport = 'cashBalance';
-            $rootScope.refreshGUI();
-        };
-        //تقرير المصروفات
-        $scope.openReportExpenses = function () {
-            $scope.toggleReport = 'expenses';
-            $rootScope.refreshGUI();
-        };
-        //أرصدة الموردين
-        $scope.openReportSupplierBalance = function () {
-            $scope.toggleReport = 'supplierBalance';
-            $rootScope.refreshGUI();
-        };
-        //تقرير العقود
-        $scope.openReportBillPurchases = function () {
-            $scope.toggleReport = 'billPurchases';
-            $rootScope.refreshGUI();
-        };
-        //حركة العمليات اليومية
-        $scope.openReportBankTransactions = function () {
-            $scope.toggleReport = 'bankTransactions';
-            $rootScope.refreshGUI();
-        };
-        //كشف حساب مورد
-        $scope.openReportSupplierStatement = function () {
-            $scope.toggleReport = 'supplierStatement';
-            $rootScope.refreshGUI();
-        };
-        //كشف حساب عميل
-        $scope.openReportCustomerStatement = function () {
-            $scope.toggleReport = 'customerStatement';
-            $rootScope.refreshGUI();
-        };
-        //تقرير التحصيل والسداد
-        $scope.openReportBillPurchasePremiums = function () {
-            $scope.toggleReport = 'billPurchasePremiums';
-            $rootScope.refreshGUI();
-        };
-        //تقرير أرباح التحصيل
-        $scope.openReportSupplierPaymentsProfit = function () {
-            $scope.toggleReport = 'supplierPaymentsProfit';
-            $rootScope.refreshGUI();
-        };
-
-        $scope.paramExpense = {};
-        $scope.supplierStatement = {};
-        $scope.customerStatement = {};
-        $scope.supplierPaymentProfit = {};
-        $scope.fetchExpenses = function () {
-            var search = [];
-            if ($scope.paramExpense.dateTo) {
-                search.push('dateTo=');
-                search.push($scope.paramExpense.dateTo.getTime());
-                search.push('&');
-            }
-            if ($scope.paramExpense.dateFrom) {
-                search.push('dateFrom=');
-                search.push($scope.paramExpense.dateFrom.getTime());
-                search.push('&');
-            }
-
-            search.push('transactionTypeCodes=');
-            search.push(['Expense']);
-
-            BankTransactionService.findByDateBetweenOrTransactionTypeCodeIn(search.join("")).then(function (data) {
-                $scope.expenses = data;
-                $timeout(function () {
-                    window.componentHandler.upgradeAllRegistered();
-                }, 300);
-            });
-        };
-        $scope.fetchAllSupplierCombo = function () {
-            SupplierService.findAllCombo().then(function (value) {
-                $scope.suppliersCombo = value;
-            });
-        };
-        $scope.fetchAllCustomerCombo = function () {
-            CustomerService.findAllCombo().then(function (value) {
-                $scope.customersCombo = value;
-            });
-        };
-        $scope.fetchSupplierStatementBillPurchases = function () {
-            BillPurchaseService.findBySupplier($scope.supplierStatement.supplier.id).then(function (value) {
-                $scope.supplierStatement.billPurchases = value;
-            });
-        };
-        $scope.fetchSupplierStatementBanks = function () {
-            BankService.findBySupplier($scope.supplierStatement.supplier.id).then(function (value) {
-                $scope.supplierStatement.banks = value;
-            });
-        };
-        $scope.fetchSupplierPaymentsProfit = function () {
-            SupplierPaymentService.findByDateBetween(
-                $scope.supplierPaymentProfit.dateFrom.getTime(),
-                $scope.supplierPaymentProfit.dateTo.getTime()
-            )
-                .then(function (value) {
-                    $scope.supplierPaymentProfit.supplierPayments = value;
-                });
-        };
-        $scope.findCustomerDetails = function () {
-            CustomerService.findOne($scope.customerStatement.customer.id).then(function (value) {
-                return $scope.customerStatement.customer = value;
-            });
         };
 
         /**************************************************************************************************************

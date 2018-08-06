@@ -15,12 +15,52 @@
 
     <div class="form-group row">
 
-        <button uib-tooltip="تحديث البيانات"
+        <button uib-tooltip="تحديث"
                 tooltip-append-to-body="true"
                 type="button"
                 ng-click="refreshCustomer()"
                 class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
             <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="تعديل البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_UPDATE'])"
+                ng-click="ModalProvider.openCustomerUpdateModel(customer)"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="جهة اتصال"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CONTACT_CREATE'])"
+                ng-click="newCustomerContact()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/contact.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="فاتورة بيع"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_CREATE'])"
+                ng-click="newBillSell()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/billSell.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="دفعة مالية"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_PAYMENT_CREATE'])"
+                ng-click="newCustomerPayment()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/customerPayment.{{iconSetType}}" width="24"
+                 height="24">
         </button>
 
     </div>
@@ -93,6 +133,18 @@
                             <tr>
                                 <td>البريد الإلكتروني</td>
                                 <td>{{customer.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>اجمالي المبيعات</td>
+                                <td>{{customer.totalPrice | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>المدفوع</td>
+                                <td>{{customer.paid | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>المتبقي</td>
+                                <td>{{customer.remain | currency:'':2}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -226,6 +278,10 @@
                                     <span>الإجمالي</span>
                                 </th>
 
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -244,11 +300,35 @@
                                 <td>{{billSell.totalVat | currency:'':2}}</td>
                                 <td>{{billSell.discount | currency:'':2}}</td>
                                 <td>{{billSell.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_CREATE'])"
+                                                ng-click="newBillSell()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_DELETE'])"
+                                                ng-click="deleteBillSell(billSell)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
                                 ng-show="!customer.billSells || customer.billSells.length ==0">
-                                <td colspan="5">
-                                    <span>لا توجد فواتير شراء لهذا العميل</span>
+                                <td colspan="6">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_CREATE'])">
+                                        <span>لا توجد فواتير بيع حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newBillSell()">اضغط هنا</a>
+                                    </p>
                                 </td>
                             </tr>
                             <tr ng-if="customer.id && customer.billSells.length > 0">
@@ -296,6 +376,10 @@
                                     <span>المبلغ</span>
                                 </th>
 
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -310,12 +394,34 @@
                                 </td>
                                 <td>{{customerPayment.note}}</td>
                                 <td>{{customerPayment.amount | currency:'':2}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_PAYMENT_CREATE'])"
+                                                ng-click="newCustomerPayment()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_PAYMENT_DELETE'])"
+                                                ng-click="deleteCustomerPayment(customerPayment)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
                                 ng-if="!customer.customerPayments || customer.customerPayments.length ==0">
-                                <td colspan="7">
-                                    <p>
-                                        <span>لا توجد دفعات حتى الآن </span>
+                                <td colspan="8">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_CREATE'])">
+                                        <span>لا توجد دفعات بيع حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newCustomerPayment()">اضغط هنا</a>
                                     </p>
                                 </td>
                             </tr>

@@ -47,6 +47,45 @@ app.controller('customerDetailsCtrl', ['CustomerService', 'CustomerContactServic
             });
         };
 
+        $scope.newBillSell = function () {
+            ModalProvider.openBillSellCreateModel($scope.customer).result.then(function (data) {
+                $scope.customer.billSells.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.deleteBillSell = function (billSell) {
+            ModalProvider.openConfirmModel("فواتير البيع", "delete", "هل تود حذف الفاتورة فعلاً؟").result.then(function (value) {
+                if (value) {
+                    BillSellService.remove(billSell.id).then(function () {
+                        var index = $scope.customer.billSells.indexOf(billSell);
+                        $scope.customer.billSells.splice(index, 1);
+                    });
+                }
+            });
+        };
+
+        $scope.newCustomerPayment = function () {
+            ModalProvider.openCustomerPaymentCreateModel($scope.customer).result.then(function (data) {
+                $scope.customer.customerPayments.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.deleteCustomerPayment = function (customerPayment) {
+            ModalProvider.openConfirmModel("سندات القبض", "delete", "هل تود حذف سند القبض فعلاً؟").result.then(function (value) {
+                if (value) {
+                    CustomerPaymentService.remove(customerPayment.id).then(function () {
+                        var index = $scope.customer.customerPayments.indexOf(customerPayment);
+                        $scope.customer.customerPayments.splice(index, 1);
+                    });
+                }
+            });
+        };
 
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');

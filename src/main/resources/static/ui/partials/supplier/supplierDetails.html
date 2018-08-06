@@ -15,12 +15,52 @@
 
     <div class="form-group row">
 
-        <button uib-tooltip="تحديث البيانات"
+        <button uib-tooltip="تحديث"
                 tooltip-append-to-body="true"
                 type="button"
                 ng-click="refreshSupplier()"
                 class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
             <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="تعديل البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_UPDATE'])"
+                ng-click="ModalProvider.openSupplierUpdateModel(supplier)"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="جهة اتصال"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CONTACT_CREATE'])"
+                ng-click="newSupplierContact()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/contact.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="فاتورة شراء"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE'])"
+                ng-click="newBillPurchase()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/billPurchase.{{iconSetType}}" width="24"
+                 height="24">
+        </button>
+
+        <button uib-tooltip="دفعة مالية"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_PAYMENT_CREATE'])"
+                ng-click="newSupplierPayment()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/supplierPayment.{{iconSetType}}" width="24"
+                 height="24">
         </button>
 
     </div>
@@ -97,6 +137,18 @@
                             <tr>
                                 <td>العنوان</td>
                                 <td>{{supplier.contact.address}}</td>
+                            </tr>
+                            <tr>
+                                <td>اجمالي المشتريات</td>
+                                <td>{{supplier.totalPrice | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>المدفوع</td>
+                                <td>{{supplier.paid | currency:'':2}}</td>
+                            </tr>
+                            <tr>
+                                <td>المتبقي</td>
+                                <td>{{supplier.remain | currency:'':2}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -230,6 +282,10 @@
                                     <span>الإجمالي</span>
                                 </th>
 
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -248,11 +304,35 @@
                                 <td>{{billPurchase.totalVat | currency:'':2}}</td>
                                 <td>{{billPurchase.discount | currency:'':2}}</td>
                                 <td>{{billPurchase.totalPriceAfterDiscountAndVat | currency:'':2}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE'])"
+                                                ng-click="newBillPurchase()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_DELETE'])"
+                                                ng-click="deleteBillPurchase(billPurchase)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
                                 ng-show="!supplier.billPurchases || supplier.billPurchases.length ==0">
-                                <td colspan="5">
-                                    <span>لا توجد فواتير شراء لهذا العميل</span>
+                                <td colspan="6">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_BILL_PURCHASE_CREATE'])">
+                                        <span>لا توجد فواتير شراء حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newBillPurchase()">اضغط هنا</a>
+                                    </p>
                                 </td>
                             </tr>
                             <tr ng-if="supplier.id && supplier.billPurchases.length > 0">
@@ -300,6 +380,10 @@
                                     <span>المبلغ</span>
                                 </th>
 
+                                <th>
+                                    <span>العمليات</span>
+                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -314,12 +398,34 @@
                                 </td>
                                 <td>{{supplierPayment.note}}</td>
                                 <td>{{supplierPayment.amount | currency:'':2}}</td>
+                                <td class="fit">
+                                    <div class="form-group row">
+                                        <button uib-tooltip="جديد"
+                                                tooltip-append-to-body="true"
+                                                type="button"
+                                                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_PAYMENT_CREATE'])"
+                                                ng-click="newSupplierPayment()"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                        <button uib-tooltip="حذف"
+                                                tooltip-append-to-body="true"
+                                                ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_PAYMENT_DELETE'])"
+                                                ng-click="deleteSupplierPayment(supplierPayment)"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/delete.{{iconSetType}}" width="24"
+                                                 height="24">
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
                                 ng-if="!supplier.supplierPayments || supplier.supplierPayments.length ==0">
-                                <td colspan="7">
-                                    <p>
-                                        <span>لا توجد دفعات حتى الآن </span>
+                                <td colspan="8">
+                                    <p ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_PAYMENT_CREATE'])">
+                                        <span>لا توجد دفعات شراء حتى الآن، يمكنك الاضافة من خلال هذا الرابط </span>
+                                        <a href="" ng-click="newSupplierPayment()">اضغط هنا</a>
                                     </p>
                                 </td>
                             </tr>

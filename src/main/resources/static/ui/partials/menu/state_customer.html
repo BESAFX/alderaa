@@ -40,8 +40,8 @@
                     <li class="mdl-menu__item mdl-list__item" ng-click="newCustomerBatch()"
                         ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CREATE'])">
                     <span class="mdl-list__item-primary-content">
-                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
-                        <span>عملاء جدد...</span>
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24" height="24">
+                        <span>استيراد عملاء من ملف أكسل...</span>
                     </span>
                     </li>
                 </ul>
@@ -112,8 +112,8 @@
                        ng-if="contains(me.team.authorities, ['ROLE_CUSTOMER_CREATE'])"
                        ng-click="newCustomerBatch()"
                        tooltip-append-to-body="true"
-                       uib-tooltip="عملاء جدد">
-                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                       uib-tooltip="استيراد عملاء من ملف أكسل">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24" height="24">
                     </a>
                 </li>
             </ul>

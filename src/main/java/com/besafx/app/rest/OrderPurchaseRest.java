@@ -1,21 +1,23 @@
 package com.besafx.app.rest;
 
 import com.besafx.app.async.AsyncOrderPurchaseGenerator;
-import com.besafx.app.async.AsyncOrderPurchaseGenerator;
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.component.QuickEmail;
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.config.CustomException;
-import com.besafx.app.entity.*;
+import com.besafx.app.entity.OrderPurchase;
+import com.besafx.app.entity.OrderPurchaseProduct;
+import com.besafx.app.entity.OrderPurchaseVerificationToken;
+import com.besafx.app.entity.Person;
 import com.besafx.app.entity.enums.OrderPurchaseCondition;
 import com.besafx.app.enums.ExportType;
 import com.besafx.app.init.Initializer;
 import com.besafx.app.search.OrderPurchaseSearch;
-import com.besafx.app.service.OrderPurchaseVerificationTokenService;
-import com.besafx.app.service.SupplierService;
 import com.besafx.app.service.OrderPurchaseProductService;
 import com.besafx.app.service.OrderPurchaseService;
+import com.besafx.app.service.OrderPurchaseVerificationTokenService;
+import com.besafx.app.service.SupplierService;
 import com.besafx.app.util.CompanyOptions;
 import com.besafx.app.util.DateConverter;
 import com.besafx.app.util.JSONConverter;
@@ -266,7 +268,7 @@ public class OrderPurchaseRest {
             CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
             LOG.info("SKIP VERIFICATION IF TOKEN LENGTH IS ZERO");
             if(options.getTokenLengthInHours() == 0){
-                reportExporter.export("أمر شراء", ExportType.PDF, response, asyncOrderPurchaseGenerator.generate(orderPurchaseId).get());
+                reportExporter.export("أمر شراء", ExportType.PDF, response, asyncOrderPurchaseGenerator.generateOrderPurchase(orderPurchaseId).get());
             }else{
                 LOG.info("CHECK IF TOKEN IS NOT EXPIRED");
                 OrderPurchaseVerificationToken orderPurchaseVerificationToken = orderPurchaseVerificationTokenService.findByOrderPurchaseAndToken(orderPurchase, token);
@@ -276,7 +278,7 @@ public class OrderPurchaseRest {
                             .plusHours(options.getTokenLengthInHours())
                             .isAfter(now)){
                         LOG.info("TOKEN STILL ACCEPTED, SHOW IT TO VISITOR");
-                        reportExporter.export("أمر شراء", ExportType.PDF, response, asyncOrderPurchaseGenerator.generate(orderPurchaseId).get());
+                        reportExporter.export("أمر شراء", ExportType.PDF, response, asyncOrderPurchaseGenerator.generateOrderPurchase(orderPurchaseId).get());
                         orderPurchase.setCondition(OrderPurchaseCondition.Opened);
                         orderPurchaseService.save(orderPurchase);
                     }else{

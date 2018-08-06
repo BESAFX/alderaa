@@ -47,6 +47,46 @@ app.controller('supplierDetailsCtrl', ['SupplierService', 'SupplierContactServic
             });
         };
 
+        $scope.newBillPurchase = function () {
+            ModalProvider.openBillPurchaseCreateModel($scope.supplier).result.then(function (data) {
+                $scope.supplier.billPurchases.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.deleteBillPurchase = function (billPurchase) {
+            ModalProvider.openConfirmModel("فواتير الشراء", "delete", "هل تود حذف الفاتورة فعلاً؟").result.then(function (value) {
+                if (value) {
+                    BillPurchaseService.remove(billPurchase.id).then(function () {
+                        var index = $scope.supplier.billPurchases.indexOf(billPurchase);
+                        $scope.supplier.billPurchases.splice(index, 1);
+                    });
+                }
+            });
+        };
+
+        $scope.newSupplierPayment = function () {
+            ModalProvider.openSupplierPaymentCreateModel($scope.supplier).result.then(function (data) {
+                $scope.supplier.supplierPayments.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
+            });
+        };
+
+        $scope.deleteSupplierPayment = function (supplierPayment) {
+            ModalProvider.openConfirmModel("سندات الصرف", "delete", "هل تود حذف سند الصرف فعلاً؟").result.then(function (value) {
+                if (value) {
+                    SupplierPaymentService.remove(supplierPayment.id).then(function () {
+                        var index = $scope.supplier.supplierPayments.indexOf(supplierPayment);
+                        $scope.supplier.supplierPayments.splice(index, 1);
+                    });
+                }
+            });
+        };
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

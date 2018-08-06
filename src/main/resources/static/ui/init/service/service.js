@@ -542,7 +542,7 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
      * Offer Model                                                *
      *                                                            *
      *************************************************************/
-    this.openOfferCreateModel = function () {
+    this.openOfferCreateModel = function (customer) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -551,7 +551,12 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
             controller: 'offerCreateCtrl',
             backdrop: 'static',
             keyboard: false,
-            windowClass: 'xlg'
+            windowClass: 'xlg',
+            resolve: {
+                customer: function () {
+                    return customer;
+                }
+            }
         });
     };
 
@@ -782,12 +787,24 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
         });
     };
 
+    this.openOrderPurchasesDetailsReportModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/report/orderPurchase/orderPurchasesDetails.html',
+            controller: 'orderPurchasesDetailsCtrl',
+            backdrop: 'static',
+            keyboard: false
+        });
+    };
+
     /**************************************************************
      *                                                            *
      * BillPurchase Model                                         *
      *                                                            *
      *************************************************************/
-    this.openBillPurchaseCreateModel = function () {
+    this.openBillPurchaseCreateModel = function (supplier) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -796,7 +813,12 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
             controller: 'billPurchaseCreateCtrl',
             backdrop: 'static',
             keyboard: false,
-            windowClass: 'xlg'
+            windowClass: 'xlg',
+            resolve: {
+                supplier: function () {
+                    return supplier;
+                }
+            }
         });
     };
 
@@ -852,6 +874,42 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
                     return supplier;
                 }
             }
+        });
+    };
+
+    this.openPurchasesBySupplierReportModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/report/billPurchase/purchasesBySupplier.html',
+            controller: 'purchasesBySupplierCtrl',
+            backdrop: 'static',
+            keyboard: false
+        });
+    };
+
+    this.openPurchasesByProductReportModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/report/billPurchase/purchasesByProduct.html',
+            controller: 'purchasesByProductCtrl',
+            backdrop: 'static',
+            keyboard: false
+        });
+    };
+
+    this.openPurchasesByPersonReportModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/report/billPurchase/purchasesByPerson.html',
+            controller: 'purchasesByPersonCtrl',
+            backdrop: 'static',
+            keyboard: false
         });
     };
 
@@ -965,7 +1023,7 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
      * BillSell Model                                             *
      *                                                            *
      *************************************************************/
-    this.openBillSellCreateModel = function () {
+    this.openBillSellCreateModel = function (customer) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -974,7 +1032,12 @@ app.service('ModalProvider', ['$uibModal', '$log', function ($uibModal, $log) {
             controller: 'billSellCreateCtrl',
             backdrop: 'static',
             keyboard: false,
-            windowClass: 'xlg'
+            windowClass: 'xlg',
+            resolve: {
+                customer: function () {
+                    return customer;
+                }
+            }
         });
     };
 

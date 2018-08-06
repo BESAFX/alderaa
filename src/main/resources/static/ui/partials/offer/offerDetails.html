@@ -15,12 +15,55 @@
 
     <div class="form-group row">
 
-        <button uib-tooltip="تحديث البيانات"
+        <button uib-tooltip="تحديث"
                 tooltip-append-to-body="true"
                 type="button"
                 ng-click="refreshOffer()"
                 class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
             <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/refresh.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="طباعة"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="printOffer()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/print.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="ارسال"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="sendOffer()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/send.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="تعديل البيانات"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_OFFER_UPDATE'])"
+                ng-click="ModalProvider.openOfferUpdateModel(offer)"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/edit.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="اضافة سلعة"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_OFFER_PRODUCT_CREATE'])"
+                ng-click="newOfferProduct()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/product.{{iconSetType}}" width="24" height="24">
+        </button>
+
+        <button uib-tooltip="تحويل لفاتورة بيع"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-if="contains(me.team.authorities, ['ROLE_BILL_SELL_CREATE'])"
+                ng-click="convertOfferToBill()"
+                class="mdl-button mdl-js-button mdl-js-ripple-effect">
+            <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/billSell.{{iconSetType}}" width="24" height="24">
         </button>
 
     </div>

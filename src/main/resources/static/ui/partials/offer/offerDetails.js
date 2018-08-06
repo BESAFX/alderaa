@@ -1,5 +1,5 @@
-app.controller('offerDetailsCtrl', ['OfferService', 'OfferAttachService', 'OfferProductService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'offer',
-    function (OfferService, OfferAttachService, OfferProductService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance, offer) {
+app.controller('offerDetailsCtrl', ['OfferService', 'OfferAttachService', 'OfferProductService', 'BillSellService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'offer',
+    function (OfferService, OfferAttachService, OfferProductService, BillSellService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance, offer) {
 
         $scope.offer = {};
 
@@ -23,7 +23,10 @@ app.controller('offerDetailsCtrl', ['OfferService', 'OfferAttachService', 'Offer
 
         $scope.newOfferProduct = function () {
             ModalProvider.openOfferProductCreateModel($scope.offer).result.then(function (data) {
-                $scope.refreshOfferProducts();
+                $scope.offer.offerProducts.splice(0, 0, data);
+                $timeout(function () {
+                    window.componentHandler.upgradeAllRegistered();
+                }, 300);
             });
         };
 
@@ -34,6 +37,28 @@ app.controller('offerDetailsCtrl', ['OfferService', 'OfferAttachService', 'Offer
                         var index = $scope.offer.offerProducts.indexOf(offerProduct);
                         $scope.offer.offerProducts.splice(index, 1);
                     });
+                }
+            });
+        };
+
+        $scope.convertOfferToBill = function () {
+            ModalProvider.openConfirmModel("العروض", "send", "هل تود الموافقة على العرض وتحويله إلى فاتورة بيع للعميل؟").result.then(function (value) {
+                if (value) {
+                    BillSellService.createFromOffer($scope.offer).then(function (value) {
+                        return $scope.offer.billSells.splice(0, 0, value);
+                    });
+                }
+            });
+        };
+
+        $scope.printOffer = function () {
+            window.open('/report/offer?offerId=' + $scope.offer.id);
+        };
+
+        $scope.sendOffer = function () {
+            ModalProvider.openConfirmModel("العروض", "send", "هل تود إرسال العرض إلى العميل؟").result.then(function (value) {
+                if (value) {
+                    OfferService.send($scope.offer.id);
                 }
             });
         };

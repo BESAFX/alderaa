@@ -1,9 +1,11 @@
-app.controller('offerCreateCtrl', ['ProductService', 'OfferService', 'CustomerService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance',
-    function (ProductService, OfferService, CustomerService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance) {
+app.controller('offerCreateCtrl', ['ProductService', 'OfferService', 'CustomerService', 'ModalProvider', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'customer',
+    function (ProductService, OfferService, CustomerService, ModalProvider, $scope, $rootScope, $timeout, $log, $uibModalInstance, customer) {
 
         $scope.buffer = {};
 
         $scope.offer = {};
+
+        $scope.offer.customer = customer;
 
         $scope.offer.writtenDate = new Date();
 

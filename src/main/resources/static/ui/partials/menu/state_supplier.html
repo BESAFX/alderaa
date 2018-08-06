@@ -40,8 +40,8 @@
                     <li class="mdl-menu__item mdl-list__item" ng-click="newSupplierBatch()"
                         ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CREATE'])">
                     <span class="mdl-list__item-primary-content">
-                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
-                        <span>موردين جدد...</span>
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24" height="24">
+                        <span>استيراد موردين من ملف أكسل...</span>
                     </span>
                     </li>
                 </ul>
@@ -112,8 +112,8 @@
                        ng-if="contains(me.team.authorities, ['ROLE_SUPPLIER_CREATE'])"
                        ng-click="newSupplierBatch()"
                        tooltip-append-to-body="true"
-                       uib-tooltip="موردين جدد">
-                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/add.{{iconSetType}}" width="24" height="24">
+                       uib-tooltip="استيراد موردين من ملف أكسل">
+                        <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/excel.{{iconSetType}}" width="24" height="24">
                     </a>
                 </li>
             </ul>
