@@ -38,35 +38,13 @@
 		<field name="registerDate" class="java.util.Date"/>
 	</subDataset>
 	<parameter name="SUPPLIERS" class="java.util.List" isForPrompting="false"/>
-	<parameter name="REPORT_TITLE" class="java.lang.String"/>
-	<parameter name="REPORT_SUB_TITLE" class="java.lang.String"/>
-	<parameter name="REPORT_FOOTER" class="java.lang.String"/>
 	<parameter name="LOGO" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="BACKGROUND" class="java.lang.String" isForPrompting="false"/>
-	<background>
-		<band height="842" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<frame>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="595" height="842" uuid="2362171d-4b4e-4fce-8dd3-a845fe0aecd4"/>
-				<box padding="0">
-					<pen lineColor="#000000"/>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="595" height="842" uuid="21610afe-ecca-460a-9f93-927dcb83b68f"/>
-					<imageExpression><![CDATA[$P{BACKGROUND}]]></imageExpression>
-				</image>
-			</frame>
-		</band>
-	</background>
+	<parameter name="VISION" class="java.lang.String"/>
 	<title>
 		<band height="80">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
-				<reportElement x="32" y="0" width="530" height="80" uuid="2ed155cf-b973-4c93-9c24-f1e8c37ce7bc">
+				<reportElement x="32" y="0" width="530" height="80" uuid="e550a3fb-9e24-4cf0-a241-1501a3117601">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -78,19 +56,26 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isUsingCache="true" isLazy="true" onErrorType="Icon">
-					<reportElement x="10" y="15" width="50" height="50" uuid="82cbe2af-d28d-4b35-81ff-0d8ac77bb039">
+					<reportElement x="0" y="15" width="150" height="50" uuid="74d92617-96de-4bfa-a5b9-03b8a194dc43">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 				</image>
+				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isUsingCache="true" isLazy="true" onErrorType="Icon">
+					<reportElement x="230" y="15" width="70" height="50" uuid="2e75bda2-85b5-4d3b-88ca-065a13697431">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<imageExpression><![CDATA[$P{VISION}]]></imageExpression>
+				</image>
 				<frame>
-					<reportElement x="270" y="20" width="260" height="45" uuid="22c836a8-1bb9-419f-a54b-5b2404b10995">
+					<reportElement x="311" y="15" width="219" height="50" uuid="4237b266-9246-40a0-928d-34668d03458b">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
-					<textField isBlankWhenNull="true">
-						<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="260" height="23" uuid="ac9bb4ee-0cc7-481b-ac0f-dd5f0cc561c6"/>
+					<staticText>
+						<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="219" height="25" uuid="4bd27c2c-eab7-4eed-b788-9e51efa0e03a"/>
 						<box padding="0">
 							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -101,10 +86,10 @@
 							<font fontName="PT Bold Heading" size="12" isBold="true" isUnderline="false"/>
 							<paragraph lineSpacing="Single" lineSpacingSize="1.0" spacingBefore="0" spacingAfter="0"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
-					</textField>
-					<textField isBlankWhenNull="true">
-						<reportElement stretchType="RelativeToTallestObject" x="0" y="23" width="260" height="22" uuid="506dfee0-0af4-448c-bba4-e8ba6f23ce8a"/>
+						<text><![CDATA[الدرع لتقنية المعلومات]]></text>
+					</staticText>
+					<staticText>
+						<reportElement stretchType="RelativeToTallestObject" x="0" y="25" width="219" height="25" uuid="9c4d380d-54ac-441c-aa74-91d8aac6f64c"/>
 						<box padding="0">
 							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,11 +97,11 @@
 							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-							<font fontName="Arial" size="10" isBold="false" isUnderline="false"/>
+							<font fontName="Ubuntu" size="10" isBold="false" isUnderline="false"/>
 							<paragraph lineSpacing="Single" lineSpacingSize="1.0" spacingBefore="0" spacingAfter="0"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$P{REPORT_SUB_TITLE}]]></textFieldExpression>
-					</textField>
+						<text><![CDATA[Alderaa for Trading and Information Systems]]></text>
+					</staticText>
 				</frame>
 			</frame>
 		</band>
@@ -143,12 +128,12 @@
 		</band>
 	</pageHeader>
 	<pageFooter>
-		<band height="47">
+		<band height="32">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
-				<reportElement x="32" y="0" width="530" height="47" uuid="26cb82a7-f193-46b2-95bf-fb5d61b57b9a">
+				<reportElement x="32" y="0" width="530" height="32" uuid="4e5c0fa1-f4ac-49b8-9806-e51fa8778638">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="2.25" lineColor="#000000"/>
@@ -156,8 +141,8 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textField>
-					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="30" forecolor="#000000" uuid="033f3e4a-d97c-47b4-93b6-4f89fa96ca1c">
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="16" forecolor="#000000" uuid="ba2fdb47-477e-416e-a95b-727576de2ea6">
 						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 					</reportElement>
 					<box padding="0">
@@ -168,17 +153,17 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
-						<font fontName="Arial" size="10" isBold="true" isUnderline="false"/>
+						<font fontName="HacenBeirut" size="8" isBold="true" isUnderline="false"/>
 						<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{REPORT_FOOTER}]]></textFieldExpression>
-				</textField>
+					<text><![CDATA[المملكة العربية السعودية – عرعر – مقابل فندق التيسير جوال :0146610550   بريد إلكتروني: info@aldera.com.sa الموقع:www.aldera.com.sa]]></text>
+				</staticText>
 				<frame>
-					<reportElement x="0" y="30" width="530" height="17" uuid="93bfba61-43ab-40de-951f-b0d60ef5e67d">
+					<reportElement x="0" y="16" width="530" height="16" uuid="8a965320-a980-4683-8ad4-ba236127658f">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 					</reportElement>
 					<textField>
-						<reportElement mode="Transparent" x="0" y="0" width="185" height="14" backcolor="#754C29" uuid="b05f5eca-2ef9-4a7e-861e-31ae27d94c83">
+						<reportElement mode="Transparent" x="0" y="0" width="185" height="16" backcolor="#754C29" uuid="d0a1e489-c292-40f6-8c99-96674261d5de">
 							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						</reportElement>
 						<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -187,9 +172,9 @@
 						<textFieldExpression><![CDATA["Printing Date: " + DateConverter.getHijriStringFromDateLTRWithTime(new java.util.Date())]]></textFieldExpression>
 					</textField>
 					<frame>
-						<reportElement x="219" y="0" width="92" height="14" uuid="1b5ce123-a080-4e3f-942f-7bee734a7d2f"/>
+						<reportElement x="219" y="0" width="92" height="16" uuid="e3018772-556b-4891-b4ec-2df91d6473da"/>
 						<textField>
-							<reportElement x="0" y="0" width="46" height="14" uuid="8cd7bef5-c715-44da-a4bf-383c0fb8a367">
+							<reportElement x="0" y="0" width="46" height="16" uuid="8834bc25-3377-4a3c-baf1-d7ec872c2c17">
 								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 							</reportElement>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -198,7 +183,7 @@
 							<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
 						</textField>
 						<textField evaluationTime="Report">
-							<reportElement x="46" y="0" width="46" height="14" uuid="bc4e2b80-8587-4964-97f8-89c79df1ecf1">
+							<reportElement x="46" y="0" width="46" height="16" uuid="160ec6dd-1633-43e4-905f-77b7c52de2a6">
 								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 							</reportElement>
@@ -209,7 +194,7 @@
 						</textField>
 					</frame>
 					<staticText>
-						<reportElement x="395" y="0" width="135" height="14" uuid="6ae0537d-ab34-4d33-87ef-bc041483c641">
+						<reportElement x="395" y="0" width="135" height="16" uuid="c5e66338-6a3c-45be-921d-b726dbd42167">
 							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						</reportElement>
 						<textElement textAlignment="Center" verticalAlignment="Middle">

@@ -3,12 +3,9 @@ package com.besafx.app.report;
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.entity.BillPurchase;
 import com.besafx.app.enums.ExportType;
-import com.besafx.app.init.Initializer;
 import com.besafx.app.service.BillPurchaseProductService;
 import com.besafx.app.service.BillPurchaseService;
-import com.besafx.app.util.CompanyOptions;
 import com.besafx.app.util.DateConverter;
-import com.besafx.app.util.JSONConverter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -48,12 +45,8 @@ public class ReportBillPurchaseController {
         Map<String, Object> map = new HashMap<>();
         map.put("BILL_PURCHASE", billPurchaseService.findOne(billPurchaseId));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/billPurchase/BillPurchase.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -83,10 +76,8 @@ public class ReportBillPurchaseController {
             map.put("BILL_PURCHASES", billPurchaseService.findAll(new Sort(Sort.Direction.ASC, "supplier.contact.name")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -94,8 +85,6 @@ public class ReportBillPurchaseController {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---"  : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/billPurchase/PurchasesBySupplier.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -125,10 +114,8 @@ public class ReportBillPurchaseController {
             map.put("BILL_PURCHASE_PRODUCT", billPurchaseProductService.findAll(new Sort(Sort.Direction.ASC, "product.id")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -136,8 +123,6 @@ public class ReportBillPurchaseController {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---"  : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/billPurchase/PurchasesByProduct.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -167,10 +152,8 @@ public class ReportBillPurchaseController {
             map.put("BILL_PURCHASES", billPurchaseService.findAll(new Sort(Sort.Direction.ASC, "person.contact.name")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -178,8 +161,6 @@ public class ReportBillPurchaseController {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---"  : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/billPurchase/PurchasesByPerson.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());

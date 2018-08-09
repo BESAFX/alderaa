@@ -3,11 +3,8 @@ package com.besafx.app.report;
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.entity.CustomerPayment;
 import com.besafx.app.enums.ExportType;
-import com.besafx.app.init.Initializer;
 import com.besafx.app.service.CustomerPaymentService;
-import com.besafx.app.util.CompanyOptions;
 import com.besafx.app.util.DateConverter;
-import com.besafx.app.util.JSONConverter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -23,8 +20,6 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 @RestController
@@ -62,10 +57,8 @@ public class ReportCustomerPaymentController {
             map.put("CUSTOMER_PAYMENTS", customerPaymentService.findAll(new Sort(Sort.Direction.ASC, "customer.contact.name")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -73,8 +66,6 @@ public class ReportCustomerPaymentController {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---" : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/customerPayment/IncomesByCustomer.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -106,10 +97,8 @@ public class ReportCustomerPaymentController {
             map.put("CUSTOMER_PAYMENTS", customerPaymentService.findAll(new Sort(Sort.Direction.ASC, "person.contact.name")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -117,8 +106,6 @@ public class ReportCustomerPaymentController {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---" : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/customerPayment/IncomesByPerson.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());

@@ -2,10 +2,7 @@ package com.besafx.app.report;
 
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.enums.ExportType;
-import com.besafx.app.init.Initializer;
 import com.besafx.app.service.ProductService;
-import com.besafx.app.util.CompanyOptions;
-import com.besafx.app.util.JSONConverter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -18,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,12 +37,8 @@ public class ReportProductController {
         Map<String, Object> map = new HashMap<>();
         map.put("PRODUCTS", productService.findByParentIsNotNull(new Sort(Sort.Direction.ASC, "parent.name", "name")));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/product/ProductStocks.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -63,12 +54,8 @@ public class ReportProductController {
         Map<String, Object> map = new HashMap<>();
         map.put("PRODUCTS", productService.findByParentIsNotNull(new Sort(Sort.Direction.ASC, "parent.name", "name")));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/product/ProductPrices.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());

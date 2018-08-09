@@ -1,12 +1,8 @@
 package com.besafx.app.report;
 
 import com.besafx.app.component.ReportExporter;
-import com.besafx.app.entity.Customer;
 import com.besafx.app.enums.ExportType;
-import com.besafx.app.init.Initializer;
 import com.besafx.app.service.CustomerService;
-import com.besafx.app.util.CompanyOptions;
-import com.besafx.app.util.JSONConverter;
 import com.google.common.collect.Lists;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -21,10 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,12 +39,8 @@ public class ReportCustomerController {
         Map<String, Object> map = new HashMap<>();
         map.put("CUSTOMERS", customerService.findAll(new Sort(Sort.Direction.ASC, "contact.name")));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/customer/CustomersInfoData.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -67,12 +56,8 @@ public class ReportCustomerController {
         Map<String, Object> map = new HashMap<>();
         map.put("CUSTOMERS", customerService.findAll(new Sort(Sort.Direction.ASC, "contact.name")));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/customer/CustomersBalanceData.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
@@ -87,12 +72,8 @@ public class ReportCustomerController {
             @RequestParam(value = "exportType") ExportType exportType,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         ClassPathResource jrxmlFile = new ClassPathResource("/report/customer/CustomerStatement.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
