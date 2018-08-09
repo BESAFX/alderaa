@@ -1,11 +1,8 @@
 package com.besafx.app.async;
 
 import com.besafx.app.entity.OrderPurchase;
-import com.besafx.app.init.Initializer;
 import com.besafx.app.service.OrderPurchaseService;
-import com.besafx.app.util.CompanyOptions;
 import com.besafx.app.util.DateConverter;
-import com.besafx.app.util.JSONConverter;
 import com.google.common.collect.Lists;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -39,12 +36,8 @@ public class AsyncOrderPurchaseGenerator {
         Map<String, Object> map = new HashMap<>();
         map.put("ORDER_PURCHASE", orderPurchaseService.findOne(orderPurchaseId));
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         try {
             ClassPathResource jrxmlFile = new ClassPathResource("/report/orderPurchase/OrderPurchase.jrxml");
@@ -74,11 +67,9 @@ public class AsyncOrderPurchaseGenerator {
             orderPurchases = Lists.newArrayList(orderPurchaseService.findAll(new Sort(Sort.Direction.ASC, "writtenDate")));
         }
 
-        CompanyOptions options = JSONConverter.toObject(Initializer.company.getOptions(), CompanyOptions.class);
         Map<String, Object> map = new HashMap<>();
-        map.put("REPORT_TITLE", options.getReportTitle());
-        map.put("REPORT_SUB_TITLE", options.getReportSubTitle());
-        map.put("REPORT_FOOTER", options.getReportFooter());
+        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
+        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -86,8 +77,6 @@ public class AsyncOrderPurchaseGenerator {
         builder.append(" إلى الفترة ");
         builder.append(dateTo == null ? "---" : DateConverter.getDateInFormat(dateTo));
         map.put("REPORT_HEADER_SUB_TITLE", builder.toString());
-        map.put("LOGO", options.getLogo());
-        map.put("BACKGROUND", options.getBackground());
 
         try {
             ClassPathResource jrxmlFile = new ClassPathResource("/report/orderPurchase/OrderPurchasesDetails.jrxml");
