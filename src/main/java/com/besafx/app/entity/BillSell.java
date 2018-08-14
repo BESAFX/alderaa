@@ -47,6 +47,10 @@ public class BillSell implements Serializable {
     @JoinColumn(name = "customer")
     private Customer customer;
 
+    private String customerName;
+
+    private String customerMobile;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date writtenDate;
 

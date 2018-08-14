@@ -63,7 +63,11 @@
                             <tr>
                                 <td>العميل</td>
                                 <td>
-                                    <span ng-if="!billSell.customer">فاتورة نقدية</span>
+                                    <span ng-if="!billSell.customer">
+                                        <span>{{billSell.customerName}}</span>
+                                        <br/>
+                                        <span class="label label-success">{{billSell.customerMobile}}</span>
+                                    </span>
                                     <span ng-if="billSell.customer">
                                         <a href="" ng-click="ModalProvider.openCustomerDetailsModel(billSell.customer)">
                                             <span>{{billSell.customer.contact.shortName}}</span>

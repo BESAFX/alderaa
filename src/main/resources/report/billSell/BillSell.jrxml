@@ -39,11 +39,18 @@
 		<field name="unitSellPrice" class="java.lang.Double"/>
 		<field name="totalVat" class="java.lang.Double"/>
 		<field name="totalPrice" class="java.lang.Double"/>
+		<variable name="SELL_PRICE_SUM" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{unitSellPrice} * $F{quantity}]]></variableExpression>
+		</variable>
+		<variable name="VAT_SUM" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{totalVat}]]></variableExpression>
+		</variable>
 		<variable name="PRICE_SUM" class="java.lang.Double" calculation="Sum">
 			<variableExpression><![CDATA[$F{totalPrice}]]></variableExpression>
 		</variable>
 	</subDataset>
 	<parameter name="BILL_SELL" class="com.besafx.app.entity.BillSell" isForPrompting="false"/>
+	<parameter name="TAX_CODE" class="java.lang.String"/>
 	<parameter name="LOGO" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="VISION" class="java.lang.String"/>
 	<title>
@@ -134,10 +141,10 @@
 		</band>
 	</pageHeader>
 	<pageFooter>
-		<band height="32">
+		<band height="51">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
-				<reportElement x="32" y="0" width="530" height="32" uuid="87a259c9-0ccc-49f0-9ab4-24dd82aab985">
+				<reportElement x="32" y="0" width="530" height="51" uuid="87a259c9-0ccc-49f0-9ab4-24dd82aab985">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 				</reportElement>
@@ -148,7 +155,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="16" forecolor="#000000" uuid="8c4d600b-60a2-47c7-8033-18bc4b87f5db">
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="17" forecolor="#000000" uuid="8c4d600b-60a2-47c7-8033-18bc4b87f5db">
 						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 					</reportElement>
 					<box padding="0">
@@ -165,7 +172,7 @@
 					<text><![CDATA[المملكة العربية السعودية – عرعر – مقابل فندق التيسير جوال :0146610550   بريد إلكتروني: info@aldera.com.sa الموقع:www.aldera.com.sa]]></text>
 				</staticText>
 				<frame>
-					<reportElement x="0" y="16" width="530" height="16" uuid="90153864-79d6-4933-9efd-bb985419bd0f">
+					<reportElement x="0" y="17" width="530" height="17" uuid="90153864-79d6-4933-9efd-bb985419bd0f">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 					</reportElement>
 					<textField>
@@ -209,19 +216,33 @@
 						<text><![CDATA[Property Right Reserved @ 2018 ararhni.com]]></text>
 					</staticText>
 				</frame>
+				<frame>
+					<reportElement x="0" y="34" width="530" height="17" uuid="da3c14fe-d7b2-4135-8750-408c5abc023c">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					</reportElement>
+					<textField>
+						<reportElement mode="Transparent" x="0" y="0" width="530" height="16" backcolor="#754C29" uuid="c552eea8-24a1-4b8f-9c44-73d7615104d6">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement textAlignment="Left" verticalAlignment="Middle">
+							<font fontName="Arial" size="8" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Printed By: " + $P{BILL_SELL}.getPerson().getContact().getShortName()]]></textFieldExpression>
+					</textField>
+				</frame>
 			</frame>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="223">
+		<band height="200">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
-				<reportElement x="32" y="0" width="530" height="223" uuid="1ae7eac9-232d-44a1-b6d0-c085b31893c6">
+				<reportElement x="32" y="0" width="531" height="200" uuid="1ae7eac9-232d-44a1-b6d0-c085b31893c6">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="0"/>
 				<frame>
-					<reportElement x="0" y="0" width="530" height="125" uuid="70fe3042-0bbd-41d9-8113-57a703366794"/>
+					<reportElement x="0" y="0" width="531" height="104" uuid="70fe3042-0bbd-41d9-8113-57a703366794"/>
 					<box>
 						<pen lineWidth="1.0" lineColor="#000000"/>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -346,8 +367,32 @@
 							<textFieldExpression><![CDATA["الخصم: "  + ($P{BILL_SELL}.getDiscount() != null ? $P{BILL_SELL}.getDiscount() : "0.0")]]></textFieldExpression>
 						</textField>
 					</frame>
+					<frame>
+						<reportElement x="0" y="52" width="530" height="16" uuid="224253f9-21b4-4b78-8406-eede43e948b1">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineColor="#000000"/>
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField isBlankWhenNull="true">
+							<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="16" forecolor="#000000" uuid="48bd015e-e8ca-4fe5-b3c4-f90731674397"/>
+							<box padding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None">
+								<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
+								<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
+							</textElement>
+							<textFieldExpression><![CDATA["الرقم الضريبي: "  + $P{TAX_CODE}]]></textFieldExpression>
+						</textField>
+					</frame>
 					<staticText>
-						<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="53" width="530" height="20" forecolor="#000000" backcolor="#DADADA" uuid="a2955d3e-43e4-4fcf-862d-49f3eade9588">
+						<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="68" width="530" height="20" forecolor="#000000" backcolor="#DADADA" uuid="a2955d3e-43e4-4fcf-862d-49f3eade9588">
 							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						</reportElement>
 						<box padding="0">
@@ -360,8 +405,8 @@
 						<text><![CDATA[حررت الفاتورة إلى:]]></text>
 					</staticText>
 					<frame>
-						<reportElement x="0" y="73" width="530" height="16" uuid="2755fb18-cb67-4528-9883-419fe8f51040">
-							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+						<reportElement x="1" y="88" width="530" height="16" uuid="2755fb18-cb67-4528-9883-419fe8f51040">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						</reportElement>
 						<box>
@@ -372,7 +417,7 @@
 							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField isBlankWhenNull="true">
-							<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="16" forecolor="#000000" uuid="87ed5f03-288e-4772-8599-c55685358337"/>
+							<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="265" height="16" forecolor="#000000" uuid="87ed5f03-288e-4772-8599-c55685358337"/>
 							<box padding="0">
 								<pen lineWidth="0.5" lineColor="#000000"/>
 								<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -384,36 +429,10 @@
 								<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
 								<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$P{BILL_SELL}.getCustomer().getContact().getShortName()]]></textFieldExpression>
+							<textFieldExpression><![CDATA["رقم الجوال: "  + $P{BILL_SELL}.getCustomerMobile()]]></textFieldExpression>
 						</textField>
-					</frame>
-					<staticText>
-						<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="89" width="530" height="20" forecolor="#000000" backcolor="#DADADA" uuid="0d33922f-0cea-47f8-ab9c-79a024a8f8ce">
-							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-						</reportElement>
-						<box padding="0">
-							<pen lineColor="#000000"/>
-						</box>
-						<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
-							<font fontName="PT Bold Heading" size="10" isBold="false" isUnderline="false"/>
-							<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
-						</textElement>
-						<text><![CDATA[المســـــــــــــؤول: ]]></text>
-					</staticText>
-					<frame>
-						<reportElement x="0" y="109" width="530" height="16" uuid="c15c279a-de2e-4757-a680-b0a08d60db7c">
-							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
-							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-						</reportElement>
-						<box>
-							<pen lineColor="#000000"/>
-							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						</box>
 						<textField isBlankWhenNull="true">
-							<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="530" height="16" forecolor="#000000" uuid="546e3c1b-2428-4196-a10e-a25effb7b39f"/>
+							<reportElement stretchType="RelativeToTallestObject" x="265" y="0" width="265" height="16" forecolor="#000000" uuid="765444ce-cba6-46df-b357-3c74ddd8e005"/>
 							<box padding="0">
 								<pen lineWidth="0.5" lineColor="#000000"/>
 								<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -425,12 +444,12 @@
 								<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
 								<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="10" spacingBefore="0" spacingAfter="0"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$P{BILL_SELL}.getPerson().getContact().getShortName()]]></textFieldExpression>
+							<textFieldExpression><![CDATA["اسم العميل: "  + $P{BILL_SELL}.getCustomerName()]]></textFieldExpression>
 						</textField>
 					</frame>
 				</frame>
 				<componentElement>
-					<reportElement x="0" y="133" width="530" height="90" uuid="8eaea992-5310-4ff6-9287-143a7b078d0c">
+					<reportElement x="0" y="110" width="530" height="90" uuid="8eaea992-5310-4ff6-9287-143a7b078d0c">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -462,7 +481,7 @@
 							</jr:columnHeader>
 							<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
 								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
-									<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="88" height="30" forecolor="#000000" uuid="6221ebff-693e-4e33-9674-6352260c8d9e">
+									<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="88" height="30" forecolor="#FFFFFF" backcolor="#0B9630" uuid="6221ebff-693e-4e33-9674-6352260c8d9e">
 										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 									</reportElement>
 									<box padding="0">
@@ -509,7 +528,21 @@
 									<text><![CDATA[القيمة المضافة]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
+							<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+									<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="89" height="30" forecolor="#FFFFFF" backcolor="#0B9630" uuid="95e98587-d277-46e8-a41e-c8e0fdaa7401">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<box padding="0">
+										<pen lineWidth="0.0" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+										<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
+										<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{VAT_SUM}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
 									<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="89" height="30" forecolor="#000000" uuid="3eba0ed9-5dc6-484e-9206-c2987f79cc12">
@@ -544,7 +577,21 @@
 									<text><![CDATA[سعر الوحدة]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
+							<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+									<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="88" height="30" forecolor="#FFFFFF" backcolor="#0B9630" uuid="c1d5378a-b3aa-48bc-86a5-c7813d2903e0">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<box padding="0">
+										<pen lineWidth="0.0" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+										<font fontName="Arial" size="12" isBold="false" isUnderline="false"/>
+										<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{SELL_PRICE_SUM}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
 									<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="88" height="30" forecolor="#000000" uuid="32de123f-13a7-4a2e-8bde-dee0dcd62418">
@@ -579,7 +626,22 @@
 									<text><![CDATA[الكمية]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter style="Table_CH" height="30" rowSpan="1"/>
+							<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="88" height="30" forecolor="#000000" backcolor="#DADADA" uuid="a82793af-4066-4714-ab17-172f8ef96685">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<box padding="0">
+										<pen lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+										<font fontName="PT Bold Heading" size="16" isBold="false" isUnderline="false"/>
+										<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
+									</textElement>
+									<text><![CDATA[الاجمالي]]></text>
+								</staticText>
+							</jr:columnFooter>
 							<jr:detailCell style="Table_TD" height="30">
 								<textField pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
 									<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="88" height="30" forecolor="#000000" uuid="5c3fab4b-b2d0-4558-99b6-b937395ad709">

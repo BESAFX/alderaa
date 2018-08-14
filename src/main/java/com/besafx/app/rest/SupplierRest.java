@@ -4,7 +4,9 @@ import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
 import com.besafx.app.config.SendSMS;
-import com.besafx.app.entity.*;
+import com.besafx.app.entity.Person;
+import com.besafx.app.entity.Supplier;
+import com.besafx.app.entity.SupplierContact;
 import com.besafx.app.search.SupplierSearch;
 import com.besafx.app.service.*;
 import com.besafx.app.ws.Notification;
@@ -123,7 +125,6 @@ public class SupplierRest {
                                               .type(NotificationDegree.success)
                                               .icon("add")
                                               .build());
-
         entityHistoryListener.perform(builder.toString());
 
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), supplier);

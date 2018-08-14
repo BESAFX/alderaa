@@ -95,6 +95,8 @@ public class BillSellRest {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         billSell.setWrittenDate(new DateTime().toDate());
         billSell.setPerson(caller);
+        billSell.setCustomerName(billSell.getCustomer().getContact().getName());
+        billSell.setCustomerMobile(billSell.getCustomer().getContact().getMobile());
         billSell = billSellService.save(billSell);
 
         LOG.info("ربط الأصناف المطلوبة مع الفاتورة");
@@ -151,6 +153,8 @@ public class BillSellRest {
         billSell.setCondition(BillSellCondition.Done);
         billSell.setWrittenDate(new DateTime().toDate());
         billSell.setPerson(caller);
+        billSell.setCustomerName(customerName);
+        billSell.setCustomerMobile(customerMobile);
         billSell = billSellService.save(billSell);
 
         LOG.info("ربط الأصناف المطلوبة مع الفاتورة");

@@ -3,6 +3,7 @@ package com.besafx.app.report;
 import com.besafx.app.component.ReportExporter;
 import com.besafx.app.entity.BillSell;
 import com.besafx.app.enums.ExportType;
+import com.besafx.app.init.Initializer;
 import com.besafx.app.service.BillSellProductService;
 import com.besafx.app.service.BillSellService;
 import com.besafx.app.util.DateConverter;
@@ -44,6 +45,7 @@ public class ReportBillSellController {
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("BILL_SELL", billSellService.findOne(billSellId));
+        map.put("TAX_CODE", Initializer.company.getTaxCode());
         map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
         map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 

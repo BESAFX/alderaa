@@ -157,6 +157,7 @@ public class Initializer implements CommandLineRunner {
                                             "ROLE_BILL_PURCHASE_PAYMENT_CREATE",
                                             "ROLE_BILL_PURCHASE_PAYMENT_DELETE",
                                             "ROLE_BILL_SELL_CREATE",
+                                            "ROLE_BILL_SELL_UPDATE",
                                             "ROLE_BILL_SELL_DELETE",
                                             "ROLE_BILL_SELL_PRODUCT_CREATE",
                                             "ROLE_BILL_SELL_PRODUCT_DELETE",

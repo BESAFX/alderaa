@@ -6,7 +6,6 @@ import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.entity.Bank;
 import com.besafx.app.entity.BankTransaction;
 import com.besafx.app.entity.Person;
-import com.besafx.app.entity.projection.BankTransactionAmount;
 import com.besafx.app.init.Initializer;
 import com.besafx.app.service.BankService;
 import com.besafx.app.service.BankTransactionService;
@@ -16,7 +15,6 @@ import com.besafx.app.ws.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
-import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.ListIterator;
 
 @RestController
 @RequestMapping(value = "/api/bank/")
