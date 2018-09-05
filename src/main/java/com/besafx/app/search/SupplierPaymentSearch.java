@@ -36,8 +36,8 @@ public class SupplierPaymentSearch {
 
         List<Specification<SupplierPayment>> predicates = new ArrayList<>();
         //SupplierPayment Specification
-        Optional.ofNullable(dateFrom).ifPresent(value -> predicates.add((root, cq, cb) -> cb.greaterThanOrEqualTo(root.get("date"), new DateTime(value).withTimeAtStartOfDay().toDate())));
-        Optional.ofNullable(dateTo).ifPresent(value -> predicates.add((root, cq, cb) -> cb.lessThanOrEqualTo(root.get("date"), new DateTime(value).plusDays(1).withTimeAtStartOfDay().toDate())));
+        Optional.ofNullable(dateFrom).ifPresent(value -> predicates.add((root, cq, cb) -> cb.greaterThanOrEqualTo(root.get("bankTransaction").get("date"), new DateTime(value).withTimeAtStartOfDay().toDate())));
+        Optional.ofNullable(dateTo).ifPresent(value -> predicates.add((root, cq, cb) -> cb.lessThanOrEqualTo(root.get("bankTransaction").get("date"), new DateTime(value).plusDays(1).withTimeAtStartOfDay().toDate())));
         //Supplier Specification
         Optional.ofNullable(supplierName).ifPresent(value -> predicates.add((root, cq, cb) -> cb.like(root.get("billPurchase").get("supplier").get("contact").get("name"), "%" + value + "%")));
         Optional.ofNullable(supplierMobile).ifPresent(value -> predicates.add((root, cq, cb) -> cb.like(root.get("billPurchase").get("supplier").get("contact").get("mobile"), "%" + value + "%")));

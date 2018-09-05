@@ -61,13 +61,34 @@
 
                         <div class="form-group row">
 
-                            <div ng-repeat="(key, value) in roles | groupBy:'category'">
+                            <div ng-repeat="(key, value) in roles | groupBy:'category'"
+                                 class="form-group col-xs-12 col-sm-12 col-md-12 col-md-12">
 
-                                <div class="form-group col-ms-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="role in value">
-                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{role.value}}">
-                                        <input type="checkbox" id="checkbox-{{role.value}}" class="mdl-checkbox__input" ng-model="role.selected">
-                                        <span class="mdl-checkbox__label">{{role.name}}</span>
-                                    </label>
+                                <div class="form-group row">
+
+                                    <table class="table table-bordered">
+
+                                        <thead>
+                                        <tr>
+                                            <th>{{key}}</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group col-ms-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="role in value">
+                                                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{role.value}}">
+                                                        <input type="checkbox" id="checkbox-{{role.value}}" class="mdl-checkbox__input" ng-model="role.selected">
+                                                        <span class="mdl-checkbox__label">{{role.name}}</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+
                                 </div>
 
                             </div>

@@ -39,7 +39,7 @@
 		<field name="unitSellPrice" class="java.lang.Double"/>
 		<field name="totalVat" class="java.lang.Double"/>
 		<field name="totalPrice" class="java.lang.Double"/>
-		<field name="totalPriceAfterDiscountAndVat" class="java.lang.Double"/>
+		<field name="billSell" class="com.besafx.app.entity.BillSell"/>
 		<variable name="SELL_PRICE_SUM" class="java.lang.Double" calculation="Sum">
 			<variableExpression><![CDATA[$F{unitSellPrice} * $F{quantity}]]></variableExpression>
 		</variable>
@@ -588,7 +588,7 @@
 													<font fontName="Arial" size="10" isBold="false" isUnderline="false"/>
 													<paragraph lineSpacing="Single" lineSpacingSize="1.0" rightIndent="0" spacingBefore="0" spacingAfter="0"/>
 												</textElement>
-												<textFieldExpression><![CDATA[$V{PRICE_SUM}]]></textFieldExpression>
+												<textFieldExpression><![CDATA[$F{billSell}.getTotalPriceAfterDiscountAndVat()]]></textFieldExpression>
 											</textField>
 											<staticText>
 												<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="120" y="0" width="120" height="22" forecolor="#000000" backcolor="#DADADA" uuid="c67a1094-833d-469a-8ec0-964e54b44a9c">

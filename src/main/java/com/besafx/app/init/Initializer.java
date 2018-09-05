@@ -141,21 +141,58 @@ public class Initializer implements CommandLineRunner {
                                             "ROLE_TRANSFER_CREATE",
                                             "ROLE_EXPENSE_CREATE",
                                             "ROLE_SMS_SEND",
+
+                                            "ROLE_BANK_CREATE",
+                                            "ROLE_BANK_UPDATE",
+                                            "ROLE_BANK_DELETE",
+
                                             "ROLE_CUSTOMER_CREATE",
                                             "ROLE_CUSTOMER_UPDATE",
                                             "ROLE_CUSTOMER_DELETE",
+                                            "ROLE_CUSTOMER_CONTACT_CREATE",
+                                            "ROLE_CUSTOMER_CONTACT_UPDATE",
+                                            "ROLE_CUSTOMER_CONTACT_DELETE",
+                                            "ROLE_CUSTOMER_NOTE_CREATE",
+                                            "ROLE_CUSTOMER_NOTE_UPDATE",
+                                            "ROLE_CUSTOMER_NOTE_DELETE",
+
                                             "ROLE_SUPPLIER_CREATE",
                                             "ROLE_SUPPLIER_UPDATE",
                                             "ROLE_SUPPLIER_DELETE",
+                                            "ROLE_SUPPLIER_NOTE_CREATE",
+                                            "ROLE_SUPPLIER_NOTE_UPDATE",
+                                            "ROLE_SUPPLIER_NOTE_DELETE",
+
                                             "ROLE_PRODUCT_CREATE",
                                             "ROLE_PRODUCT_UPDATE",
                                             "ROLE_PRODUCT_DELETE",
+
+                                            "ROLE_OFFER_CREATE",
+                                            "ROLE_OFFER_UPDATE",
+                                            "ROLE_OFFER_DELETE",
+                                            "ROLE_OFFER_PRODUCT_CREATE",
+                                            "ROLE_OFFER_PRODUCT_DELETE",
+
+                                            "ROLE_ORDER_PURCHASE_CREATE",
+                                            "ROLE_ORDER_PURCHASE_UPDATE",
+                                            "ROLE_ORDER_PURCHASE_DELETE",
+                                            "ROLE_ORDER_PURCHASE_PRODUCT_CREATE",
+                                            "ROLE_ORDER_PURCHASE_PRODUCT_DELETE",
+
                                             "ROLE_BILL_PURCHASE_CREATE",
+                                            "ROLE_BILL_PURCHASE_UPDATE",
                                             "ROLE_BILL_PURCHASE_DELETE",
                                             "ROLE_BILL_PURCHASE_PRODUCT_CREATE",
                                             "ROLE_BILL_PURCHASE_PRODUCT_DELETE",
                                             "ROLE_BILL_PURCHASE_PAYMENT_CREATE",
                                             "ROLE_BILL_PURCHASE_PAYMENT_DELETE",
+
+                                            "ROLE_ORDER_SELL_CREATE",
+                                            "ROLE_ORDER_SELL_UPDATE",
+                                            "ROLE_ORDER_SELL_DELETE",
+                                            "ROLE_ORDER_SELL_PRODUCT_CREATE",
+                                            "ROLE_ORDER_SELL_PRODUCT_DELETE",
+
                                             "ROLE_BILL_SELL_CREATE",
                                             "ROLE_BILL_SELL_UPDATE",
                                             "ROLE_BILL_SELL_DELETE",
@@ -163,9 +200,11 @@ public class Initializer implements CommandLineRunner {
                                             "ROLE_BILL_SELL_PRODUCT_DELETE",
                                             "ROLE_BILL_SELL_PAYMENT_CREATE",
                                             "ROLE_BILL_SELL_PAYMENT_DELETE",
+
                                             "ROLE_PERSON_CREATE",
                                             "ROLE_PERSON_UPDATE",
                                             "ROLE_PERSON_DELETE",
+
                                             "ROLE_TEAM_CREATE",
                                             "ROLE_TEAM_UPDATE",
                                             "ROLE_TEAM_DELETE"

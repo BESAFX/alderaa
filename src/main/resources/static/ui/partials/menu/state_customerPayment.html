@@ -189,13 +189,13 @@
                             <td>{{customerPayment.code}}</td>
                             <td>{{customerPayment.customer.contact.shortName}}</td>
                             <td>
-                                <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{customerPayment.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
-                                <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{customerPayment.date | date: 'yyyy-MM-dd'}}</span>
+                                <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{customerPayment.bankTransaction.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{customerPayment.bankTransaction.date | date: 'yyyy-MM-dd'}}</span>
                                 <br/>
-                                <span class="label label-success">{{customerPayment.date | date: 'hh:mm a'}}</span>
+                                <span class="label label-success">{{customerPayment.bankTransaction.date | date: 'hh:mm a'}}</span>
                             </td>
-                            <td>{{customerPayment.note}}</td>
-                            <td>{{customerPayment.amount | currency:'':2}}</td>
+                            <td>{{customerPayment.bankTransaction.note}}</td>
+                            <td>{{customerPayment.bankTransaction.amount | currency:'':2}}</td>
                         </tr>
                         <tr class="blank_row no-print" style="height: 10px !important; background-color: #FFFFFF;"
                             ng-if="!customerPayments || customerPayments.length ==0">

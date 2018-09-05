@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Entity
@@ -34,11 +32,6 @@ public class CustomerPayment implements Serializable {
 
     private Integer code;
 
-    private Double amount;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
     @ManyToOne
     @JoinColumn(name = "customer")
     private Customer customer;
@@ -50,10 +43,6 @@ public class CustomerPayment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "person")
     private Person person;
-
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String note;
 
     @JsonCreator
     public static CustomerPayment Create(String jsonString) throws IOException {

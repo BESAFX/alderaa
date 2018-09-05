@@ -21,5 +21,5 @@ public interface SupplierPaymentService extends PagingAndSortingRepository<Suppl
 
     List<SupplierPayment> findBySupplierId(Long id);
 
-    List<SupplierPayment> findByDateBetween(@Temporal(TemporalType.TIMESTAMP) Date startDate, @Temporal(TemporalType.TIMESTAMP) Date endDate);
+    List<SupplierPayment> findByBankTransactionDateBetween(@Temporal(TemporalType.TIMESTAMP) Date startDate, @Temporal(TemporalType.TIMESTAMP) Date endDate);
 }

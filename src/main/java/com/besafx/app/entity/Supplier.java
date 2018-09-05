@@ -76,7 +76,7 @@ public class Supplier implements Serializable {
 
     public Double getPaid() {
         try {
-            return this.supplierPayments.stream().mapToDouble(SupplierPayment::getAmount).sum();
+            return this.supplierPayments.stream().mapToDouble(supplierPayment -> supplierPayment.getBankTransaction().getAmount()).sum();
         } catch (Exception ex) {
             return 0.0;
         }
@@ -92,7 +92,7 @@ public class Supplier implements Serializable {
 
     public Date getLastPaymentDate() {
         try {
-            return this.supplierPayments.stream().map(SupplierPayment::getDate).max(Date::compareTo).get();
+            return this.supplierPayments.stream().map(supplierPayment -> supplierPayment.getBankTransaction().getDate()).max(Date::compareTo).get();
         } catch (Exception ex) {
             return null;
         }

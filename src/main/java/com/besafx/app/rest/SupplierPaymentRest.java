@@ -38,7 +38,7 @@ public class SupplierPaymentRest {
     private final String FILTER_TABLE = "" +
             "**," +
             "supplier[id,contact[id,shortName]]," +
-            "-bankTransaction," +
+            "bankTransaction[id,amount,date]," +
             "person[id,contact[id,shortName]]";
 
     @Autowired
@@ -64,15 +64,13 @@ public class SupplierPaymentRest {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         supplierPayment.setPerson(caller);
 
-        if (supplierPayment.getAmount() > 0) {
+        if (supplierPayment.getBankTransaction().getAmount() > 0) {
             LOG.info("WITHDRAW REQUIRED AMOUNT FROM BANK ACCOUNT...");
             BankTransaction bankTransaction = supplierPayment.getBankTransaction();
-            bankTransaction.setAmount(supplierPayment.getAmount());
             bankTransaction.setTransactionType(Initializer.transactionTypeWithdraw);
-            bankTransaction.setDate(supplierPayment.getDate());
             bankTransaction.setPerson(caller);
             StringBuilder builder = new StringBuilder();
-            builder.append("سحب مبلغ نقدي بقيمة ");
+            builder.append("سحب مبلغ بقيمة ");
             builder.append(bankTransaction.getAmount());
             builder.append("ريال سعودي، ");
             builder.append(" من الحساب / ");
@@ -82,7 +80,7 @@ public class SupplierPaymentRest {
             builder.append("، للمورد / ");
             builder.append(supplierPayment.getSupplier().getContact().getShortName());
             builder.append("، ");
-            builder.append(supplierPayment.getNote());
+            builder.append(supplierPayment.getBankTransaction().getNote());
             bankTransaction.setNote(builder.toString());
 
             supplierPayment.setBankTransaction(bankTransactionService.save(bankTransaction));
@@ -118,10 +116,10 @@ public class SupplierPaymentRest {
             builder.append("حذف سند الصرف رقم / ");
             builder.append(supplierPayment.getCode());
             builder.append("، بقيمة : ");
-            builder.append(supplierPayment.getAmount());
+            builder.append(supplierPayment.getBankTransaction().getAmount());
             builder.append("ريال سعودي، ");
             builder.append("، بتاريخ ");
-            builder.append(DateConverter.getDateInFormat(supplierPayment.getDate()));
+            builder.append(DateConverter.getDateInFormat(supplierPayment.getBankTransaction().getDate()));
             builder.append("، للمورد / ");
             builder.append(supplierPayment.getSupplier().getContact().getShortName());
             notificationService.notifyAll(Notification
@@ -153,7 +151,7 @@ public class SupplierPaymentRest {
     @ResponseBody
     public String findByDateBetween(@PathVariable(value = "startDate") Long startDate, @PathVariable(value = "endDate") Long endDate) {
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE),
-                                       supplierPaymentService.findByDateBetween(
+                                       supplierPaymentService.findByBankTransactionDateBetween(
                                                new DateTime(startDate).withTimeAtStartOfDay().toDate(),
                                                new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate()
                                                                                    ));

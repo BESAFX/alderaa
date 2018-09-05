@@ -38,7 +38,7 @@ public class CustomerPaymentRest {
     private final String FILTER_TABLE = "" +
             "**," +
             "customer[id,contact[id,shortName]]," +
-            "-bankTransaction," +
+            "bankTransaction[id,amount,date]," +
             "person[id,contact[id,shortName]]";
 
     @Autowired
@@ -64,15 +64,13 @@ public class CustomerPaymentRest {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         customerPayment.setPerson(caller);
 
-        if (customerPayment.getAmount() > 0) {
+        if (customerPayment.getBankTransaction().getAmount() > 0) {
             LOG.info("WITHDRAW REQUIRED AMOUNT FROM BANK ACCOUNT...");
             BankTransaction bankTransaction = customerPayment.getBankTransaction();
-            bankTransaction.setAmount(customerPayment.getAmount());
             bankTransaction.setTransactionType(Initializer.transactionTypeDeposit);
-            bankTransaction.setDate(customerPayment.getDate());
             bankTransaction.setPerson(caller);
             StringBuilder builder = new StringBuilder();
-            builder.append("إيداع مبلغ نقدي بقيمة ");
+            builder.append("إيداع مبلغ بقيمة ");
             builder.append(bankTransaction.getAmount());
             builder.append("ريال سعودي، ");
             builder.append(" إلى الحساب / ");
@@ -82,7 +80,7 @@ public class CustomerPaymentRest {
             builder.append("، من العميل / ");
             builder.append(customerPayment.getCustomer().getContact().getShortName());
             builder.append("، ");
-            builder.append(customerPayment.getNote());
+            builder.append(customerPayment.getBankTransaction().getNote());
             bankTransaction.setNote(builder.toString());
 
             customerPayment.setBankTransaction(bankTransactionService.save(bankTransaction));
@@ -118,10 +116,10 @@ public class CustomerPaymentRest {
             builder.append("حذف سند القبض رقم / ");
             builder.append(customerPayment.getCode());
             builder.append("، بقيمة : ");
-            builder.append(customerPayment.getAmount());
+            builder.append(customerPayment.getBankTransaction().getAmount());
             builder.append("ريال سعودي، ");
             builder.append("، بتاريخ ");
-            builder.append(DateConverter.getDateInFormat(customerPayment.getDate()));
+            builder.append(DateConverter.getDateInFormat(customerPayment.getBankTransaction().getDate()));
             builder.append("، للعميل / ");
             builder.append(customerPayment.getCustomer().getContact().getShortName());
             notificationService.notifyAll(Notification
@@ -153,7 +151,7 @@ public class CustomerPaymentRest {
     @ResponseBody
     public String findByDateBetween(@PathVariable(value = "startDate") Long startDate, @PathVariable(value = "endDate") Long endDate) {
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE),
-                                       customerPaymentService.findByDateBetween(
+                                       customerPaymentService.findByBankTransactionDateBetween(
                                                new DateTime(startDate).withTimeAtStartOfDay().toDate(),
                                                new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate()
                                                                                    ));

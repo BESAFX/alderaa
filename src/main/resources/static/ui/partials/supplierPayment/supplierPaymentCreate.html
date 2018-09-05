@@ -137,7 +137,7 @@
                                            ng-max="supplierPayment.supplier.remain"
                                            class="form-control"
                                            placeholder="اجباري"
-                                           ng-model="supplierPayment.amount">
+                                           ng-model="supplierPayment.bankTransaction.amount">
                                 </div>
                             </div>
 
@@ -154,7 +154,7 @@
                                         <input style="position: absolute" ng-show="calendar1==='H'"
                                                type="text"
                                                class="form-control is-calendarPicker animated-div"
-                                               ng-model="supplierPayment.date"
+                                               ng-model="supplierPayment.bankTransaction.date"
                                                calendarType="ummalqura"
                                                language="ar"
                                                dateFormat="yyyy/mm/dd"
@@ -166,7 +166,7 @@
                                         <input style="position: absolute" ng-show="calendar1==='G'"
                                                type="text"
                                                class="form-control is-calendarPicker animated-div"
-                                               ng-model="supplierPayment.date"
+                                               ng-model="supplierPayment.bankTransaction.date"
                                                calendarType="gregorian"
                                                language="ar-EG"
                                                dateFormat="yyyy/mm/dd"
@@ -215,7 +215,7 @@
                                           msd-elastic="\n"
                                           class="form-control"
                                           placeholder="اختياري"
-                                          ng-model="supplierPayment.note">
+                                          ng-model="supplierPayment.bankTransaction.note">
                                 </textarea>
                             </div>
 

@@ -21,5 +21,5 @@ public interface CustomerPaymentService extends PagingAndSortingRepository<Custo
 
     List<CustomerPayment> findByCustomerId(Long id);
 
-    List<CustomerPayment> findByDateBetween(@Temporal(TemporalType.TIMESTAMP) Date startDate, @Temporal(TemporalType.TIMESTAMP) Date endDate);
+    List<CustomerPayment> findByBankTransactionDateBetween(@Temporal(TemporalType.TIMESTAMP) Date startDate, @Temporal(TemporalType.TIMESTAMP) Date endDate);
 }

@@ -15,30 +15,6 @@ app.controller('teamCreateUpdateCtrl', ['TeamService', '$scope', '$rootScope', '
             category: 'الإدارة'
         });
         $scope.roles.push({
-            name: 'عملية إيداع',
-            value: 'ROLE_DEPOSIT_CREATE',
-            selected: false,
-            category: 'الإدارة'
-        });
-        $scope.roles.push({
-            name: 'عملية سحب',
-            value: 'ROLE_WITHDRAW_CREATE',
-            selected: false,
-            category: 'الإدارة'
-        });
-        $scope.roles.push({
-            name: 'عملية تحويل',
-            value: 'ROLE_TRANSFER_CREATE',
-            selected: false,
-            category: 'الإدارة'
-        });
-        $scope.roles.push({
-            name: 'عملية تسجيل مصروفات',
-            value: 'ROLE_EXPENSE_CREATE',
-            selected: false,
-            category: 'الإدارة'
-        });
-        $scope.roles.push({
             name: 'إرسال الرسائل',
             value: 'ROLE_SMS_SEND',
             selected: false,
@@ -46,315 +22,339 @@ app.controller('teamCreateUpdateCtrl', ['TeamService', '$scope', '$rootScope', '
         });
         //////////////////////////Bank//////////////////////////////////////////////
         $scope.roles.push({
-            name: 'إنشاء الحسابات البنكية والنقدية',
+            name: 'إنشاء حساب مالي',
             value: 'ROLE_BANK_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المالية'
         });
         $scope.roles.push({
-            name: 'تعديل الحسابات البنكية والنقدية',
+            name: 'تعديل حساب مالي',
             value: 'ROLE_BANK_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المالية'
         });
         $scope.roles.push({
-            name: 'حذف الحسابات البنكية والنقدية',
+            name: 'حذف حساب مالي',
             value: 'ROLE_BANK_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المالية'
+        });
+        $scope.roles.push({
+            name: 'إنشاء سند إيداع',
+            value: 'ROLE_DEPOSIT_CREATE',
+            selected: false,
+            category: 'المالية'
+        });
+        $scope.roles.push({
+            name: 'إنشاء سند سحب',
+            value: 'ROLE_WITHDRAW_CREATE',
+            selected: false,
+            category: 'المالية'
+        });
+        $scope.roles.push({
+            name: 'إنشاء سند تحويل',
+            value: 'ROLE_TRANSFER_CREATE',
+            selected: false,
+            category: 'المالية'
+        });
+        $scope.roles.push({
+            name: 'إنشاء سند صرف',
+            value: 'ROLE_EXPENSE_CREATE',
+            selected: false,
+            category: 'المالية'
         });
         //////////////////////////Customer//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء حسابات العملاء',
             value: 'ROLE_CUSTOMER_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'تعديل حسابات العملاء',
             value: 'ROLE_CUSTOMER_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'حذف حسابات العملاء',
             value: 'ROLE_CUSTOMER_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         //////////////////////////CustomerContact//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء جهات اتصال العملاء',
             value: 'ROLE_CUSTOMER_CONTACT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'تعديل جهات اتصال العملاء',
             value: 'ROLE_CUSTOMER_CONTACT_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'حذف جهات اتصال العملاء',
             value: 'ROLE_CUSTOMER_CONTACT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         //////////////////////////Customer Note//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء ملاحظات العملاء',
             value: 'ROLE_CUSTOMER_NOTE_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'تعديل ملاحظات العملاء',
             value: 'ROLE_CUSTOMER_NOTE_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         $scope.roles.push({
             name: 'حذف ملاحظات العملاء',
             value: 'ROLE_CUSTOMER_NOTE_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العملاء'
         });
         //////////////////////////Supplier//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء حسابات الموردين',
             value: 'ROLE_SUPPLIER_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         $scope.roles.push({
             name: 'تعديل حسابات الموردين',
             value: 'ROLE_SUPPLIER_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         $scope.roles.push({
             name: 'حذف حسابات الموردين',
             value: 'ROLE_SUPPLIER_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         //////////////////////////SupplierContact//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء جهات اتصال الموردين',
             value: 'ROLE_SUPPLIER_CONTACT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         $scope.roles.push({
             name: 'تعديل جهات اتصال الموردين',
             value: 'ROLE_SUPPLIER_CONTACT_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         $scope.roles.push({
             name: 'حذف جهات اتصال الموردين',
             value: 'ROLE_SUPPLIER_CONTACT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'الموردين'
         });
         //////////////////////////Product//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء التصنيفات',
             value: 'ROLE_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المخزون'
         });
         $scope.roles.push({
             name: 'تعديل التصنيفات',
             value: 'ROLE_PRODUCT_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المخزون'
         });
         $scope.roles.push({
             name: 'حذف التصنيفات',
             value: 'ROLE_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
-        });
-        $scope.roles.push({
-            name: 'شراء سلعة جديدة',
-            value: 'ROLE_PRODUCT_PURCHASE_CREATE',
-            selected: false,
-            category: 'الإدارة'
+            category: 'المخزون'
         });
         //////////////////////////Offer////////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء العروض',
             value: 'ROLE_OFFER_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العروض'
         });
         $scope.roles.push({
             name: 'تعديل العروض',
             value: 'ROLE_OFFER_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العروض'
         });
         $scope.roles.push({
             name: 'حذف العروض',
             value: 'ROLE_OFFER_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العروض'
         });
         $scope.roles.push({
             name: 'اضافة سلع إلى العروض',
             value: 'ROLE_OFFER_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العروض'
         });
         $scope.roles.push({
             name: 'حذف سلع من العروض',
             value: 'ROLE_OFFER_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'العروض'
         });
         //////////////////////////OrderPurchase////////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء أوامر الشراء',
             value: 'ROLE_ORDER_PURCHASE_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'تعديل أوامر الشراء',
             value: 'ROLE_ORDER_PURCHASE_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'حذف أوامر الشراء',
             value: 'ROLE_ORDER_PURCHASE_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'اضافة سلع إلى أوامر الشراء',
             value: 'ROLE_ORDER_PURCHASE_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'حذف سلع من أوامر الشراء',
             value: 'ROLE_ORDER_PURCHASE_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         //////////////////////////BillPurchase//////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء فواتير الشراء',
             value: 'ROLE_BILL_PURCHASE_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
+        });
+        $scope.roles.push({
+            name: 'تعديل فواتير الشراء',
+            value: 'ROLE_BILL_PURCHASE_UPDATE',
+            selected: false,
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'حذف فواتير الشراء',
             value: 'ROLE_BILL_PURCHASE_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'اضافة الدفعات المالية للشراء',
             value: 'ROLE_SUPPLIER_PAYMENT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'حذف الدفعات المالية للشراء',
             value: 'ROLE_SUPPLIER_PAYMENT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'اضافة سلع إلى فواتير الشراء',
             value: 'ROLE_BILL_PURCHASE_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         $scope.roles.push({
             name: 'حذف سلع من فواتير الشراء',
             value: 'ROLE_BILL_PURCHASE_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المشتريات'
         });
         //////////////////////////OrderSell////////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء أوامر البيع',
             value: 'ROLE_ORDER_SELL_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'تعديل أوامر البيع',
             value: 'ROLE_ORDER_SELL_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'حذف أوامر البيع',
             value: 'ROLE_ORDER_SELL_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'اضافة سلع إلى أوامر البيع',
             value: 'ROLE_ORDER_SELL_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'حذف سلع من أوامر البيع',
             value: 'ROLE_ORDER_SELL_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         //////////////////////////BillSell////////////////////////////////////////////
         $scope.roles.push({
             name: 'إنشاء فواتير البيع',
             value: 'ROLE_BILL_SELL_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'تعديل فواتير البيع',
             value: 'ROLE_BILL_SELL_UPDATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'حذف فواتير البيع',
             value: 'ROLE_BILL_SELL_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'اضافة الدفعات المالية للبيع',
             value: 'ROLE_CUSTOMER_PAYMENT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'حذف الدفعات المالية للبيع',
             value: 'ROLE_CUSTOMER_PAYMENT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'اضافة سلع إلى فواتير البيع',
             value: 'ROLE_BILL_SELL_PRODUCT_CREATE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         $scope.roles.push({
             name: 'حذف سلع من فواتير البيع',
             value: 'ROLE_BILL_SELL_PRODUCT_DELETE',
             selected: false,
-            category: 'الإدارة'
+            category: 'المبيعات'
         });
         //////////////////////////Person//////////////////////////////////////////
         $scope.roles.push({

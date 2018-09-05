@@ -391,13 +391,13 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{supplierPayment.code}}</td>
                                 <td>
-                                    <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{supplierPayment.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
-                                    <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{supplierPayment.date | date: 'yyyy-MM-dd'}}</span>
+                                    <span ng-if="dateType==='H'" ng-class="{'no-print': dateType==='G'}">{{supplierPayment.bankTransaction.date | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                    <span ng-if="dateType==='G'" ng-class="{'no-print': dateType==='H'}">{{supplierPayment.bankTransaction.date | date: 'yyyy-MM-dd'}}</span>
                                     <br/>
-                                    <span class="label label-success">{{supplierPayment.date | date: 'hh:mm a'}}</span>
+                                    <span class="label label-success">{{supplierPayment.bankTransaction.date | date: 'hh:mm a'}}</span>
                                 </td>
-                                <td>{{supplierPayment.note}}</td>
-                                <td>{{supplierPayment.amount | currency:'':2}}</td>
+                                <td>{{supplierPayment.bankTransaction.note}}</td>
+                                <td>{{supplierPayment.bankTransaction.amount | currency:'':2}}</td>
                                 <td class="fit">
                                     <div class="form-group row">
                                         <button uib-tooltip="جديد"
