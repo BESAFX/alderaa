@@ -8,7 +8,7 @@
         <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
             <span class="mdl-list__item-primary-content">
                 <img class="material-icons mdl-list__item-icon" ng-src="/ui/img/{{iconSet}}/bankTransaction.{{iconSetType}}" width="24" height="24">
-                <strong>عملية إيداع</strong>
+                <strong>سند قبض عام</strong>
             </span>
         </h3>
     </div>
@@ -21,6 +21,17 @@
                 <div class="alert alert-danger" role="alert">
                     <strong>فضلاً اكمل الحقول المطلوبة</strong>
                 </div>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <label for="otherName" class="control-label">اسم المودع</label>
+                <input id="otherName"
+                       type="text"
+                       required="required"
+                       disable-validation-message=""
+                       class="form-control"
+                       placeholder="اجباري"
+                       ng-model="bankTransaction.otherName">
             </div>
 
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -114,7 +125,7 @@
     <div class="modal-footer">
 
         <div class="row">
-            <button uib-tooltip="إيداع"
+            <button uib-tooltip="قبض"
                     tooltip-append-to-body="true"
                     type="submit"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4">

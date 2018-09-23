@@ -164,7 +164,7 @@ public class ReportReceiptController {
             HttpServletResponse response) throws Exception {
         BankTransaction bankTransaction = bankTransactionService.findOne(bankTransactionId);
         Map<String, Object> map = new HashMap<>();
-        map.put("RECEIPT_TYPE", "سنـــد إيداع");
+        map.put("RECEIPT_TYPE", "سنـــد قبض");
         map.put("RECEIPT_DATE", bankTransaction.getDate());
         map.put("RECEIPT_AMOUNT", bankTransaction.getAmount());
         map.put("RECEIPT_CODE", bankTransaction.getCode().intValue());
@@ -221,7 +221,7 @@ public class ReportReceiptController {
             HttpServletResponse response) throws Exception {
         BankTransaction bankTransaction = bankTransactionService.findOne(bankTransactionId);
         Map<String, Object> map = new HashMap<>();
-        map.put("RECEIPT_TYPE", "سنـــد سحب");
+        map.put("RECEIPT_TYPE", "سنـــد صرف");
         map.put("RECEIPT_DATE", bankTransaction.getDate());
         map.put("RECEIPT_AMOUNT", bankTransaction.getAmount());
         map.put("RECEIPT_CODE", bankTransaction.getCode().intValue());

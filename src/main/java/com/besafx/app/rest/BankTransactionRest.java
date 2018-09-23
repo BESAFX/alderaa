@@ -78,7 +78,7 @@ public class BankTransactionRest {
         bankTransaction.setDate(new DateTime().toDate());
         bankTransaction.setPerson(caller);
         StringBuilder builder = new StringBuilder();
-        builder.append("إيداع مبلغ نقدي بقيمة ");
+        builder.append("إيداع مبلغ بقيمة ");
         builder.append(bankTransaction.getAmount());
         builder.append("ريال سعودي، ");
         builder.append(" للحساب / ");
@@ -115,7 +115,7 @@ public class BankTransactionRest {
         bankTransaction.setTransactionType(Initializer.transactionTypeWithdraw);
         bankTransaction.setPerson(caller);
         StringBuilder builder = new StringBuilder();
-        builder.append("سحب مبلغ نقدي بقيمة ");
+        builder.append("سحب مبلغ بقيمة ");
         builder.append(bankTransaction.getAmount());
         builder.append("ريال سعودي، ");
         builder.append(" من الحساب / ");
@@ -167,7 +167,7 @@ public class BankTransactionRest {
             bankTransactionWithdraw.setDate(new DateTime().toDate());
             bankTransactionWithdraw.setPerson(caller);
             StringBuilder builder = new StringBuilder();
-            builder.append("سحب مبلغ نقدي بقيمة ");
+            builder.append("سحب مبلغ بقيمة ");
             builder.append(bankTransactionWithdraw.getAmount());
             builder.append("ريال سعودي، ");
             builder.append(" من الحساب / ");
@@ -196,7 +196,7 @@ public class BankTransactionRest {
             bankTransactionDeposit.setDate(new DateTime().toDate());
             bankTransactionDeposit.setPerson(caller);
             StringBuilder builder = new StringBuilder();
-            builder.append("إيداع مبلغ نقدي بقيمة ");
+            builder.append("إيداع مبلغ بقيمة ");
             builder.append(bankTransactionDeposit.getAmount());
             builder.append("ريال سعودي، ");
             builder.append(" للحساب / ");
@@ -232,7 +232,7 @@ public class BankTransactionRest {
         bankTransaction.setTransactionType(Initializer.transactionTypeExpense);
         bankTransaction.setPerson(caller);
         StringBuilder builder = new StringBuilder();
-        builder.append("صرف مبلغ نقدي بقيمة ");
+        builder.append("صرف مبلغ بقيمة ");
         builder.append(bankTransaction.getAmount());
         builder.append("ريال سعودي، ");
         builder.append(" من الحساب / ");
