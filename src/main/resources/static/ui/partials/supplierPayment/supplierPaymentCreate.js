@@ -65,6 +65,15 @@ app.controller('supplierPaymentCreateCtrl', ['SupplierPaymentService', 'Supplier
 
         $scope.submit = function () {
             SupplierPaymentService.create($scope.supplierPayment).then(function (data) {
+
+                ModalProvider.openConfirmModel("سندات الصرف", "delete", "هل تود طباعة سند الصرف")
+                    .result
+                    .then(function (value) {
+                        if (value) {
+                            window.open('/report/supplierPayment/' + data.id);
+                        }
+                    });
+
                 SupplierPaymentService.findOne(data.id).then(function (value) {
                     $uibModalInstance.close(value);
                 });

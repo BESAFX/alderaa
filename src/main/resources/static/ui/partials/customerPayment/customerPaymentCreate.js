@@ -65,6 +65,15 @@ app.controller('customerPaymentCreateCtrl', ['CustomerPaymentService', 'Customer
 
         $scope.submit = function () {
             CustomerPaymentService.create($scope.customerPayment).then(function (data) {
+
+                ModalProvider.openConfirmModel("سندات القبض", "delete", "هل تود طباعة سند القبض")
+                    .result
+                    .then(function (value) {
+                        if (value) {
+                            window.open('/report/customerPayment/' + data.id);
+                        }
+                    });
+
                 CustomerPaymentService.findOne(data.id).then(function (value) {
                     $uibModalInstance.close(value);
                 });

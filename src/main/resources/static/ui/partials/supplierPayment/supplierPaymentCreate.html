@@ -96,33 +96,16 @@
                                 </ui-select>
                             </div>
 
-                        </div>
+                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                 ng-if="supplierPayment.supplier.id">
 
-                        <div class="form-group row" ng-if="supplierPayment.supplier.id">
-
-                            <div class="box-danger">
-                                <p>
-                                    <span>الباقي = </span>&nbsp;
-                                    {{supplierPayment.supplier.remain | currency:' SAR ':2}}
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group row">
-
-                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <label for="code" class="control-label">رقم السند</label>
-                                <div dir="ltr" class="input-group" id="code">
-                                    <span class="input-group-addon">غير مكرر</span>
-                                    <input dir="rtl"
-                                           type="number"
-                                           required="required"
-                                           disable-validation-message=""
-                                           class="form-control"
-                                           placeholder="اجباري"
-                                           ng-model="supplierPayment.code">
+                                <div class="box-danger">
+                                    <p>
+                                        <span>الباقي = </span>&nbsp;
+                                        {{supplierPayment.supplier.remain | currency:' SAR ':2}}
+                                    </p>
                                 </div>
+
                             </div>
 
                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -206,6 +189,35 @@
 
                                     </ui-select-choices>
                                 </ui-select>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                 ng-init="supplierPayment.bankTransaction.paymentMethod='Cash'">
+                                <label for="paymentMethod" class="control-label">طريقة الصرف</label>
+                                <select id="paymentMethod"
+                                        style="height: 40px"
+                                        class="form-control"
+                                        ng-model="supplierPayment.bankTransaction.paymentMethod"
+                                        required="required"
+                                        disable-validation-message="">
+                                    <option value="Cash">نقدي</option>
+                                    <option value="Check">شيك</option>
+                                    <option value="Visa">شبكة</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                 ng-if="supplierPayment.bankTransaction.paymentMethod!=='Cash'">
+                                <label for="checkOrVisaNumber" class="control-label">
+                                    <span ng-if="supplierPayment.bankTransaction.paymentMethod==='Check'">رقم الشيك</span>
+                                    <span ng-if="supplierPayment.bankTransaction.paymentMethod==='Visa'">رقم الشبكة</span>
+                                </label>
+                                <input id="checkOrVisaNumber"
+                                       type="text"
+                                       class="form-control"
+                                       placeholder="اختياري"
+                                       autocomplete="off"
+                                       ng-model="supplierPayment.bankTransaction.checkOrVisaNumber">
                             </div>
 
                             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">

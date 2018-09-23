@@ -73,14 +73,14 @@
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
-					<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+					<imageExpression><![CDATA["src/main/resources/report/img/LOGO.png"]]></imageExpression>
 				</image>
 				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isUsingCache="true" isLazy="true" onErrorType="Icon">
 					<reportElement x="230" y="15" width="70" height="50" uuid="b7be5642-a224-4c17-a950-ec8676794930">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
-					<imageExpression><![CDATA[$P{VISION}]]></imageExpression>
+					<imageExpression><![CDATA["src/main/resources/report/img/VISION.png"]]></imageExpression>
 				</image>
 				<frame>
 					<reportElement x="311" y="15" width="219" height="50" uuid="19143452-5885-44c3-8409-a7789f98739c">

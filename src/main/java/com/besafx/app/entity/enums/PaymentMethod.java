@@ -3,7 +3,7 @@ package com.besafx.app.entity.enums;
 public enum PaymentMethod {
     Cash("نقدي"),
     Check("شيك"),
-    Visa("فيزا");
+    Visa("شبكة");
 
     private String name;
 

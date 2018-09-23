@@ -15,6 +15,8 @@ app.controller('billSellCreateCtrl', ['ProductService', 'BillSellService', 'Cust
 
         $scope.customers = [];
 
+        $scope.products = [];
+
         $scope.newCustomer = function () {
             ModalProvider.openCustomerCreateModel().result.then(function (data) {
                 $scope.customers.splice(0, 0, data);
@@ -85,20 +87,43 @@ app.controller('billSellCreateCtrl', ['ProductService', 'BillSellService', 'Cust
 
         };
 
-        $scope.refreshParents = function (isOpen) {
-            if (isOpen) {
-                ProductService.findParents().then(function (value) {
-                    $scope.parents = value;
-                });
-            }
-        };
+        $scope.searchProducts = function ($select, $event) {
 
-        $scope.refreshChilds = function (isOpen, billSellProduct) {
-            if (isOpen) {
-                ProductService.findChilds(billSellProduct.parent.id).then(function (value) {
-                    return billSellProduct.parent.childs = value;
-                });
+            // no event means first load!
+            if (!$event) {
+                $scope.pageProduct = 0;
+                $scope.products = [];
+            } else {
+                $event.stopPropagation();
+                $event.preventDefault();
+                $scope.pageProduct++;
             }
+
+            var search = [];
+
+            search.push('size=');
+            search.push(10);
+            search.push('&');
+
+            search.push('page=');
+            search.push($scope.pageProduct);
+            search.push('&');
+
+            search.push('name=');
+            search.push($select.search);
+            search.push('&');
+
+            search.push('parentName=');
+            search.push($select.search);
+            search.push('&');
+
+            search.push('filterCompareType=or');
+
+            return ProductService.filter(search.join("")).then(function (data) {
+                $scope.buffer.lastProduct = data.last;
+                return $scope.products = $scope.products.concat(data.content);
+            });
+
         };
 
         $scope.addBillSellProduct = function () {

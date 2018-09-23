@@ -31,6 +31,8 @@ public class ProductSearch {
             final Long registerDateTo,
             final String name,
             final Long parentId,
+            final String parentName,
+            final String filterCompareType,
             Pageable pageRequest) {
         List<Specification<Product>> predicates = new ArrayList<>();
         Optional.ofNullable(codeFrom).ifPresent(value -> predicates.add((root, cq, cb) -> cb.greaterThanOrEqualTo(root.get("code"), value)));
@@ -39,13 +41,19 @@ public class ProductSearch {
         Optional.ofNullable(registerDateTo).ifPresent(value -> predicates.add((root, cq, cb) -> cb.lessThanOrEqualTo(root.get("registerDate"), new DateTime(value).plusDays(1).withTimeAtStartOfDay().toDate())));
         Optional.ofNullable(name).ifPresent(value -> predicates.add((root, cq, cb) -> cb.like(root.get("name"), "%" + value + "%")));
         Optional.ofNullable(parentId).ifPresent(value -> predicates.add((root, cq, cb) -> cb.equal(root.get("parent").get("id"), value)));
+        Optional.ofNullable(parentName).ifPresent(value -> predicates.add((root, cq, cb) -> cb.like(root.get("parent").get("name"), "%" +value + "%")));
         //تستخدم هنا للتأكد من عرض كل السلع فقط بدون التصنيفات
         predicates.add((root, cq, cb) -> cb.isNotNull(root.get("parent").get("id")));
 
         if (!predicates.isEmpty()) {
             Specification result = predicates.get(0);
             for (int i = 1; i < predicates.size(); i++) {
-                result = Specifications.where(result).and(predicates.get(i));
+                if (filterCompareType == null) {
+                    result = Specifications.where(result).and(predicates.get(i));
+                    continue;
+                }
+                result = filterCompareType.equalsIgnoreCase("and") ? Specifications.where(result).and(predicates.get(i)) : Specifications.where
+                        (result).or(predicates.get(i));
             }
             return productService.findAll(result, pageRequest);
         } else {

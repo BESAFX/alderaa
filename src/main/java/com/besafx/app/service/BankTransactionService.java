@@ -16,6 +16,11 @@ import java.util.List;
 @Service
 @Transactional
 public interface BankTransactionService extends PagingAndSortingRepository<BankTransaction, Long>, JpaSpecificationExecutor<BankTransaction> {
+
+    BankTransaction findTopByOrderByCodeDesc();
+
+    BankTransaction findByCodeAndIdIsNot(Long code, Long id);
+
     List<BankTransaction> findByBank(Bank bank);
 
     <T> List<T> findByTransactionTypeIn(List<TransactionType> transactionTypes, Class<T> type);

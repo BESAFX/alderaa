@@ -1,5 +1,6 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.async.TransactionalService;
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
@@ -51,6 +52,9 @@ public class SupplierPaymentRest {
     private BankTransactionService bankTransactionService;
 
     @Autowired
+    private TransactionalService transactionalService;
+
+    @Autowired
     private NotificationService notificationService;
 
     @Autowired
@@ -62,6 +66,7 @@ public class SupplierPaymentRest {
     @Transactional
     public String create(@RequestBody SupplierPayment supplierPayment) {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        supplierPayment.setCode(transactionalService.getNextSupplierPaymentCode());
         supplierPayment.setPerson(caller);
 
         if (supplierPayment.getBankTransaction().getAmount() > 0) {

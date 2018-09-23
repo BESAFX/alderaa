@@ -1,5 +1,6 @@
 package com.besafx.app.entity;
 
+import com.besafx.app.entity.enums.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,9 +37,16 @@ public class BankTransaction implements Serializable {
 
     private Double amount;
 
+    private String otherName;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String note;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    private String checkOrVisaNumber;
 
     @ManyToOne
     @JoinColumn(name = "bank")

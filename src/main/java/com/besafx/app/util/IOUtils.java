@@ -1,16 +1,13 @@
 package com.besafx.app.util;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URLEncoder;
 
 public class IOUtils {
 
     private static final int BUFFER_SIZE = 1024 * 4;
 
-    public static long copy(InputStream input, OutputStream output)
-            throws IOException {
+    public static long copy(InputStream input, OutputStream output) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
         long count = 0;
         int n = 0;
@@ -28,6 +25,14 @@ public class IOUtils {
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        }
+    }
+
+    public static String getEncodedFileName(String originalFileName){
+        try {
+            return URLEncoder.encode(originalFileName, "utf-8").replace("+", " ");
+        } catch (UnsupportedEncodingException e) {
+           return "";
         }
     }
 }

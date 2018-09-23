@@ -1,12 +1,15 @@
 package com.besafx.app.async;
 
 import com.besafx.app.entity.Bank;
-import com.besafx.app.entity.Offer;
+import com.besafx.app.entity.BankTransaction;
+import com.besafx.app.entity.CustomerPayment;
+import com.besafx.app.entity.SupplierPayment;
 import com.besafx.app.entity.projection.BankTransactionAmount;
 import com.besafx.app.init.Initializer;
 import com.besafx.app.service.BankService;
 import com.besafx.app.service.BankTransactionService;
-import com.besafx.app.service.OfferService;
+import com.besafx.app.service.CustomerPaymentService;
+import com.besafx.app.service.SupplierPaymentService;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,12 @@ public class TransactionalService {
 
     @Autowired
     private BankTransactionService bankTransactionService;
+
+    @Autowired
+    private CustomerPaymentService customerPaymentService;
+
+    @Autowired
+    private SupplierPaymentService supplierPaymentService;
 
     @Transactional
     public List<Bank> readAllBanks() {
@@ -59,5 +68,35 @@ public class TransactionalService {
             bank.setBalance(depositAmount - withdrawAmount);
         }
         return banks;
+    }
+
+    @Transactional
+    public Long getNextBankTransactionCode(){
+        BankTransaction topBankTransaction = bankTransactionService.findTopByOrderByCodeDesc();
+        if (topBankTransaction == null) {
+            return Long.valueOf(1);
+        } else {
+            return topBankTransaction.getCode() + 1;
+        }
+    }
+
+    @Transactional
+    public Integer getNextCustomerPaymentCode(){
+        CustomerPayment topCustomerPayment = customerPaymentService.findTopByOrderByCodeDesc();
+        if (topCustomerPayment == null) {
+            return 1;
+        } else {
+            return topCustomerPayment.getCode() + 1;
+        }
+    }
+
+    @Transactional
+    public Integer getNextSupplierPaymentCode(){
+        SupplierPayment topSupplierPayment = supplierPaymentService.findTopByOrderByCodeDesc();
+        if (topSupplierPayment == null) {
+            return 1;
+        } else {
+            return topSupplierPayment.getCode() + 1;
+        }
     }
 }

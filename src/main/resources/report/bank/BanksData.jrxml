@@ -51,8 +51,6 @@
 		</variable>
 	</subDataset>
 	<parameter name="BANKS" class="java.util.List" isForPrompting="false"/>
-	<parameter name="LOGO" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="VISION" class="java.lang.String"/>
 	<title>
 		<band height="80">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -73,14 +71,14 @@
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
-					<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+					<imageExpression><![CDATA["src/main/resources/report/img/LOGO.png"]]></imageExpression>
 				</image>
 				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isUsingCache="true" isLazy="true" onErrorType="Icon">
 					<reportElement x="230" y="15" width="70" height="50" uuid="085df817-2209-490f-befd-4bcea0359e4b">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
-					<imageExpression><![CDATA[$P{VISION}]]></imageExpression>
+					<imageExpression><![CDATA["src/main/resources/report/img/VISION.png"]]></imageExpression>
 				</image>
 				<frame>
 					<reportElement x="311" y="15" width="219" height="50" uuid="8be75d64-334a-4dcf-a1a9-5d3e83ef276d">

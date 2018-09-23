@@ -1,6 +1,8 @@
 package com.besafx.app.component;
 
 import com.besafx.app.enums.ExportType;
+import com.besafx.app.util.IOUtils;
+import com.google.common.collect.Lists;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.net.URLEncoder;
 import java.util.List;
 
 @Component
@@ -27,11 +28,33 @@ public class ReportExporter {
 
     private final Logger log = LoggerFactory.getLogger(ReportExporter.class);
 
-    public void export(final ExportType exportType, final HttpServletResponse response, final JasperPrint jasperPrint) {
-        export("Report", exportType, response, jasperPrint);
+    public void export(
+            final ExportType exportType,
+            final HttpServletResponse response,
+            final JasperPrint jasperPrint) {
+        export("Report", exportType, response, Lists.newArrayList(jasperPrint));
     }
 
-    public void export(final String fileName, final ExportType exportType, final HttpServletResponse response, final JasperPrint jasperPrint) {
+    public void export(
+            final ExportType exportType,
+            final HttpServletResponse response,
+            final List<JasperPrint> jasperPrints) {
+        export("Report", exportType, response, jasperPrints);
+    }
+
+    public void export(
+            final String fileName,
+            final ExportType exportType,
+            final HttpServletResponse response,
+            final JasperPrint jasperPrint) {
+        export(fileName, exportType, response, Lists.newArrayList(jasperPrint));
+    }
+
+    public void export(
+            final String fileName,
+            final ExportType exportType,
+            final HttpServletResponse response,
+            final List<JasperPrint> jasperPrints) {
         ServletOutputStream servletOutputStream = null;
         ByteArrayOutputStream baos = null;
         try {
@@ -40,11 +63,11 @@ public class ReportExporter {
             Exporter exporter = null;
             switch (exportType) {
                 case PDF:
-                default:
                     response.setContentType("application/pdf");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + URLEncoder.encode(fileName, "utf-8").replace("+", " ") + ".pdf\"");
+                    response.setHeader("Content-Disposition", "inline; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".pdf\"".replace("+", " "));
                     exporter = new JRPdfExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     SimplePdfExporterConfiguration configurationPdf = new SimplePdfExporterConfiguration();
                     configurationPdf.setCreatingBatchModeBookmarks(true);
@@ -52,16 +75,18 @@ public class ReportExporter {
                     break;
                 case RTF:
                     response.setContentType("application/rtf");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".rtf\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".rtf\"".replace("+", " "));
                     exporter = new JRRtfExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleWriterExporterOutput(servletOutputStream));
                     break;
                 case HTML:
                     response.setContentType("application/html");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".html\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".html\"".replace("+", " "));
                     exporter = new HtmlExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleHtmlExporterOutput(servletOutputStream));
                     SimpleHtmlReportConfiguration reportExportConfiguration = new SimpleHtmlReportConfiguration();
                     reportExportConfiguration.setWhitePageBackground(false);
@@ -70,16 +95,18 @@ public class ReportExporter {
                     break;
                 case XHTML:
                     response.setContentType("application/xhtml");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".xhtml\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".xhtml\"".replace("+", " "));
                     exporter = new HtmlExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleHtmlExporterOutput(servletOutputStream));
                     break;
                 case XLSX:
                     response.setContentType("application/xlsx");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".xlsx\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".xlsx\"".replace("+", " "));
                     exporter = new JRXlsxExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     SimpleXlsxReportConfiguration configurationXlsx = new SimpleXlsxReportConfiguration();
                     configurationXlsx.setOnePagePerSheet(false);
@@ -87,30 +114,34 @@ public class ReportExporter {
                     break;
                 case CSV:
                     response.setContentType("application/csv");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".csv\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".csv\"".replace("+", " "));
                     exporter = new JRCsvExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleWriterExporterOutput(servletOutputStream));
                     break;
                 case PPTX:
                     response.setContentType("application/pptx");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".pptx\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".pptx\"".replace("+", " "));
                     exporter = new JRPptxExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     break;
                 case DOCX:
                     response.setContentType("application/docx");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".docx\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".docx\"".replace("+", " "));
                     exporter = new JRDocxExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     break;
                 case ODS:
                     response.setContentType("application/ods");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".ods\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".ods\"".replace("+", " "));
                     exporter = new JROdsExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     SimpleOdsReportConfiguration configurationOds = new SimpleOdsReportConfiguration();
                     configurationOds.setOnePagePerSheet(true);
@@ -118,9 +149,10 @@ public class ReportExporter {
                     break;
                 case ODT:
                     response.setContentType("application/odt");
-                    response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + ".odt\"");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                            IOUtils.getEncodedFileName(fileName) + ".odt\"".replace("+", " "));
                     exporter = new JROdtExporter();
-                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
                     break;
             }
@@ -136,39 +168,4 @@ public class ReportExporter {
             log.info(ex.getMessage());
         }
     }
-
-    public void exportMultiple(final String fileName, final HttpServletResponse response, final List<JasperPrint> jasperPrint) {
-        ServletOutputStream servletOutputStream = null;
-        ByteArrayOutputStream baos = null;
-        try {
-            servletOutputStream = response.getOutputStream();
-            baos = new ByteArrayOutputStream();
-            JRPdfExporter exporter = null;
-
-            response.setContentType("application/pdf");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("content-disposition", "inline; filename=\"" + URLEncoder.encode(fileName, "utf-8") + ".pdf\"");
-
-            exporter = new JRPdfExporter();
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(servletOutputStream));
-
-            SimplePdfExporterConfiguration configurationPdf = new SimplePdfExporterConfiguration();
-            configurationPdf.setCreatingBatchModeBookmarks(true);
-            exporter.setConfiguration(configurationPdf);
-
-            exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrint));
-
-            exporter.exportReport();
-            response.setContentLength(baos.size());
-            baos.writeTo(servletOutputStream);
-
-            servletOutputStream.flush();
-            servletOutputStream.close();
-            baos.close();
-
-        } catch (Exception ex) {
-            log.info(ex.getMessage());
-        }
-    }
-
 }

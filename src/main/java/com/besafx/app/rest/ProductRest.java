@@ -3,7 +3,6 @@ package com.besafx.app.rest;
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
-import com.besafx.app.entity.Product;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Product;
 import com.besafx.app.search.ProductSearch;
@@ -257,6 +256,8 @@ public class ProductRest {
             @RequestParam(value = "registerDateTo", required = false) final Long registerDateTo,
             @RequestParam(value = "name", required = false) final String name,
             @RequestParam(value = "parentId", required = false) final Long parentId,
+            @RequestParam(value = "parentName", required = false) final String parentName,
+            @RequestParam(value = "filterCompareType", required = false) final String filterCompareType,
             Pageable pageable) {
         return SquigglyUtils.stringify(
                 Squiggly.init(
@@ -269,6 +270,8 @@ public class ProductRest {
                         registerDateTo,
                         name,
                         parentId,
+                        parentName,
+                        filterCompareType,
                         pageable));
     }
 }

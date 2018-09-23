@@ -34,9 +34,6 @@ public class ReportBankController {
         Map<String, Object> map = new HashMap<>();
         map.put("BANKS", transactionalService.readAllBanks());
 
-        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
-        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
-
         ClassPathResource jrxmlFile = new ClassPathResource("/report/bank/BanksData.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map);

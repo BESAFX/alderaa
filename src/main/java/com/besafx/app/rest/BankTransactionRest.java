@@ -1,5 +1,6 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.async.TransactionalService;
 import com.besafx.app.auditing.EntityHistoryListener;
 import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
@@ -55,6 +56,9 @@ public class BankTransactionRest {
     private BankService bankService;
 
     @Autowired
+    private TransactionalService transactionalService;
+
+    @Autowired
     private NotificationService notificationService;
 
     @Autowired
@@ -69,6 +73,7 @@ public class BankTransactionRest {
             throw new CustomException("عفواً، يجب أن تكون قيمة المعاملة المالية أكبر من الصفر");
         }
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        bankTransaction.setCode(transactionalService.getNextBankTransactionCode());
         bankTransaction.setTransactionType(Initializer.transactionTypeDeposit);
         bankTransaction.setDate(new DateTime().toDate());
         bankTransaction.setPerson(caller);
@@ -78,7 +83,10 @@ public class BankTransactionRest {
         builder.append("ريال سعودي، ");
         builder.append(" للحساب / ");
         builder.append(bankTransaction.getBank().getName());
-        builder.append("، " + bankTransaction.getNote());
+        Optional.ofNullable(bankTransaction.getNote()).ifPresent(value -> {
+            builder.append("، ");
+            builder.append(value);
+        });
         bankTransaction.setNote(builder.toString());
         bankTransaction = bankTransactionService.save(bankTransaction);
         notificationService.notifyAll(Notification
@@ -101,6 +109,7 @@ public class BankTransactionRest {
             throw new CustomException("عفواً، يجب أن تكون قيمة المعاملة المالية أكبر من الصفر");
         }
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        bankTransaction.setCode(transactionalService.getNextBankTransactionCode());
         bankTransaction.setAmount(bankTransaction.getAmount());
         bankTransaction.setDate(new DateTime().toDate());
         bankTransaction.setTransactionType(Initializer.transactionTypeWithdraw);
@@ -111,7 +120,10 @@ public class BankTransactionRest {
         builder.append("ريال سعودي، ");
         builder.append(" من الحساب / ");
         builder.append(bankTransaction.getBank().getName());
-        builder.append("، " + bankTransaction.getNote());
+        Optional.ofNullable(bankTransaction.getNote()).ifPresent(value -> {
+            builder.append("، ");
+            builder.append(value);
+        });
         bankTransaction.setNote(builder.toString());
         bankTransaction = bankTransactionService.save(bankTransaction);
         notificationService.notifyAll(Notification
@@ -148,6 +160,7 @@ public class BankTransactionRest {
         {
             LOG.info("القيام بعملية السحب أولا من المرسل");
             BankTransaction bankTransactionWithdraw = new BankTransaction();
+            bankTransactionWithdraw.setCode(transactionalService.getNextBankTransactionCode());
             bankTransactionWithdraw.setAmount(amount);
             bankTransactionWithdraw.setBank(fromBank);
             bankTransactionWithdraw.setTransactionType(Initializer.transactionTypeWithdrawTransfer);
@@ -176,6 +189,7 @@ public class BankTransactionRest {
         {
             LOG.info("القيام بعملية الإيداع ثانيا إلى المرسل إليه");
             BankTransaction bankTransactionDeposit = new BankTransaction();
+            bankTransactionDeposit.setCode(transactionalService.getNextBankTransactionCode());
             bankTransactionDeposit.setAmount(amount);
             bankTransactionDeposit.setBank(toBank);
             bankTransactionDeposit.setTransactionType(Initializer.transactionTypeDepositTransfer);
@@ -212,6 +226,7 @@ public class BankTransactionRest {
             throw new CustomException("عفواً، يجب أن تكون قيمة المعاملة المالية أكبر من الصفر");
         }
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
+        bankTransaction.setCode(transactionalService.getNextBankTransactionCode());
         bankTransaction.setAmount(bankTransaction.getAmount());
         bankTransaction.setDate(new DateTime().toDate());
         bankTransaction.setTransactionType(Initializer.transactionTypeExpense);
@@ -223,7 +238,10 @@ public class BankTransactionRest {
         builder.append(" من الحساب / ");
         builder.append(bankTransaction.getBank().getName());
         builder.append("، نظير / ");
-        builder.append(bankTransaction.getNote());
+        Optional.ofNullable(bankTransaction.getNote()).ifPresent(value -> {
+            builder.append("، ");
+            builder.append(value);
+        });
         bankTransaction.setNote(builder.toString());
         bankTransaction = bankTransactionService.save(bankTransaction);
         notificationService.notifyAll(Notification

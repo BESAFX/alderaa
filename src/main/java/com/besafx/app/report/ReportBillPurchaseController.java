@@ -45,9 +45,6 @@ public class ReportBillPurchaseController {
         Map<String, Object> map = new HashMap<>();
         map.put("BILL_PURCHASE", billPurchaseService.findOne(billPurchaseId));
 
-        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
-        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
-
         ClassPathResource jrxmlFile = new ClassPathResource("/report/billPurchase/BillPurchase.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map);
@@ -75,9 +72,6 @@ public class ReportBillPurchaseController {
         }else{
             map.put("BILL_PURCHASES", billPurchaseService.findAll(new Sort(Sort.Direction.ASC, "supplier.contact.name")));
         }
-
-        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
-        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
@@ -114,9 +108,6 @@ public class ReportBillPurchaseController {
             map.put("BILL_PURCHASE_PRODUCT", billPurchaseProductService.findAll(new Sort(Sort.Direction.ASC, "product.id")));
         }
 
-        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
-        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
-
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
         builder.append(dateFrom == null ? "---"  : DateConverter.getDateInFormat(dateFrom));
@@ -151,9 +142,6 @@ public class ReportBillPurchaseController {
         }else{
             map.put("BILL_PURCHASES", billPurchaseService.findAll(new Sort(Sort.Direction.ASC, "person.contact.name")));
         }
-
-        map.put("LOGO", new ClassPathResource("/report/img/LOGO.png").getPath());
-        map.put("VISION", new ClassPathResource("/report/img/VISION.png").getPath());
 
         StringBuilder builder = new StringBuilder();
         builder.append("الفترة من ");
