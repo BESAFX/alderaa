@@ -1,5 +1,6 @@
 package com.besafx.app.config;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final List<String> errors = new ArrayList<String>();
         for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final List<String> errors = new ArrayList<String>();
         for (final FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -77,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final String error = ex.getValue() + " value for " + ex.getPropertyName() + " should be of type " + ex.getRequiredType();
 
@@ -91,7 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final String error = ex.getRequestPartName() + " part is missing";
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
@@ -104,7 +105,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final String error = ex.getParameterName() + " parameter is missing";
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
@@ -116,7 +117,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             final MethodArgumentTypeMismatchException ex,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
@@ -128,7 +129,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleConstraintViolation(
             final ConstraintViolationException ex,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final List<String> errors = new ArrayList<String>();
         for (final ConstraintViolation<?> violation : ex.getConstraintViolations()) {
@@ -146,7 +147,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final String error = "No handler found for " + ex.getHttpMethod() + " " + ex.getRequestURL();
 
@@ -161,7 +162,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final StringBuilder builder = new StringBuilder();
         builder.append(ex.getMethod());
@@ -178,7 +179,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final HttpMediaTypeNotSupportedException ex,
             final HttpHeaders headers, final HttpStatus status,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final StringBuilder builder = new StringBuilder();
         builder.append(ex.getContentType());
@@ -191,7 +192,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<Object> handleAccessDeniedException(Exception ex, WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
         final ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, "غير مصرح لك القيام بهذة العملية", "error occurred");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -202,9 +203,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAll(
             final Exception ex,
             final WebRequest request) {
-        LOG.info(ex.getClass().getName());
+        LOG.info(ExceptionUtils.getStackTrace(ex));
         //
-        final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+        final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionUtils.getStackTrace(ex), "error occurred");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 

@@ -167,7 +167,7 @@ public class ReportReceiptController {
         map.put("RECEIPT_TYPE", "سنـــد إيداع");
         map.put("RECEIPT_DATE", bankTransaction.getDate());
         map.put("RECEIPT_AMOUNT", bankTransaction.getAmount());
-        map.put("RECEIPT_CODE", bankTransaction.getCode());
+        map.put("RECEIPT_CODE", bankTransaction.getCode().intValue());
         map.put("RECEIPT_OTHER_NAME", bankTransaction.getPerson().getContact().getShortName());
 
         List<WrapperUtil> wrapperUtils = new ArrayList<>();
@@ -224,7 +224,7 @@ public class ReportReceiptController {
         map.put("RECEIPT_TYPE", "سنـــد سحب");
         map.put("RECEIPT_DATE", bankTransaction.getDate());
         map.put("RECEIPT_AMOUNT", bankTransaction.getAmount());
-        map.put("RECEIPT_CODE", bankTransaction.getCode());
+        map.put("RECEIPT_CODE", bankTransaction.getCode().intValue());
         map.put("RECEIPT_OTHER_NAME", bankTransaction.getOtherName());
 
         List<WrapperUtil> wrapperUtils = new ArrayList<>();
@@ -271,5 +271,61 @@ public class ReportReceiptController {
         reportExporter.export(ExportType.PDF, response, jasperPrints);
     }
 
+    @RequestMapping(value = "/report/receiptExpense/{bankTransactionId}", method = RequestMethod.GET, produces = "application/pdf")
+    @ResponseBody
+    public void printReceiptExpense(
+            @PathVariable(value = "bankTransactionId") Long bankTransactionId,
+            HttpServletResponse response) throws Exception {
+        BankTransaction bankTransaction = bankTransactionService.findOne(bankTransactionId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("RECEIPT_TYPE", "سنـــد صرف");
+        map.put("RECEIPT_DATE", bankTransaction.getDate());
+        map.put("RECEIPT_AMOUNT", bankTransaction.getAmount());
+        map.put("RECEIPT_CODE", bankTransaction.getCode().intValue());
+        map.put("RECEIPT_OTHER_NAME", bankTransaction.getOtherName());
+
+        List<WrapperUtil> wrapperUtils = new ArrayList<>();
+        {
+            WrapperUtil wrapperUtil = new WrapperUtil();
+            wrapperUtil.setObj1("صرفنا إلى المكرم: " + bankTransaction.getOtherName());
+            wrapperUtils.add(wrapperUtil);
+        }
+        {
+            WrapperUtil wrapperUtil = new WrapperUtil();
+            wrapperUtil.setObj1("مبلغ وقدره: " + ArabicLiteralNumberParser.literalValueOf(bankTransaction.getAmount()) + " ريال سعودي فقط لا غير");
+            wrapperUtils.add(wrapperUtil);
+        }
+        {
+            WrapperUtil wrapperUtil = new WrapperUtil();
+            switch (bankTransaction.getPaymentMethod()) {
+                case Cash:
+                    wrapperUtil.setObj1("نقداً،،،");
+                    break;
+                case Check:
+                    wrapperUtil.setObj1("شيك رقم: " + bankTransaction.getCheckOrVisaNumber());
+                    break;
+                case Visa:
+                    wrapperUtil.setObj1("شبكة رقم: " + bankTransaction.getCheckOrVisaNumber());
+                    break;
+                default:
+                    wrapperUtil.setObj1("");
+                    break;
+            }
+            wrapperUtils.add(wrapperUtil);
+        }
+        {
+            WrapperUtil wrapperUtil = new WrapperUtil();
+            wrapperUtil.setObj1("الإستبيان: " + bankTransaction.getNote());
+            wrapperUtils.add(wrapperUtil);
+        }
+
+        map.put("CONTENTS", wrapperUtils);
+
+        ClassPathResource jrxmlFile = new ClassPathResource("/report/receipt/Receipt.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFile.getInputStream());
+        List<JasperPrint> jasperPrints = new ArrayList<>();
+        jasperPrints.add(JasperFillManager.fillReport(jasperReport, map));
+        reportExporter.export(ExportType.PDF, response, jasperPrints);
+    }
 
 }

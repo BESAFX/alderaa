@@ -2,29 +2,17 @@ package com.besafx.app;
 
 import com.besafx.app.config.DropboxManager;
 import com.besafx.app.config.EmailSender;
-import com.besafx.app.config.SendSMS;
-import com.besafx.app.entity.Customer;
-import com.besafx.app.service.ContactService;
-import com.besafx.app.service.CustomerService;
-import com.besafx.app.service.ProductService;
-import com.besafx.app.service.SupplierService;
+import com.besafx.app.entity.enums.PaymentMethod;
+import com.besafx.app.service.BankTransactionService;
 import com.besafx.app.util.JSONConverter;
-import org.apache.catalina.connector.Connector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,22 +24,9 @@ public class MainTests {
     private ApplicationContext context;
 
     @Autowired
-    private SendSMS sendSMS;
+    private BankTransactionService bankTransactionService;
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private CustomerService customerService;
-
-    @Autowired
-    private SupplierService supplierService;
-
-    @Autowired
-    private ContactService contactService;
-
-    int k = 1;
-
+    long i = 1;
 
     @Test
     public void contextLoads() throws Exception {
@@ -60,51 +35,15 @@ public class MainTests {
         context.getBean(DropboxManager.class).init();
         context.getBean(JSONConverter.class).init();
 
-//        supplierService.findAll().forEach(customer -> {
-//            customer.setCode(k++);
-//            supplierService.save(customer);
-//        });
 
-//        contactService.findAll().forEach(contact -> {
-//            Customer customer = new Customer();
-//            customer.setRegisterDate(new Date());
-//            customer.setEnabled(true);
-//            customer.setContact(contact);
-//            customer.setCode(Math.toIntExact(contact.getId()));
-//            customerService.save(customer);
-//        });
+        bankTransactionService.findAll().forEach(bankTransaction -> {
+            bankTransaction.setCode(i);
+            i++;
+            bankTransaction.setPaymentMethod(PaymentMethod.Cash);
+            bankTransactionService.save(bankTransaction);
+        });
 
-//        RestTemplate restTemplate = new RestTemplate();
-//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-//
-//        StringBuilder param = new StringBuilder();
-//        param.append("username={username}");
-//        param.append("&password={password}");
-//        param.append("&message={message}");
-//        param.append("&numbers={numbers}");
-//        param.append("&sender={sender}");
-//        param.append("&unicode=U&return=json");
-//        String uri = new String("https://www.enjazsms.com/api/sendsms.php?" + param.toString());
-//
-//        Map<String, String> vars = new HashMap<>();
-//        vars.put("username", "Anni");
-//        vars.put("password", "Ahmad_316");
-//        vars.put("message", "هلا بالخميس");
-//        vars.put("numbers", "966590780551");
-//        vars.put("sender", "Anni");
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("Content-Type", "application/json");
-//
-//        JSONObject json = new JSONObject();
-//
-//        HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), httpHeaders);
-//
-//        String response = restTemplate.postForObject(uri, httpEntity, String.class, vars);
-//
-//        JSONObject jsonObj = new JSONObject(response);
-//        log.info(jsonObj.toString());
+        Thread.sleep(20000000);
     }
 
 
