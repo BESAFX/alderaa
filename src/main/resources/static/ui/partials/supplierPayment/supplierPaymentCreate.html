@@ -117,7 +117,6 @@
                                            required="required"
                                            disable-validation-message=""
                                            min="1"
-                                           ng-max="supplierPayment.supplier.remain"
                                            class="form-control"
                                            placeholder="اجباري"
                                            ng-model="supplierPayment.bankTransaction.amount">
@@ -246,7 +245,7 @@
     <div class="modal-footer">
 
         <div class="row">
-            <button uib-tooltip="سداد"
+            <button uib-tooltip="صرف"
                     tooltip-append-to-body="true"
                     type="submit"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-4 col-sm-4 col-md-4">

@@ -10,9 +10,7 @@ app.factory('errorInterceptor', ['$q', '$injector', function ($q, $injector) {
             return response || $q.when(response);
         },
         responseError: function (response) {
-            if (response && response.status === 404) {
-            }
-            if (response && response.status >= 500) {
+            if (response && response.status !== 404) {
                 var modal = $injector.get("$uibModal");
                 modal.open({
                     animation: true,
