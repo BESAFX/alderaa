@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.besafx.app</groupId>
-    <artifactId>warehouse</artifactId>
+    <artifactId>alderaa</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>warehouse</name>
+    <name>alderaa</name>
     <description>Web Application For Managing Warehouses</description>
 
     <parent>
